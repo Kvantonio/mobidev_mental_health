@@ -5,3 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+Problem.create(name: "Stress")
+Problem.create(name: "Anxiety")
+Problem.create(name: "Depression")
+Problem.create(name: "Irritability")
