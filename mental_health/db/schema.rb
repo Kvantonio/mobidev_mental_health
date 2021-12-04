@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
     t.text "about"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_coaches_on_email", unique: true
   end
 
   create_table "coaches_problems", id: false, force: :cascade do |t|
@@ -39,6 +40,7 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
     t.bigint "problem_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["coach_id", "problem_id"], name: "index_coaches_problems_on_coach_id_and_problem_id", unique: true
     t.index ["coach_id"], name: "index_coaches_problems_on_coach_id"
     t.index ["problem_id"], name: "index_coaches_problems_on_problem_id"
   end
@@ -66,6 +68,7 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["coach_id"], name: "index_invitations_on_coach_id"
+    t.index ["user_id", "coach_id"], name: "index_invitations_on_user_id_and_coach_id", unique: true
     t.index ["user_id"], name: "index_invitations_on_user_id"
   end
 
@@ -81,9 +84,10 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
   end
 
   create_table "problems", force: :cascade do |t|
-    t.string "name"
+    t.string "title"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["title"], name: "index_problems_on_title", unique: true
   end
 
   create_table "problems_users", id: false, force: :cascade do |t|
@@ -92,6 +96,7 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["problem_id"], name: "index_problems_users_on_problem_id"
+    t.index ["user_id", "problem_id"], name: "index_problems_users_on_user_id_and_problem_id", unique: true
     t.index ["user_id"], name: "index_problems_users_on_user_id"
   end
 
@@ -103,6 +108,7 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["technique_id"], name: "index_raitings_on_technique_id"
+    t.index ["user_id", "technique_id"], name: "index_raitings_on_user_id_and_technique_id", unique: true
     t.index ["user_id"], name: "index_raitings_on_user_id"
   end
 
@@ -115,6 +121,7 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
     t.datetime "finished_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["coach_id", "user_id", "technique_id"], name: "index_recommendations_on_coach_id_and_user_id_and_technique_id", unique: true
     t.index ["coach_id"], name: "index_recommendations_on_coach_id"
     t.index ["technique_id"], name: "index_recommendations_on_technique_id"
     t.index ["user_id"], name: "index_recommendations_on_user_id"
@@ -145,6 +152,7 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
     t.string "duration"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["title"], name: "index_techniques_on_title", unique: true
   end
 
   create_table "techniques_problems", id: false, force: :cascade do |t|
@@ -153,6 +161,7 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["problem_id"], name: "index_techniques_problems_on_problem_id"
+    t.index ["technique_id", "problem_id"], name: "index_techniques_problems_on_technique_id_and_problem_id", unique: true
     t.index ["technique_id"], name: "index_techniques_problems_on_technique_id"
   end
 
@@ -165,6 +174,7 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
     t.text "about"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "certificates", "coaches", column: "coaches_id"

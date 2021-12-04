@@ -6,7 +6,13 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Problem.create(name: "Stress")
-Problem.create(name: "Anxiety")
-Problem.create(name: "Depression")
-Problem.create(name: "Irritability")
+Problem.create(title: 'Depression')
+Problem.create(title: 'Irritability')
+Problem.create(title: 'Stress')
+Problem.create(title: 'Anxiety')
+
+
+User.create(name: 'Vlad', email: 'kvantonio@i.ua', password: 'Ab12345678', age: 20, gender: 'male',
+            about: 'I fill depressed from frontend programming')
+User.create(name: 'Test', email: 'Test@gmail.com', password: 'Test1234', age: 100, gender: 'female',
+            about: 'TestTestTestTestTest')

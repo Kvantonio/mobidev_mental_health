@@ -9,6 +9,8 @@ class CreateRecommendations < ActiveRecord::Migration[6.1]
       t.timestamp :finished_at
 
       t.timestamps
+
+      t.index [:coach_id, :user_id, :technique_id], unique: true
     end
   end
 end

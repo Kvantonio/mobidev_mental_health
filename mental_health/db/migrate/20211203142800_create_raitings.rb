@@ -7,6 +7,8 @@ class CreateRaitings < ActiveRecord::Migration[6.1]
       t.integer :dislike
 
       t.timestamps
+
+      t.index [:user_id, :technique_id], unique: true
     end
   end
 end
