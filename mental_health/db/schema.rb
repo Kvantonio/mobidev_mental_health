@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_03_142800) do
+ActiveRecord::Schema.define(version: 2021_12_04_142229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,20 @@ ActiveRecord::Schema.define(version: 2021_12_03_142800) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["technique_id"], name: "index_raitings_on_technique_id"
     t.index ["user_id"], name: "index_raitings_on_user_id"
+  end
+
+  create_table "recommendations", force: :cascade do |t|
+    t.bigint "coach_id"
+    t.bigint "user_id"
+    t.bigint "technique_id"
+    t.integer "current_step"
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["coach_id"], name: "index_recommendations_on_coach_id"
+    t.index ["technique_id"], name: "index_recommendations_on_technique_id"
+    t.index ["user_id"], name: "index_recommendations_on_user_id"
   end
 
   create_table "social_networks", force: :cascade do |t|

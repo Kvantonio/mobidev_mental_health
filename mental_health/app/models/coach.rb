@@ -23,4 +23,5 @@ class Coach < ApplicationRecord
   has_many :users, through: :invitations
 
   has_many :notifications
+  has_many :recommendations
 end
