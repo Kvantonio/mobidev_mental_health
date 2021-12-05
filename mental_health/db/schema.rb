@@ -17,10 +17,10 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
 
   create_table "certificates", force: :cascade do |t|
     t.text "title"
-    t.bigint "coaches_id", null: false
+    t.bigint "coach_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["coaches_id"], name: "index_certificates_on_coaches_id"
+    t.index ["coach_id"], name: "index_certificates_on_coach_id"
   end
 
   create_table "coaches", force: :cascade do |t|
@@ -55,10 +55,10 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
 
   create_table "experiences", force: :cascade do |t|
     t.text "title"
-    t.bigint "coaches_id", null: false
+    t.bigint "coach_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["coaches_id"], name: "index_experiences_on_coaches_id"
+    t.index ["coach_id"], name: "index_experiences_on_coach_id"
   end
 
   create_table "invitations", force: :cascade do |t|
@@ -88,6 +88,16 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["title"], name: "index_problems_on_title", unique: true
+  end
+
+  create_table "problems_techniques", id: false, force: :cascade do |t|
+    t.bigint "technique_id"
+    t.bigint "problem_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["problem_id"], name: "index_problems_techniques_on_problem_id"
+    t.index ["technique_id", "problem_id"], name: "index_problems_techniques_on_technique_id_and_problem_id", unique: true
+    t.index ["technique_id"], name: "index_problems_techniques_on_technique_id"
   end
 
   create_table "problems_users", id: false, force: :cascade do |t|
@@ -136,6 +146,7 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
   end
 
   create_table "steps", force: :cascade do |t|
+    t.string "title"
     t.text "body"
     t.integer "number"
     t.bigint "technique_id", null: false
@@ -155,16 +166,6 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
     t.index ["title"], name: "index_techniques_on_title", unique: true
   end
 
-  create_table "techniques_problems", id: false, force: :cascade do |t|
-    t.bigint "technique_id"
-    t.bigint "problem_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["problem_id"], name: "index_techniques_problems_on_problem_id"
-    t.index ["technique_id", "problem_id"], name: "index_techniques_problems_on_technique_id_and_problem_id", unique: true
-    t.index ["technique_id"], name: "index_techniques_problems_on_technique_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -177,9 +178,9 @@ ActiveRecord::Schema.define(version: 2021_12_04_142229) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "certificates", "coaches", column: "coaches_id"
+  add_foreign_key "certificates", "coaches"
   add_foreign_key "diplomas", "coaches"
-  add_foreign_key "experiences", "coaches", column: "coaches_id"
+  add_foreign_key "experiences", "coaches"
   add_foreign_key "notifications", "coaches"
   add_foreign_key "notifications", "users"
   add_foreign_key "social_networks", "coaches"
