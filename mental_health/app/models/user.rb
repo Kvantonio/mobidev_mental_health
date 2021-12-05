@@ -9,7 +9,7 @@ class User < ApplicationRecord
             format: { with: /\A(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}\z/ },
             allow_nil: true
   validates :email, presence: true, uniqueness: true,
-            format: { with: /\A.+@.+\z/ }
+                    format: { with: /\A.+@.+\..+\z/ }
   validates :age, presence: false
   validates :abouts, presence: false
   validates :gender, presence: false
@@ -23,4 +23,6 @@ class User < ApplicationRecord
 
   has_many :ratings
   has_many :recommendations
+
+  has_one_attached :user_avatar
 end

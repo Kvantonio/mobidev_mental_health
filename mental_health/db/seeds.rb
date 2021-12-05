@@ -1,7 +1,7 @@
 problem1, problem2, problem3, problem4 = Problem.create([{ title: 'Depression' }, { title: 'Stress' },
                                                          { title: 'Anxiety' }, title: 'Irritability'])
 
-user1 = User.create(name: 'Vlad', email: 'kvantonio@i.ua', password: 'Ab12345678', age: 20, gender: 'male',
+user1 = User.create(name: 'Vlad', email: 'hh@i.ua', password: 'Ab12345678', age: 20, gender: 'male',
             about: 'I fill depressed from frontend programming')
 user2 = User.create(name: 'Test', email: 'Test@gmail.com', password: 'Test1234', age: 100, gender: 'female',
                     about: 'TestTestTestTestTest')

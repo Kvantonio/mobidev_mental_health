@@ -8,7 +8,7 @@ class Coach < ApplicationRecord
             format: { with: /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/ },
             allow_nil: true
   validates :email, presence: true, uniqueness: true,
-                    format: { with: /\A.+@.+\z/ }
+                    format: { with: /\A.+@.+\..+\z/ }
   validates :age, presence: false
   validates :abouts, presence: false
   validates :gender, presence: false

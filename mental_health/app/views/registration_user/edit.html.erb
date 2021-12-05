@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>Sing Up</title>
+  <%= stylesheet_link_tag 'registration_user.css' %>
+  <%= stylesheet_link_tag 'main.css' %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg nav_background fixed-top">
+  <div class="container-fluid pad">
+    <a class="navbar-brand logo logo-button" href="#">Logo</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+<div class="conteiner">
+  <h4 class="wait-title">Hello, <strong><%= @user.name %></strong>!</h4>
+  <p class="help-text">You have registered as a User in our system.</p>
+  <p class="help-text">Please, share some personal information about you so that we can</p>
+  <p class="help-text">personalize your onboarding experience</p>
+  <%= form_with multipart: true, model: @user, class: "form-registration", url: user_registration_verify_path do |f| %>
+    <div class="image-input">
+      <img class="rounded-circle" id="output" src="<%= asset_path('camera.png') %>"/>
+      <label for="avatar">
+        <h4 class="upload">Upload profile photo</h4>
+        <p class="upload-text">Image format should be png, jpg</p>
+        <p class="upload-text">no more than 5 Mb</p>
+      </label>
+      <input type="file" accept="image/*" name="user[user_avatar]" id="avatar" onchange="loadFile(event)">
+      <script>
+          var loadFile = function (event) {
+              var output = document.getElementById('output');
+              output.src = URL.createObjectURL(event.target.files[0]);
+              output.onload = function () {
+                  URL.revokeObjectURL(output.src) // free memory
+              }
+          };
+      </script>
+    </div>
+    <div class="form-group">
+      <%= f.label 'Age', class: "labels" %>
+      <%= f.text_field :age, class: "field form-control" %>
+    </div>
+    <br>
+
+    <label class="labels">Gender</label>
+    <div class="sign_for_gender">
+      <label class="link_for_gender male" for="male">
+        <input type="radio" class="female" name="user[gender]" id="male" value="male">
+        <p class="margin-none">MALE</p>
+      </label>
+
+
+      <label class="link_for_gender female" for="female">
+        <input type="radio" class="female" name="user[gender]" id="female" value="female" checked>
+        <p class="margin-none">FEMALE</p>
+      </label>
+    </div>
+    <br>
+    <div class="form-group">
+      <label class="labels" for="tags">What problem would you like to solve?</label>
+      <select class="form-control select2-multi" name="user[problems][]" multiple="multiple">
+        <% @problems.each do |data| %>
+          <option value="<%= data.title %>"><%= data.title %></option>
+        <% end %>
+      </select>
+    </div>
+    <br>
+    <script>
+        $('.select2-multi').select2();
+    </script>
+
+    <%= f.submit 'CONTINUE', class: "btn btn-sing-up marge-top" %>
+  <% end %>
+</div>
+<footer>
+  <div class="footer-main">
+    © 2021 All rights reserved
+  </div>
+  <div class="footer-menu">
+    Terms
+  </div>
+  <div class="footer-menu">
+    Privacy
+  </div>
+  <div class="footer-menu">
+    Security
+  </div>
+</footer>
+</body>
+</html>

@@ -1,3 +1,11 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  root 'home_page#show'
+
+
+  get '/user/registration', to: 'registration_user#new'
+  post '/user/registration', to: 'registration_user#create'
+  get '/user/registration/verify', to: 'registration_user#edit'
+  patch '/user/registration/verify', to: 'registration_user#update'
+  delete 'destroy', to: 'registration_user#destroy'
+
 end
