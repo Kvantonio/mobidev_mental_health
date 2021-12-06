@@ -36,6 +36,12 @@ class RegistrationUserController < ApplicationController
     end
   end
 
+  def resend
+    @user = User.find_by_id(session[:user_id]) if session[:user_id]
+    RegistrationVerifyMailer.with(user: @user).user_verify_email.deliver_now
+    render :create
+  end
+
   def destroy
     User.find_by_id(session[:user_id]).destroy if session[:user_id]
     session[:user_id] = nil

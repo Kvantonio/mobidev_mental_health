@@ -9,9 +9,9 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
   config.action_mailer.smtp_settings = {
-    address:              'smtp.i.ua',
+    address:              'smtp.gmail.com',
     port:                 587,
-    domain:                'i.ua',
+    domain:               'gmail.com',
     user_name:            ENV['MAIL_ADDRESS'],
     password:             ENV['MAIL_PASSWORD'],
     authentication:       'plain',

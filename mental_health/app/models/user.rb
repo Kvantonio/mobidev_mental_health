@@ -16,7 +16,7 @@ class User < ApplicationRecord
 
   has_and_belongs_to_many :problems
 
-  has_many :invitations
+  belongs_to :invitation
   has_many :coches, through: :invitations
 
   has_many :notifications
