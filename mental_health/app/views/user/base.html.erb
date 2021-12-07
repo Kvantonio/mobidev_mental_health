@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg nav_background fixed-top">
+  <div class="container-fluid pad">
+    <a class="navbar-brand logo logo-button" href="#">Logo</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a href="#" class="nav-link nav-link-style">Dashboard</a>
+        <a href="#" class="nav-link nav-link-style">My techniques</a>
+        <a href="#" class="nav-link nav-link-style">Coaches</a>
+        <%#= link_to "Dashboard", user_dashboard_page_path, class: "nav-link nav-link-style" %>
+        <%#= link_to "My techniques", user_techniques_page_path, class: "nav-link nav-link-style" %>
+        <%#= link_to "Coaches", user_coahes_page_path, class: "nav-link nav-link-style" %>
+      </div>
+    </div>
+    <div class="d-flex">
+      <div class="envelope-block"><i class="bi bi-envelope"></i></div>
+
+      <div class="bell-block">
+        <i class="bi bi-bell" ></i>
+
+      </div>
+      <div class="me-3 dropdown">
+        <% if @user.user_avatar.attached? %>
+          <img src="<%= url_for(@user.user_avatar) %>" class= "rounded-circle size-image" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+          <%# else %>
+          <!--          <img src="<%#= asset_path('generic-user-icon-10.png') %>" class="rounded-circle size-image" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">-->
+        <% end %>
+        <ul class="dropdown-menu">
+
+          <li><a class="dropdown-item">Edit Personal Information</a></li>
+          <!--          <li><%#= link_to 'Edit Personal Information', update_profile_user_path, class: "dropdown-item" %></li>-->
+          <li><hr class="dropdown-divider"></li>
+          <li><a href="#" class="dropdown-item">Change Password</a></li>
+          <!--          <li><%#= link_to 'Change Password', password_change_user_path, class: "dropdown-item" %></li>-->
+        </ul>
+      </div>
+      <%= link_to 'LOG OUT', user_logout_path, class: "btn btn-sing-in" %>
+    </div>
+  </div>
+</nav>
+
+
+<div class="content-block">
+
+  <%= content_for?(:content) ? yield(:content) : yield %>
+
+</div>

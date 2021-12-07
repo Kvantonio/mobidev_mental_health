@@ -7,7 +7,12 @@ class LoginUserController < ApplicationController
 
     if user.present? && user.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect_to root_path
+      redirect_to user_dashboard_path
     end
+  end
+
+  def logout
+    session[:user_id] = nil if session[:user_id]
+    redirect_to root_path
   end
 end

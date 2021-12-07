@@ -18,7 +18,7 @@ class RegistrationUserController < ApplicationController
   def edit
     @problems = Problem.all
     @user = User.find_signed!(params[:token], purpose: 'user_registration_verify')
-    puts @user
+
   rescue ActiveSupport::MessageVerifier::InvalidSignature
     redirect_to root_path, alert: 'Your token has expired. Please try again.'
   end
@@ -30,7 +30,7 @@ class RegistrationUserController < ApplicationController
       params[:user][:problems]&.each do |problem|
         @user.problems << Problem.find_by(title: problem)
       end
-      redirect_to root_path
+      redirect_to user_dashboard_path
     else
       render :edit
     end

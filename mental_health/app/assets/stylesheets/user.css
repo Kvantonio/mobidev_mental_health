@@ -1,0 +1,18 @@
+.size-image {
+    width: 38px;
+    height: 38px;
+}
+
+.bell-block {
+    color: #a4a6aa;
+    font-size: 28px;
+    padding-right: 47px;
+
+}
+
+.envelope-block {
+    color: #FFFFFF;
+    opacity: 0.5;
+    font-size: 28px;
+    padding-right: 37px;
+}

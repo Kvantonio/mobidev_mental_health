@@ -12,5 +12,8 @@ Rails.application.routes.draw do
 
   get '/user/login', to: 'login_user#new'
   post '/user/login', to: 'login_user#create'
+  get '/user/logout', to: 'login_user#logout'
+
+  get '/user/dashboard', to: 'user#dashboard'
 
 end
