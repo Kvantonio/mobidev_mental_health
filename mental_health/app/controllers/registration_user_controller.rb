@@ -20,13 +20,13 @@ class RegistrationUserController < ApplicationController
     @user = User.find_signed!(params[:token], purpose: 'user_registration_verify')
 
   rescue ActiveSupport::MessageVerifier::InvalidSignature
-    redirect_to root_path, alert: 'Your token has expired. Please try again.'
+    redirect_to user_registration_path, alert: 'Your token has expired. Please try again.'
   end
 
   def update
     @user = User.find_by(id: session[:user_id]) if session[:user_id]
 
-    if @user.update(update_params)
+    if @user.update(user_update_params)
       params[:user][:problems]&.each do |problem|
         @user.problems << Problem.find_by(title: problem)
       end
@@ -54,7 +54,7 @@ class RegistrationUserController < ApplicationController
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 
-  def update_params
+  def user_update_params
     params.require(:user).permit(:user_avatar, :age, :gender)
   end
 end

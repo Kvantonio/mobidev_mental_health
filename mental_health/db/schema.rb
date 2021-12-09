@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_05_122912) do
+ActiveRecord::Schema.define(version: 2021_12_09_130337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,17 @@ ActiveRecord::Schema.define(version: 2021_12_05_122912) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["coach_id"], name: "index_certificates_on_coach_id"
+  end
+
+  create_table "coach_notifications", force: :cascade do |t|
+    t.bigint "coach_id"
+    t.bigint "user_id"
+    t.text "description"
+    t.boolean "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["coach_id"], name: "index_coach_notifications_on_coach_id"
+    t.index ["user_id"], name: "index_coach_notifications_on_user_id"
   end
 
   create_table "coaches", force: :cascade do |t|
@@ -98,17 +109,6 @@ ActiveRecord::Schema.define(version: 2021_12_05_122912) do
     t.index ["coach_id"], name: "index_invitations_on_coach_id"
     t.index ["user_id", "coach_id"], name: "index_invitations_on_user_id_and_coach_id", unique: true
     t.index ["user_id"], name: "index_invitations_on_user_id"
-  end
-
-  create_table "notifications", force: :cascade do |t|
-    t.bigint "coach_id"
-    t.bigint "user_id"
-    t.text "description"
-    t.boolean "status"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["coach_id"], name: "index_notifications_on_coach_id"
-    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "problems", force: :cascade do |t|
@@ -194,6 +194,17 @@ ActiveRecord::Schema.define(version: 2021_12_05_122912) do
     t.index ["title"], name: "index_techniques_on_title", unique: true
   end
 
+  create_table "user_notifications", force: :cascade do |t|
+    t.bigint "coach_id"
+    t.bigint "user_id"
+    t.text "description"
+    t.boolean "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["coach_id"], name: "index_user_notifications_on_coach_id"
+    t.index ["user_id"], name: "index_user_notifications_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -209,10 +220,12 @@ ActiveRecord::Schema.define(version: 2021_12_05_122912) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "certificates", "coaches"
+  add_foreign_key "coach_notifications", "coaches"
+  add_foreign_key "coach_notifications", "users"
   add_foreign_key "diplomas", "coaches"
   add_foreign_key "experiences", "coaches"
-  add_foreign_key "notifications", "coaches"
-  add_foreign_key "notifications", "users"
   add_foreign_key "social_networks", "coaches"
   add_foreign_key "steps", "techniques"
+  add_foreign_key "user_notifications", "coaches"
+  add_foreign_key "user_notifications", "users"
 end

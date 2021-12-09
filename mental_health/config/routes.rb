@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
-  get 'user/show'
   root 'home_page#show'
 
-
+  ###################### USER ###################################
   get '/user/registration', to: 'registration_user#new'
   post '/user/registration', to: 'registration_user#create'
   get '/user/registration/verify', to: 'registration_user#edit'
@@ -15,5 +14,13 @@ Rails.application.routes.draw do
   get '/user/logout', to: 'login_user#logout'
 
   get '/user/dashboard', to: 'user#dashboard'
+
+  ############### COACH #####################################
+  get '/coach/registration', to: 'registration_coach#new'
+  post '/coach/registration', to: 'registration_coach#create'
+  get '/coach/registration/verify', to: 'registration_coach#edit'
+  patch '/coach/registration/verify', to: 'registration_coach#update'
+  get '/coach/resend', to: 'registration_coach#resend'
+  delete '/coach/destroy', to: 'registration_coach#destroy'
 
 end

@@ -1,5 +1,3 @@
-
-<body>
 <nav class="navbar navbar-expand-lg nav_background fixed-top">
   <div class="container-fluid pad">
     <a class="navbar-brand logo logo-button" href="#">Logo</a>
@@ -12,43 +10,42 @@
   <h4 class="create">Create account</h4>
   <div class="sign_in">
     <div class="ask">Already have an account?</div>
-<!--    <div class="link"><%#= link_to 'Sign in', sign_in_path, class: "custom"%></div>-->
+<!--    <div class="link"><%#= link_to 'Sign in', sign_in_coach_path, class: "custom"%></div>-->
   </div>
 
 
 
-  <%= form_with model: @user, class: "form-registration", url: user_registration_path do |f| %>
+  <%= form_with model: @coach, class: "form-registration", url: coach_registration_path do |f| %>
     <div class="sign_for marge-top">
-      <div class="link_for active">USER</div>
-<!--       <div class="link_for">COACH</div>-->
-      <%= link_to 'COACH', coach_registration_path, class: 'link_for' %>
+      <%= link_to "USER", user_registration_path, class: "link_for" %>
+      <div class="link_for active">COACH</div>
     </div>
     <br>
     <%# if alert %>
 <!--      <p class="alert"><%#= alert%></p>-->
     <%# end %>
-    <%# invalid = @user.errors.include?(:name) %>
+    <% invalid = @coach.errors.include?(:name) %>
 
     <div class="form-group">
       <%= f.label :name, class: "labels" %>
-      <%= f.text_field :name, class: "field form-control "%>
+      <%= f.text_field :name, class: "field form-control #{'is-invalid' if invalid}"%>
       <%# if invalid %>
 <!--        <div class="invalid-feedback d-block">-->
-          <%# @user.errors.full_messages_for(:name).each do |error_message| %>
+          <%# @coach.errors.full_messages_for(:name).each do |error_message| %>
 <!--            <%#= error_message %>.-->
           <%# end %>
 <!--        </div>-->
       <%# end %>
     </div>
     <br>
-    <%# invalid = @user.errors.include?(:email) %>
+    <%# invalid = @coach.errors.include?(:email) %>
 
     <div class="form-group">
       <%= f.label :email, class: "labels" %>
-      <%= f.text_field :email, class: "field form-control " %>
+      <%= f.text_field :email, class: "field form-control #{'is-invalid' if invalid}" %>
       <%# if invalid %>
 <!--        <div class="invalid-feedback d-block">-->
-          <%# @user.errors.full_messages_for(:email).each do |error_message| %>
+          <%# @coach.errors.full_messages_for(:email).each do |error_message| %>
 <!--            <%#= error_message %>.-->
           <%# end %>
 <!--        </div>-->
@@ -56,15 +53,14 @@
     </div>
     <br>
 
-    <%# invalid = @user.errors.include?(:password) %>
+    <%# invalid = @coach.errors.include?(:password) %>
 
     <div class="form-group" data-controller="password-toggle">
       <%= f.label :password, class: "labels" %>
-      <%= f.password_field :password, class: "field form-control " %>
-<!--      <span data-action="click->password-toggle#password" class="password-field-icon-1 position far bi bi-eye-slash"></span>-->
+      <%= f.password_field :password, class: "field #{'is-invalid' if invalid} " %>
       <%# if invalid %>
 <!--        <div class="invalid-feedback d-block">-->
-          <%# @user.errors.full_messages_for(:password).each do |error_message| %>
+          <%# @coach.errors.full_messages_for(:password).each do |error_message| %>
 <!--            <%#= error_message %>.-->
           <%# end %>
 <!--        </div>-->
@@ -72,15 +68,15 @@
     </div>
     <br>
 
-    <%# invalid = @user.errors.include?(:password_confirmation) %>
+    <%# invalid = @coach.errors.include?(:password_confirmation) %>
 
     <div class="form-group" data-controller="password-toggle">
       <%= f.label :password_confirmation, class: "labels" %>
-      <%= f.password_field :password_confirmation, class: "field form-control " %>
-<!--      <span data-action="click->password-toggle#password" class="password-field-icon-1 position far bi bi-eye-slash"></span>-->
+      <%= f.password_field :password_confirmation, class: "field #{'is-invalid' if invalid} unhide", autocomplete: "current-password", "data-target": "password-toggle.unhide" %>
+      <span data-action="click->password-toggle#password" class="password-field-icon-1 position far bi bi-eye-slash"></span>
       <%# if invalid %>
 <!--        <div class="invalid-feedback d-block">-->
-          <%# @user.errors.full_messages_for(:password_confirmation).each do |error_message| %>
+          <%# @coach.errors.full_messages_for(:password_confirmation).each do |error_message| %>
 <!--            <%#= error_message %>.-->
           <%# end %>
 <!--        </div>-->
@@ -89,7 +85,7 @@
     <br>
 
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="user[agree]">
+      <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="coach[agree]">
       <label class="form-check-label font" for="flexCheckDefault">
         I've read and agree with <strong>Terms of Services</strong> and our <strong>Privacy Policy</strong>
       </label>
@@ -97,19 +93,14 @@
 
     <!-- <p class="marge-top">I've read and agree with Terms of Services and our Privacy Policy</p> -->
     <%= f.submit 'SIGN UP', class: "btn btn-sing-up marge-top"%>
-  <% end %>
-  <div class="sign-with">
-    <div class="with">
-      or Sign in with
-    </div>
-    <div class="badge-with">
-      <%#= button_to '/auth/google_oauth2', class: "icon-color" do %>
+    <div class="sign-with">
+      <div class="with">
+        or Sign in with
+      </div>
+      <div class="badge-with">
         <i class="bi bi-facebook"></i>
         <i class="bi bi-google"></i>
-
-      <%# end %>
-
+      </div>
     </div>
-  </div>
+  <% end %>
 </div>
-</body>

@@ -10,7 +10,7 @@ class CreateRecommendations < ActiveRecord::Migration[6.1]
 
       t.timestamps
 
-      t.index [:coach_id, :user_id, :technique_id], unique: true
+      t.index [:user_id, :technique_id], unique: true
     end
   end
 end
