@@ -30,8 +30,21 @@ class RegistrationCoachController < ApplicationController
       params[:coach][:problems]&.each do |problem|
         @coach.problems << Problem.find_by(title: problem)
       end
-      params[:coach][:problems]&.each do |problem|
-        @coach.problems << Problem.find_by(title: problem)
+
+      params[:coach][:educations]&.each do |education|
+        @coach.diplomas << Diploma.create(title: education)
+      end
+
+      params[:coach][:experiences]&.each do |experience|
+        @coach.experiences << Experience.create(title: experience)
+      end
+
+      params[:coach][:certificates]&.each do |certificate|
+        @coach.certificates << Certificate.create(title: certificate)
+      end
+
+      params[:coach][:networks]&.each do |network|
+        @coach.social_networks << SocialNetwork.create(title: network)
       end
       redirect_to root_path
     else

@@ -13,6 +13,11 @@ Rails.application.routes.draw do
   post '/user/login', to: 'login_user#create'
   get '/user/logout', to: 'login_user#logout'
 
+  get '/user/reset_password', to: 'reset_user_password#new'
+  post '/user/reset_password', to: 'reset_user_password#create'
+  get '/user/reset_password/verify', to: 'reset_user_password#edit'
+  patch '/user/reset_password/verify', to: 'reset_user_password#update'
+
   get '/user/dashboard', to: 'user#dashboard'
 
   ############### COACH #####################################
