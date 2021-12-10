@@ -16,13 +16,13 @@
   <h4 class="sign-in-title">Login into your account</h4>
   <div class="sign_in">
     <div class="ask">Don't have an account?</div>
-<!--    <div class="link"><%#= link_to 'Sign up', sign_up_path, class: "custom"%></div>-->
+    <div class="link"><%= link_to 'Registration', coach_registration_path, class: "custom"%></div>
   </div>
 
   <%# if alert %>
 <!--    <p class="alert"><%#= alert%></p>-->
   <%# end %>
-  <%= form_with class: "form-authorization", url: user_login_path do |f| %>
+  <%= form_with class: "form-authorization", url: coach_login_path do |f| %>
 
     <div class="form-group">
       <%= f.label 'Email', class: "labels" %>
@@ -48,7 +48,7 @@
         <label class="form-check-label font" for="flexCheckDefault"> Remember me</label>
       </div>
       <div class="forgot-password-block">
-        <strong><%= link_to 'Forgot password?', user_reset_password_path, class: "forgot-password-link"%></strong>
+        <strong><%= link_to 'Forgot password?', coach_reset_password_path, class: "forgot-password-link"%></strong>
       </div>
     </div>
 

@@ -29,6 +29,10 @@ Rails.application.routes.draw do
   get '/coach/resend', to: 'registration_coach#resend'
   delete '/coach/destroy', to: 'registration_coach#destroy'
 
+  get '/coach/login', to: 'login_coach#new'
+  post '/coach/login', to: 'login_coach#create'
+  get '/coach/logout', to: 'login_coach#logout'
+
   get '/coach/reset_password', to: 'reset_coach_password#new'
   post '/coach/reset_password', to: 'reset_coach_password#create'
   get '/coach/reset_password/verify', to: 'reset_coach_password#edit'
