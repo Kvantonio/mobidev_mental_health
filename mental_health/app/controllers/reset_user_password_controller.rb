@@ -5,7 +5,7 @@ class ResetUserPasswordController < ApplicationController
   def create
     @user = User.find_by(email: params[:email]) if params[:email]
     if @user
-      RegistrationVerifyMailer.with(coach: @coach).coach_verify_email.deliver_now
+      ResetPasswordMailer.with(user: @user).user_reset_password.deliver_now
       render :create
     else
       render :new
@@ -13,24 +13,27 @@ class ResetUserPasswordController < ApplicationController
   end
 
   def edit
-    @user = User.find_signed!(params[:token], purpose: 'user_reset_password_edit')
+    @user = User.find_signed!(params[:token], purpose: 'user_reset_password_verify')
 
   rescue ActiveSupport::MessageVerifier::InvalidSignature
-    redirect_to login_path, alert: 'Your token has expired. Please try again.'
+    redirect_to user_login_path, alert: 'Your token has expired. Please try again.'
   end
 
   def update
-    @user = User.find_signed!(params[:token], purpose: 'user_reset_password_edit')
+    @user = User.find_signed!(params[:token], purpose: 'user_reset_password_verify')
 
     if @user.update(user_password_params)
       redirect_to user_login_path
     else
       render :edit
     end
-
-
   end
 
+  def resend
+    @user = User.find_by_id(session[:user_id]) if session[:user_id]
+    ResetPasswordMailer.with(user: @user).user_reset_password.deliver_now
+    render :create
+  end
 
   private
 

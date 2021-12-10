@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   get '/user/reset_password/verify', to: 'reset_user_password#edit'
   patch '/user/reset_password/verify', to: 'reset_user_password#update'
 
+  get '/user/resend_reset', to: 'reset_user_password#resend'
+
   get '/user/dashboard', to: 'user#dashboard'
 
   ############### COACH #####################################
