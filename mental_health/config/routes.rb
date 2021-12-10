@@ -17,7 +17,6 @@ Rails.application.routes.draw do
   post '/user/reset_password', to: 'reset_user_password#create'
   get '/user/reset_password/verify', to: 'reset_user_password#edit'
   patch '/user/reset_password/verify', to: 'reset_user_password#update'
-
   get '/user/resend_reset', to: 'reset_user_password#resend'
 
   get '/user/dashboard', to: 'user#dashboard'
@@ -29,5 +28,11 @@ Rails.application.routes.draw do
   patch '/coach/registration/verify', to: 'registration_coach#update'
   get '/coach/resend', to: 'registration_coach#resend'
   delete '/coach/destroy', to: 'registration_coach#destroy'
+
+  get '/coach/reset_password', to: 'reset_coach_password#new'
+  post '/coach/reset_password', to: 'reset_coach_password#create'
+  get '/coach/reset_password/verify', to: 'reset_coach_password#edit'
+  patch '/coach/reset_password/verify', to: 'reset_coach_password#update'
+  get '/coach/resend_reset', to: 'reset_coach_password#resend'
 
 end

@@ -30,7 +30,7 @@ class ResetUserPasswordController < ApplicationController
   end
 
   def resend
-    @user = User.find_by_id(session[:user_id]) if session[:user_id]
+    @user = User.find_by(email: params[:email]) if params[:email]
     ResetPasswordMailer.with(user: @user).user_reset_password.deliver_now
     render :create
   end
