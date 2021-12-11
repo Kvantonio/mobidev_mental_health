@@ -3,9 +3,9 @@ class UserController < ApplicationController
 
   def dashboard
     @user = User.find_by_id(session[:user_id])
-    # @techniques = @user.recommendations
+    @techniques = @user.recommendations
     @invitation = @user.invitation
-    @notifications = @user.notifications
+    @notifications = @user.user_notifications
     @problems = @user.problems
   end
 end

@@ -6,4 +6,5 @@ class Technique < ApplicationRecord
 
   has_many :ratings
   has_many :recommendations
+  has_one_attached :image
 end
