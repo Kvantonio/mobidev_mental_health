@@ -23,7 +23,11 @@
 <!--    <p class="alert"><%#= alert%></p>-->
   <%# end %>
   <%= form_with class: "form-authorization", url: coach_login_path do |f| %>
-
+    <div class="sign_for marge-top">
+      <%= link_to 'USER', user_registration_path, class: 'link_for' %>
+      <div class="link_for active">COACH</div>
+    </div>
+    <br>
     <div class="form-group">
       <%= f.label 'Email', class: "labels" %>
       <%= f.text_field :email, class: "field form-control #{'is-invalid' if flash[:email]}" %>
