@@ -138,16 +138,16 @@ ActiveRecord::Schema.define(version: 2021_12_09_130337) do
     t.index ["user_id"], name: "index_problems_users_on_user_id"
   end
 
-  create_table "raitings", force: :cascade do |t|
+  create_table "ratings", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "technique_id"
     t.integer "like"
     t.integer "dislike"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["technique_id"], name: "index_raitings_on_technique_id"
-    t.index ["user_id", "technique_id"], name: "index_raitings_on_user_id_and_technique_id", unique: true
-    t.index ["user_id"], name: "index_raitings_on_user_id"
+    t.index ["technique_id"], name: "index_ratings_on_technique_id"
+    t.index ["user_id", "technique_id"], name: "index_ratings_on_user_id_and_technique_id", unique: true
+    t.index ["user_id"], name: "index_ratings_on_user_id"
   end
 
   create_table "recommendations", force: :cascade do |t|
@@ -159,9 +159,9 @@ ActiveRecord::Schema.define(version: 2021_12_09_130337) do
     t.datetime "finished_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["coach_id", "user_id", "technique_id"], name: "index_recommendations_on_coach_id_and_user_id_and_technique_id", unique: true
     t.index ["coach_id"], name: "index_recommendations_on_coach_id"
     t.index ["technique_id"], name: "index_recommendations_on_technique_id"
+    t.index ["user_id", "technique_id"], name: "index_recommendations_on_user_id_and_technique_id", unique: true
     t.index ["user_id"], name: "index_recommendations_on_user_id"
   end
 
