@@ -88,7 +88,7 @@
           <div class="col-6 distance">
             <div class="card h-100">
               <div class="item">
-                <% if !recommendation.current_step %>
+                <% if recommendation.current_step == 0 and !recommendation.started_at %>
                   <span class="notify-badge">RECOMMENDS</span>
                 <% elsif recommendation.finished_at %>
                   <span class="notify-badge">COMPLETED</span>
@@ -103,7 +103,7 @@
                 <% if recommendation.technique.problems %>
                   <div class="tags-div-absolute">
                     <% recommendation.technique.problems.each do |problem|%>
-                      <span class="tags-in-image "><%= problem.name%></span>
+                      <span class="tags-in-image "><%= problem.title %></span>
                     <% end %>
                   </div>
                 <% end %>
@@ -133,11 +133,11 @@
                   <li><i class="bi bi-hand-thumbs-up"></i> <%= Raiting.where(technique_id: recommendation.technique.id).sum(:like)%></li>
                   <li><i class="bi bi-hand-thumbs-down"></i> <%= Raiting.where(technique_id: recommendation.technique.id).sum(:dislike)%></li>
                   <% if recommendation.current_step == 0 %>
-                    <li class="start-button"><%= link_to 'GET STARTED', user_technique_detail_path(technique_id: recommendation.technique.id, step_id: recommendation.step), class:"get_down_link"%></li>
-                  <% elsif recommendation.status == 'compeleted'%>
-                    <li class="start-button"><%= link_to 'RESTART', restart_path(technique_id: recommendation.technique.id, step_id: recommendation.step), method: :patch, class:"get_down_link"%></li>
+<!--                    <li class="start-button"><%#= link_to 'GET STARTED', user_technique_detail_path(technique_id: recommendation.technique.id, step_id: recommendation.step), class:"get_down_link"%></li>-->
+                  <% elsif recommendation.finished_at != nil %>
+<!--                    <li class="start-button"><%#= link_to 'RESTART', restart_path(technique_id: recommendation.technique.id, step_id: recommendation.step), method: :patch, class:"get_down_link"%></li>-->
                   <% else %>
-                    <li class="start-button"><%= link_to 'CONTINUE', user_technique_detail_path(technique_id: recommendation.technique.id, step_id: recommendation.step), class:"get_down_link"%></li>
+<!--                    <li class="start-button"><%#= link_to 'CONTINUE', user_technique_detail_path(technique_id: recommendation.technique.id, step_id: recommendation.step), class:"get_down_link"%></li>-->
                   <% end %>
                 </ul>
               </div>
@@ -157,7 +157,7 @@
               <% if @user.user_avatar.attached? %>
                 <img src="<%= url_for(@user.user_avatar) %>" class= "image-size rounded-circle ">
               <% else %>
-                <img src="<%= asset_path('generic-user-icon-10.png') %>" class="image-size rounded-circle">
+                <img src="<%= asset_path('avatar/no_avatar.png') %>" class="image-size rounded-circle">
               <% end %>
             </div>
             <div class="name-coach">
@@ -182,42 +182,42 @@
       <div class="user-coach">
         <div class="card">
           <div class="body body_pad">
-            <% if @invite %>
-              <% if @invite.status == false %>
+            <% if @invitation %>
+              <% if @invitation.status == false %>
                 <div class="row">
                   <div class="col-12 waiting">Waiting for confirmation</div>
                   <div class="col-2 coach-block-cp">
-                    <% if @invite.coach.avatar.attached? %>
-                      <img src="<%= url_for(@invite.coach.avatar) %>" class= "rounded-circle notification-avatar">
+                    <% if @invitation.coach.avatar.attached? %>
+                      <img src="<%= url_for(@invitation.coach.avatar) %>" class= "rounded-circle notification-avatar">
                     <% else %>
                       <img src="<%= asset_path('generic-user-icon-10.png') %>" class="rounded-circle notification-avatar">
                     <% end %>
                   </div>
                   <div class="col-6">
-                    <p class="coach-block-cp-text"><%= @invite.coach.name %></p>
+                    <p class="coach-block-cp-text"><%= @invitation.coach.name %></p>
                   </div>
                   <div class="col-4">
-                    <%= button_to 'CANCEL', cancel_coach_invite_path(@invite.id), method: :delete, class:"btn btn-sing-up"%>
+                    <%= button_to 'CANCEL', cancel_coach_invite_path(@invitation.id), method: :delete, class:"btn btn-sing-up"%>
                   </div>
                 </div>
               <% else %>
                 <div class="row">
                   <div class="col-12 waiting">Current coach</div>
                   <div class="col-2 coach-block-cp">
-                    <% if @invite.coach.avatar.attached? %>
-                      <img src="<%= url_for(@invite.coach.avatar) %>" class= "rounded-circle notification-avatar">
+                    <% if @invitation.coach.coach_avatar.attached? %>
+                      <img src="<%= url_for(@invitation.coach.coach_avatar) %>" class= "rounded-circle notification-avatar">
                     <% else %>
-                      <img src="<%= asset_path('generic-user-icon-10.png') %>" class="rounded-circle notification-avatar">
+                      <img src="<%= asset_path('avatar/no_avatar.png') %>" class="rounded-circle notification-avatar">
                     <% end %>
                   </div>
                   <div class="col-9">
-                    <p class="coach-block-cp-text"><%= @invite.coach.name %></p>
+                    <p class="coach-block-cp-text"><%= @invitation.coach.name %></p>
                   </div>
                   <div class="col-1">
-                    <div class="end-cooperation"><%= link_to raw("<i class=\"bi bi-three-dots-vertical get_down_link\"></i>"),
-                                                             asking_form_path,
+<!--                    <div class="end-cooperation"><%#= link_to raw("<i class=\"bi bi-three-dots-vertical get_down_link\"></i>"),-->
+<!--                                                             asking_form_path,-->
                                                              {:remote => true, 'data-bs-toggle' =>  "modal", 'data-bs-target' => '#modal-window'} %>
-                    </div>
+                  </div>-->
                   </div>
                 </div>
               <% end %>
