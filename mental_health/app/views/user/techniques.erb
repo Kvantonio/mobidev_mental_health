@@ -1,0 +1,179 @@
+<% content_for :content do %>
+
+  <div class="row">
+    <div class="col-8">
+      <div class="row-width">
+        <div class="row">
+          <div class="col-3 marker-status active-marker">
+            <button id="all">All</button>
+          </div>
+          <div class="col-3 marker-status">
+            <button id="recommended">Recommended</button>
+          </div>
+          <div class="col-3 marker-status">
+            <button id="in-progress">In progress</button>
+          </div>
+          <div class="col-3 marker-status">
+            <button id="completed">Completed</button>
+          </div>
+
+        </div>
+        <br>
+
+          <div class="layer">
+            <div class="row">
+              <% @user.recommendations.each do |recommendation|%>
+                <div class="col-6 distance">
+                  <div class="card h-100 <%= (recommendation.current_step == 0 and !recommendation.started_at) ? 'recommended': (recommendation.finished_at) ? 'completed' : 'in-progress' %>">
+                    <div class="item">
+                      <% if recommendation.current_step == 0 and !recommendation.started_at %>
+                        <span class="notify-badge">RECOMMENDS</span>
+                      <% elsif recommendation.finished_at %>
+                        <span class="notify-badge">COMPLETED</span>
+                      <% end %>
+                      <% if recommendation.technique.image.attached? %>
+                        <img src="<%= url_for(recommendation.technique.image) %>" class= "card-img-top" alt="...">
+                      <% else %>
+                        <img src="<%= asset_path('no_image.png') %>" class="card-img-top" alt="...">
+                      <% end %>
+
+                      <span class="steps-passed"><%= recommendation.current_step %>/<%= recommendation.technique.steps.count %> steps passed</span>
+                      <% if recommendation.technique.problems %>
+                        <div class="tags-div-absolute">
+                          <% recommendation.technique.problems.each do |problem|%>
+                            <span class="tags-in-image "><%= problem.title %></span>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
+                    <div class="card-body">
+                      <h6 class="title_card"><%= recommendation.technique.title %></h6>
+                      <p class="description"><%= recommendation.technique.description %></p>
+                      <div class="age">Age: <strong><%= recommendation.technique.age_range %> years</strong></div>
+                      <div class="gender">Gender:<strong> <%= recommendation.technique.gender %></strong></div>
+                      <br>
+                      <div class="step">Steps: <strong><%= recommendation.technique.steps.count %></strong></div>
+                      <div class="duration">Duration: <strong><%= recommendation.technique.duration %></strong></div>
+                      <div class="row">
+                        <div class="col-2 image-coach-techinque">
+                          <% if recommendation.coach.coach_avatar.attached? %>
+                            <img src="<%= url_for(recommendation.coach.coach_avatar) %>" class= "rounded-circle notification-avatar">
+                          <% else %>
+                            <img src="<%= asset_path('avatar/no_avatar.png') %>" class="rounded-circle notification-avatar">
+                          <% end %>
+                        </div>
+                        <div class="col-10 name-coach-techinque">
+                          <%= recommendation.coach.name %>
+                        </div>
+                      </div>
+                      <ul class="hr">
+                        <li><i class="bi bi-people"></i> <%= Recommendation.where(technique_id: recommendation.technique.id).count%></li>
+                        <li><i class="bi bi-hand-thumbs-up"></i> <%= Rating.where(technique_id: recommendation.technique.id).sum(:like)%></li>
+                        <li><i class="bi bi-hand-thumbs-down"></i> <%= Rating.where(technique_id: recommendation.technique.id).sum(:dislike)%></li>
+                        <% if recommendation.current_step == 0 and !recommendation.started_at %>
+<!--                          <li class="start-button"><%#= link_to 'GET STARTED', user_technique_detail_path(technique_id: recommendation.technique.id, step_id: recommendation.step), class:"get_down_link"%></li>-->
+                        <% elsif recommendation.finished_at %>
+<!--                          <li class="start-button"><%#= link_to 'RESTART', restart_path(technique_id: recommendation.technique.id, step_id: recommendation.step), method: :patch, class:"get_down_link"%></li>-->
+                        <% else %>
+<!--                          <li class="start-button"><%#= link_to 'CONTINUE', user_technique_detail_path(technique_id: recommendation.technique.id, step_id: recommendation.step), class:"get_down_link"%></li>-->
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+
+                </div>
+              <% end %>
+
+            </div>
+          </div>
+      </div>
+
+
+    </div>
+    <script type="text/javascript">
+        $('#all').click(function (){
+            $('.recommended').toggle();
+            $('.in-progress').toggle();
+            $('.completed').toggle();
+        });
+        $('#recommended').click(function (){
+            $('.recommended').toggle();
+            $('.in-progress').hide();
+            $('.completed').hide();
+        });
+        $('#in-progress').click(function (){
+            $('.recommended').hide();
+            $('.in-progress').toggle();
+            $('.completed').hide();
+        });
+        $('#completed').click(function (){
+            $('.recommended').hide();
+            $('.in-progress').hide();
+            $('.completed').toggle();
+        });
+    </script>
+
+    <div class="col-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="avatar">
+                <div class="icon-link">
+                  <i class="bi bi-facebook"></i>
+                </div>
+                <div class="image-avatar">
+                  <% if @user.invitation.coach.coach_avatar.attached? %>
+                    <img src="<%= url_for(@user.invitation.coach.coach_avatar) %>" class= "c-u-a rounded-circle">
+                  <% else %>
+                    <img src="<%= asset_path('avatar/no_avatar.png') %>" class="c-u-a rounded-circle">
+                  <% end %>
+                  <div class="check-circle"><i class="bi bi-check-circle-fill"></i></div>
+                </div>
+                <div class="icon-link">
+                  <i class="bi bi-linkedin"></i>
+                </div>
+              </div>
+              <br>
+              <h6 class="coach-name"><%= @user.invitation.coach.name %></h6>
+              <p class="status">Current coach</p>
+
+              <% if @user.invitation.coach.about %>
+                <p class="coach-info"><%= @user.invitation.coach.about %></p>
+              <% else %>
+                <p class="coach-info">No information about.</p>
+              <% end %>
+
+              <p class="coach-info"><%= @user.invitation.coach.age %> years | <%= @user.invitation.coach.gender %> | <%= Invitation.where(coach_id: @user.invitation.coach.id, status:1).count%> users</p>
+              <p class="tages-info">Areas of Expertise</p>
+              <% @user.invitation.coach.problems.each do |coach_problem|%>
+                <span class="tags"><%= coach_problem.title %></span>
+              <% end %>
+              <p class="tages-info">Education</p>
+                <% @user.invitation.coach.diplomas.each do |diploma|%>
+                  <p class="education-data"><%= diploma.title %></p>
+                <% end %>
+              <p class="tages-info">Work experience</p>
+              <% @user.invitation.coach.experiences.each do |experience|%>
+                <p class="education-data"><%= experience.title %></p>
+              <% end %>
+              <p class="tages-info">Licenses and Certificates</p>
+              <% @user.invitation.coach.certificates.each do |certificate|%>
+                <p class="education-data"><%= certificate.title %></p>
+              <% end %>
+              <form>
+<!--                <div class="end-coop"><%#= button_to 'END COOPERATION', end_cooperation_coach_invite_path(@invite.id), method: :delete, class: "get_down_link end-coop" %></div>-->
+              </form>
+            </div>
+
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+<% end %>
+<%= render template: "user/base" %>

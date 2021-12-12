@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get '/user/resend_reset', to: 'reset_user_password#resend'
 
   get '/user/dashboard', to: 'user#dashboard'
+  get '/user/techniques', to: 'user#techniques'
 
   ############### COACH #####################################
   get '/coach/registration', to: 'registration_coach#new'

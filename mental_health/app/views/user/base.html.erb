@@ -6,11 +6,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a href="#" class="nav-link nav-link-style">Dashboard</a>
-        <a href="#" class="nav-link nav-link-style">My techniques</a>
+
+
+        <%= link_to "Dashboard", user_dashboard_path, class: "nav-link nav-link-style" %>
+        <%= link_to "My techniques", user_techniques_path, class: "nav-link nav-link-style" %>
         <a href="#" class="nav-link nav-link-style">Coaches</a>
-        <%#= link_to "Dashboard", user_dashboard_page_path, class: "nav-link nav-link-style" %>
-        <%#= link_to "My techniques", user_techniques_page_path, class: "nav-link nav-link-style" %>
         <%#= link_to "Coaches", user_coahes_page_path, class: "nav-link nav-link-style" %>
       </div>
     </div>
