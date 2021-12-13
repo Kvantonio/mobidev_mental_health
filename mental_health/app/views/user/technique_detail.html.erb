@@ -33,9 +33,9 @@
             <div class="row">
               <div class="col-4">
                 <% if @recommendation.current_step != @total_steps %>
-                RESTART
+                  RESTART
                 <% else %>
-                  <%#= link_to 'RESTART', user_rate_window_path,  {:remote => true, 'data-bs-toggle' =>  "modal", 'data-bs-target' => '#modal-window', class: "btn btn-sing-up get_down_link"}  %>
+                  <%= link_to 'RESTART', user_technique_restart_path(technique_id: @recommendation.technique.id), method: :patch, class:"get_down_link"%>
               <% end %>
               </div>
               <div class="col-4">
@@ -43,7 +43,7 @@
               </div>
               <div class="col-4">
                 <% if @recommendation.current_step == @total_steps %>
-                  <%#= link_to 'PASSED', user_rate_window_path,  {:remote => true, 'data-bs-toggle' =>  "modal", 'data-bs-target' => '#modal-window', class: "btn btn-sing-up get_down_link"}  %>
+                  <%= link_to 'PASSED', user_technique_rate_path,  {:remote => true, 'data-bs-toggle' =>  "modal", 'data-bs-target' => '#modal-window', class: "btn btn-sing-up get_down_link"}  %>
                 <% else %>
                   <%= link_to 'PASSED', user_technique_detail_path(step_id: @step.number), class:"btn btn-sing-up" %>
                 <% end %>
