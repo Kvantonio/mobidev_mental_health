@@ -37,6 +37,18 @@ class UserController < ApplicationController
     #TODO: alert if else
   end
 
+  def modal_finish_technique
+    user = User.find_by_id(session[:user_id])
+    @coach = user.invitation.coach
+    @html = 'modal_finish_technique.html.erb'
+    respond_to do |format|
+      format.html
+      format.js {
+        render 'add_modal_window.js.erb'
+      }
+    end
+  end
+
   def coaches
     @coaches = Coach.all
 
@@ -45,9 +57,12 @@ class UserController < ApplicationController
   def modal_end_cooperation
     user = User.find_by_id(session[:user_id])
     @coach = user.invitation.coach
+    @html = 'modal_end_cooperation.html.erb'
     respond_to do |format|
       format.html
-      format.js
+      format.js {
+        render 'add_modal_window.js.erb'
+      }
     end
   end
 
