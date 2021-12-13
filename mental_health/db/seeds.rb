@@ -54,4 +54,4 @@ coach1.certificates << certificate1
 user1.problems << problem1
 user2.problems << [problem1, problem2]
 
-Recommendation.create(user_id: user1.id, coach_id: coach1.id, technique_id: technique1.id)
+Recommendation.create(user_id: user1.id, coach_id: coach1.id, technique_id: technique1.id, current_step:0)

@@ -20,7 +20,14 @@ Rails.application.routes.draw do
   get '/user/resend_reset', to: 'reset_user_password#resend'
 
   get '/user/dashboard', to: 'user#dashboard'
+  get '/user/dashboard/:technique_id/step/:step_id', to: 'user#technique_detail', as: 'user_technique_detail'
+
+  get '/user/dashboard/end_coop', to: 'user#modal_end_cooperation', as: 'user_end_coach_cooperation'
+  delete '/user/dashboard/end_coop', to: 'user#end_cooperation', as: 'user_end_coach_cooperation_verify'
+
+
   get '/user/techniques', to: 'user#techniques'
+
 
   ############### COACH #####################################
   get '/coach/registration', to: 'registration_coach#new'
