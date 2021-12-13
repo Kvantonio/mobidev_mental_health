@@ -1,10 +1,5 @@
 
 <% content_for :content do %>
-  <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content"></div>
-    </div>
-  </div>
   <div class="row">
     <div class="col-8">
       <div class="row">
@@ -133,11 +128,11 @@
                   <li><i class="bi bi-hand-thumbs-up"></i> <%= Rating.where(technique_id: recommendation.technique.id).sum(:like)%></li>
                   <li><i class="bi bi-hand-thumbs-down"></i> <%= Rating.where(technique_id: recommendation.technique.id).sum(:dislike)%></li>
                   <% if recommendation.current_step == 0 %>
-<!--                    <li class="start-button"><%#= link_to 'GET STARTED', user_technique_detail_path(technique_id: recommendation.technique.id, step_id: recommendation.step), class:"get_down_link"%></li>-->
+                    <li class="start-button"><%= link_to 'GET STARTED', user_technique_detail_path(technique_id: recommendation.technique.id, step_id: recommendation.current_step), class:"get_down_link"%></li>
                   <% elsif recommendation.finished_at != nil %>
 <!--                    <li class="start-button"><%#= link_to 'RESTART', restart_path(technique_id: recommendation.technique.id, step_id: recommendation.step), method: :patch, class:"get_down_link"%></li>-->
                   <% else %>
-<!--                    <li class="start-button"><%#= link_to 'CONTINUE', user_technique_detail_path(technique_id: recommendation.technique.id, step_id: recommendation.step), class:"get_down_link"%></li>-->
+                    <li class="start-button"><%= link_to 'CONTINUE', user_technique_detail_path(technique_id: recommendation.technique.id, step_id: recommendation.current_step), class:"get_down_link"%></li>
                   <% end %>
                 </ul>
               </div>
@@ -172,7 +167,7 @@
             <p class="tages-info">Problems</p>
             <% if @problems %>
               <% @problems.each do |p| %>
-                <span class="tags"><%= p[:name] %></span>
+                <span class="tags"><%= p.title %></span>
               <% end %>
             <% end %>
           </div>
@@ -187,10 +182,10 @@
                 <div class="row">
                   <div class="col-12 waiting">Waiting for confirmation</div>
                   <div class="col-2 coach-block-cp">
-                    <% if @invitation.coach.avatar.attached? %>
-                      <img src="<%= url_for(@invitation.coach.avatar) %>" class= "rounded-circle notification-avatar">
+                    <% if @invitation.coach.coach_avatar.attached? %>
+                      <img src="<%= url_for(@invitation.coach.coach_avatar) %>" class= "rounded-circle notification-avatar">
                     <% else %>
-                      <img src="<%= asset_path('generic-user-icon-10.png') %>" class="rounded-circle notification-avatar">
+                      <img src="<%= asset_path('avatar/no_avatar.png') %>" class="rounded-circle notification-avatar">
                     <% end %>
                   </div>
                   <div class="col-6">
@@ -214,10 +209,10 @@
                     <p class="coach-block-cp-text"><%= @invitation.coach.name %></p>
                   </div>
                   <div class="col-1">
-<!--                    <div class="end-cooperation"><%#= link_to raw("<i class=\"bi bi-three-dots-vertical get_down_link\"></i>"),-->
-<!--                                                             asking_form_path,-->
+                    <div class="end-cooperation"><%= link_to raw("<i class=\"bi bi-three-dots-vertical get_down_link\"></i>"),
+                                                             user_end_coach_cooperation_path,
                                                              {:remote => true, 'data-bs-toggle' =>  "modal", 'data-bs-target' => '#modal-window'} %>
-                  </div>-->
+                  </div>
                   </div>
                 </div>
               <% end %>
@@ -251,39 +246,34 @@
             </div>
           </div>
         </div>
-        <% if @notifications %>
           <div class="layer">
             <% @notifications.reverse_each do |data| %>
-              <% if  data.coach_id && data.user_id %>
-              <% else %>
                 <div class="row">
                   <div class="col-2 notif-avatar-block">
                     <% if data.coach_id && data.user_id %>
-                      <img src="<%= asset_path('generic-user-icon-10.png') %>" class="rounded-circle notification-avatar">
+                      <img src="<%= asset_path('avatar/no_avatar.png') %>" class="rounded-circle notification-avatar">
                     <% else %>
                       <% if @user.user_avatar.attached? %>
                         <img src="<%= url_for(@user.user_avatar) %>" class= "rounded-circle notification-avatar">
                       <% else %>
-                        <img src="<%= asset_path('generic-user-icon-10.png') %>" class="rounded-circle notification-avatar">
+                        <img src="<%= asset_path('avatar/no_avatar.png') %>" class="rounded-circle notification-avatar">
                       <% end %>
                     <% end %>
 
                   </div>
                   <div class="col-7">
-                    <p class="notif-text-block"><%= data.body %></p>
+                    <p class="notif-text-block"><%= data.description %></p>
                     <p class="notif-hours-block"><%= time_lasted_since(data.created_at, data)%></p>
                   </div>
                   <div class="col-3 notif-tag-block ">
                     <% if data.status == true %>
                       <span class="badge-tag">NEW</span>
-                    <% else %>
                     <% end %>
                   </div>
                 </div>
               <% end %>
-            <% end %>
           </div>
-        <% end %>
+
 
       </div>
 
