@@ -1,0 +1,127 @@
+<% content_for :content do %>
+
+  <h6>
+    <%= link_to "Go back", user_dashboard_path, class: "bi bi-chevron-left link-back" %>
+  </h6>
+  <br>
+
+  <div class="row">
+
+    <div class="col-8">
+      <div class="row-width">
+        <div class="row">
+          <div class="col-9 mt">
+            <%= @recommendation.technique.title %>
+          </div>
+          <div class="col-3 mt-steps">
+            <%= @recommendation.current_step-1  %> steps completed
+          </div>
+
+
+          <div class="col-12">
+            <br>
+            <div class="card">
+              <div class="body_pad">
+                <p class="step-title-card"><%= @step.title %></p>
+                <span><%= @step.body %></span>
+                <br>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <br>
+            <div class="row">
+              <div class="col-4">
+                <% if @recommendation.current_step != @total_steps %>
+                RESTART
+                <% else %>
+                  <%#= link_to 'RESTART', user_rate_window_path,  {:remote => true, 'data-bs-toggle' =>  "modal", 'data-bs-target' => '#modal-window', class: "btn btn-sing-up get_down_link"}  %>
+              <% end %>
+              </div>
+              <div class="col-4">
+                Step <%= @recommendation.current_step %> of <%= @total_steps %>
+              </div>
+              <div class="col-4">
+                <% if @recommendation.current_step == @total_steps %>
+                  <%#= link_to 'PASSED', user_rate_window_path,  {:remote => true, 'data-bs-toggle' =>  "modal", 'data-bs-target' => '#modal-window', class: "btn btn-sing-up get_down_link"}  %>
+                <% else %>
+                  <%= link_to 'PASSED', user_technique_detail_path(step_id: @step.number), class:"btn btn-sing-up" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="row-width">
+
+        <div class="row">
+
+          <div class="col-6 mt-s-m active-page">
+            <button id="my-users">Summary</button>
+          </div>
+          <div class="col-6 mt-s-m">
+            <button id="waiting">Message</button>
+          </div>
+
+
+          <div class="col-12">
+            <br>
+            <div class="card h-100">
+              <div class="item">
+                <% if @recommendation.technique.image.attached? %>
+                  <img src="<%= url_for(@recommendation.technique.image) %>" class= "card-img-top" alt="...">
+                <% else %>
+                  <img src="<%= asset_path('no_image.png') %>" class="card-img-top" alt="...">
+                <% end %>
+                  <div class="tags-div-absolute">
+                    <% @recommendation.technique.problems&.each do |problem|%>
+                      <span class="tags-in-image "><%= problem.title%></span>
+                    <% end %>
+                  </div>
+
+              </div>
+              <div class="card-body">
+                <h6 class="title_card"><%= @recommendation.technique.title %></h6>
+
+                <p class="description"><%= @recommendation.technique.description %></p>
+                <div class="age">Age: <strong><%= @recommendation.technique.age_range %> years</strong></div>
+                <div class="gender">Gender: <strong><%= @recommendation.technique.gender %></strong></div>
+                <br>
+                <div class="step">Steps:<strong> <%= @total_steps %></strong></div>
+                <div class="duration">Duration:<strong> <%= @recommendation.technique.duration %> </strong></div>
+                <div class="row">
+                  <div class="col-2 image-coach-techinque">
+                    <% if @recommendation.coach.coach_avatar.attached? %>
+                      <img src="<%= url_for(@recommendation.coach.coach_avatar) %>" class= "rounded-circle notification-avatar">
+                    <% else %>
+                      <img src="<%= asset_path('avatar/no_avatar.png') %>" class="rounded-circle notification-avatar">
+                    <% end %>
+                  </div>
+                  <div class="col-10 name-coach-techinque">
+                    <%= @recommendation.coach.name %>
+                  </div>
+                </div>
+                <ul class="hr">
+                  <li><i class="bi bi-people"></i> <%= Recommendation.where(technique_id: @recommendation.technique.id).count%></li>
+                  <li><i class="bi bi-hand-thumbs-up"></i> <%= Rating.where(technique_id: @recommendation.technique.id).sum(:like)%></li>
+                  <li><i class="bi bi-hand-thumbs-down"></i>  <%= Rating.where(technique_id: @recommendation.technique.id).sum(:dislike)%></li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+
+
+<% end %>
+<%= render template: "user/base" %>
