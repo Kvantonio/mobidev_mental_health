@@ -40,7 +40,7 @@ class UserController < ApplicationController
   def modal_finish_technique
     user = User.find_by_id(session[:user_id])
     @coach = user.invitation.coach
-    @html = 'modal_finish_technique.html.erb'
+    @html_name = 'modal_finish_technique'
     respond_to do |format|
       format.html
       format.js {
@@ -57,7 +57,7 @@ class UserController < ApplicationController
   def modal_end_cooperation
     user = User.find_by_id(session[:user_id])
     @coach = user.invitation.coach
-    @html = 'modal_end_cooperation.html.erb'
+    @html_name = 'modal_end_cooperation'
     respond_to do |format|
       format.html
       format.js {
