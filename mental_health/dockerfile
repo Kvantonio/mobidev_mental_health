@@ -1,0 +1,15 @@
+FROM ruby:3.0.0
+
+RUN mkdir -p /mental_health
+WORKDIR /mental_health
+COPY Gemfile /mental_health/Gemfile
+COPY Gemfile.lock /mental_health/Gemfile.lock
+
+
+RUN bundle config build.nokogiri --use-system-libraries
+
+RUN bundle check || bundle install
+
+
+
+
