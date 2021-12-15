@@ -23,8 +23,8 @@ Rails.application.routes.draw do
   get '/user/dashboard/:technique_id/step/:step_id', to: 'user#technique_detail', as: 'user_technique_detail'
   patch '/user/dashboard/:technique_id/restart', to: 'user#restart_technique', as: 'user_technique_restart'
 
-  get '/user/dashboard/:technique_id/rate', to: 'user#modal_finish_technique', as: 'user_technique_rate'
-  # post '/user/dashboard/:technique_id/rate/like', to: 'user#technique_detail', as: 'user_technique_rate_like'
+  get '/user/dashboard/:technique_id/rate', to: 'user#modal_finish_technique', as: 'user_technique_rate_modal'
+  post '/user/dashboard/:technique_id/rate', to: 'user#rate_technique', as: 'user_technique_rate'
   # post '/user/dashboard/:technique_id/rate/dislike', to: 'user#technique_detail', as: 'user_technique_rate_dislike'
 
   get '/user/dashboard/end_coop', to: 'user#modal_end_cooperation', as: 'user_end_coach_cooperation'

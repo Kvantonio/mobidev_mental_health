@@ -7,6 +7,20 @@ class UserController < ApplicationController
     @problems = Problem.all
   end
 
+  def update
+    @user = Current.user
+    if @user.update(update_params)
+      params[:user][:problems]&.each do |problem|
+        @user.problems << Problem.find_by_title(problem)
+      end
+      @user.user_notifications.create(description: 'You changed your profile settings', status: 1)
+      # TODO: do flash message
+      redirect_to user_dashboard_path
+    else
+      render :edit
+    end
+  end
+
   def dashboard
     @user = User.find_by_id(session[:user_id])
     @invitation = @user.invitation
@@ -103,5 +117,11 @@ class UserController < ApplicationController
                                     coach_id: @user.invitation.coach.id, status: 1)
     @user.invitation&.destroy
     redirect_to user_dashboard_path
+  end
+
+  private
+
+  def user_update_params
+    params.require(:user).permit(:name, :email, :user_avatar, :about, :age, :gender)
   end
 end
