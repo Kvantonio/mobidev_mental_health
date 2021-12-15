@@ -8,10 +8,11 @@ class UserController < ApplicationController
   end
 
   def update
-    @user = Current.user
-    if @user.update(update_params)
+    @user = User.find_by_id(session[:user_id])
+    if @user.update(user_update_params)
       params[:user][:problems]&.each do |problem|
-        @user.problems << Problem.find_by_title(problem)
+        problem_object = Problem.find_by_title(problem)
+        @user.problems << problem_object unless @user.problems.include?(problem_object)
       end
       @user.user_notifications.create(description: 'You changed your profile settings', status: 1)
       # TODO: do flash message

@@ -25,7 +25,9 @@ Rails.application.routes.draw do
 
   get '/user/dashboard/:technique_id/rate', to: 'user#modal_finish_technique', as: 'user_technique_rate_modal'
   post '/user/dashboard/:technique_id/rate', to: 'user#rate_technique', as: 'user_technique_rate'
-  # post '/user/dashboard/:technique_id/rate/dislike', to: 'user#technique_detail', as: 'user_technique_rate_dislike'
+
+  get '/user/edit_profile', to: 'user#edit'
+  patch '/user/edit_profile', to: 'user#update'
 
   get '/user/dashboard/end_coop', to: 'user#modal_end_cooperation', as: 'user_end_coach_cooperation'
   delete '/user/dashboard/end_coop', to: 'user#end_cooperation', as: 'user_end_coach_cooperation_verify'
