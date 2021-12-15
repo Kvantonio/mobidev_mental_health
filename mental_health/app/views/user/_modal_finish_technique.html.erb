@@ -12,7 +12,7 @@
 </div>
 <div class="modal-footer">
 
-  <%#= link_to 'I DON\'T LIKE IT', dislike_rating_path, method: :post, class: "btn btn-secondary" %>
-  <%#= link_to 'I LIKE IT', like_rating_path, method: :post, class: "btn btn-dark" %>
+  <%= link_to 'I DON\'T LIKE IT', user_technique_rate_path(dislike:1), method: :post, class: "btn btn-secondary" %>
+  <%= link_to 'I LIKE IT', user_technique_rate_path(like:1), method: :post, class: "btn btn-dark" %>
 
 </div>
