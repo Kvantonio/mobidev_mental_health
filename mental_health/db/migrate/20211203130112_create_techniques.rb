@@ -5,7 +5,7 @@ class CreateTechniques < ActiveRecord::Migration[6.1]
       t.text :description
       t.string :age_range
       t.integer :gender
-      t.string :duration
+      t.integer :duration
 
       t.timestamps
     end

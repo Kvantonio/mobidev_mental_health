@@ -39,11 +39,11 @@ class UserController < ApplicationController
         @user.user_notifications.create(description: 'You changed your password settings', status: 1)
         redirect_to user_dashboard_path
       else
-        render :password_edit
+        render :edit_password
       end
       # TODO: do flash message
     else
-      render :password_edit
+      render :edit_password
     end
   end
 
