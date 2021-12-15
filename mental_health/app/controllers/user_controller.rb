@@ -1,6 +1,12 @@
 class UserController < ApplicationController
   before_action :check_user_login!
 
+  def dashboard
+    @user = User.find_by_id(session[:user_id])
+    @invitation = @user.invitation
+    @notifications = @user.user_notifications
+    @problems = @user.problems
+  end
 
   def edit
     @user = User.find_by_id(session[:user_id])
@@ -22,11 +28,23 @@ class UserController < ApplicationController
     end
   end
 
-  def dashboard
+  def edit_password
     @user = User.find_by_id(session[:user_id])
-    @invitation = @user.invitation
-    @notifications = @user.user_notifications
-    @problems = @user.problems
+  end
+
+  def update_password
+    @user = User.find_by_id(session[:user_id])
+    if BCrypt::Password.new(@user.password_digest) == params[:user][:old_password]
+      if @user.update(user_update_password_params)
+        @user.user_notifications.create(description: 'You changed your password settings', status: 1)
+        redirect_to user_dashboard_path
+      else
+        render :password_edit
+      end
+      # TODO: do flash message
+    else
+      render :password_edit
+    end
   end
 
   def techniques
@@ -124,5 +142,9 @@ class UserController < ApplicationController
 
   def user_update_params
     params.require(:user).permit(:name, :email, :user_avatar, :about, :age, :gender)
+  end
+
+  def user_update_password_params
+    params.require(:user).permit(:password, :password_confirmation)
   end
 end

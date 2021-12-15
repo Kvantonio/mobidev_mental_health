@@ -29,6 +29,9 @@ Rails.application.routes.draw do
   get '/user/edit_profile', to: 'user#edit'
   patch '/user/edit_profile', to: 'user#update'
 
+  get '/user/edit_password', to: 'user#edit_password'
+  patch '/user/edit_password', to: 'user#update_password'
+
   get '/user/dashboard/end_coop', to: 'user#modal_end_cooperation', as: 'user_end_coach_cooperation'
   delete '/user/dashboard/end_coop', to: 'user#end_cooperation', as: 'user_end_coach_cooperation_verify'
 
