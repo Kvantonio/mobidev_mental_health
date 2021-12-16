@@ -34,6 +34,9 @@ Rails.application.routes.draw do
   get 'user/coaches/invitation/:coach_id', to: 'user#modal_send_invitation', as: 'user_send_invitation'
   post 'user/coaches/invitation/:coach_id', to: 'user#send_invitation', as: 'user_send_invitation_verify'
 
+  get 'user/coaches/cancel_invitation', to: 'user#modal_cancel_invitation', as: 'user_cancel_invitation'
+  delete 'user/coaches/cancel_invitation', to: 'user#cancel_invitation', as: 'user_cancel_invitation_verify'
+
   get '/user/dashboard/end_coop', to: 'user#modal_end_cooperation', as: 'user_end_coach_cooperation'
   delete '/user/dashboard/end_coop', to: 'user#end_cooperation', as: 'user_end_coach_cooperation_verify'
 

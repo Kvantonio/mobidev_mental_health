@@ -136,6 +136,26 @@ class UserController < ApplicationController
     redirect_to user_dashboard_path
   end
 
+  def modal_cancel_invitation
+    @user = User.find_by_id(session[:user_id])
+    @coach = @user.invitation.coach
+    @html_name = __method__.to_s
+    respond_to do |format|
+      format.html
+      format.js {
+        render 'add_modal_window.js.erb'
+      }
+    end
+  end
+
+  def cancel_invitation
+    @user = User.find_by_id(session[:user_id])
+    @user.user_notifications.create(description: "You have canceled an invitation to coach #{@user.invitation.coach.name}",
+                                    coach_id: @user.invitation.coach.id, status: 1)
+    @user.invitation&.destroy
+    redirect_to user_dashboard_path
+  end
+
   def modal_end_cooperation
     user = User.find_by_id(session[:user_id])
     @coach = user.invitation.coach
@@ -156,13 +176,6 @@ class UserController < ApplicationController
     redirect_to user_dashboard_path
   end
 
-  def cancel_invitation
-    @user = User.find_by_id(session[:user_id])
-    @user.user_notifications.create(description: "You have canceled an invitation to coach #{@user.invitation.coach.name}",
-                                    coach_id: @user.invitation.coach.id, status: 1)
-    @user.invitation&.destroy
-    redirect_to user_dashboard_path
-  end
 
   private
 

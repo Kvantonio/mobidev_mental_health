@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <% if @coach.coach_avatar.attached? %>
+    <img src="<%= url_for(@coach.coach_avatar) %>" class="modal-avatar-size  rounded-circle">
+  <% else %>
+    <img src="<%= asset_path('avatar/no_avatar.png') %>" class="modal-avatar-size  rounded-circle">
+  <% end %>
+  <h5 class="modal-title m-left"><%= @coach.name %></h5>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+  <p class="modal-message">Are you sure you want to cancel your invitation to cooperation with this coach?</p>
+
+</div>
+<div class="modal-footer">
+
+  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
+
+  <%= button_to 'YES, I WANT', user_cancel_invitation_verify_path, method: :delete, class: "btn btn-dark" %>
+
+</div>

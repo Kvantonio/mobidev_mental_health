@@ -192,7 +192,10 @@
                     <p class="coach-block-cp-text"><%= @invitation.coach.name %></p>
                   </div>
                   <div class="col-4">
-                    <%= button_to 'CANCEL', cancel_coach_invite_path(@invitation.id), method: :delete, class:"btn btn-sing-up"%>
+                    <%= link_to 'CANCEL',
+                                user_cancel_invitation_path,
+                                {:remote => true, 'data-bs-toggle' =>  "modal", 'data-bs-target' => '#modal-window', class: "btn btn-sing-up"} %>
+                    <%#= button_to 'CANCEL', user_cancel_invitation_path, method: :delete, class:"btn btn-sing-up"%>
                   </div>
                 </div>
               <% else %>
