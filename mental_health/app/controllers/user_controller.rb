@@ -80,8 +80,6 @@ class UserController < ApplicationController
   end
 
   def modal_finish_technique
-    user = User.find_by_id(session[:user_id])
-    @coach = user.invitation.coach
     @html_name = __method__.to_s
     respond_to do |format|
       format.html
@@ -106,8 +104,11 @@ class UserController < ApplicationController
     redirect_to user_dashboard_path
   end
 
-  def coaches
+  def coaches_page
+    @user = User.find_by_id(session[:user_id])
     @coaches = Coach.all
+    @problems = Problem.all
+    @invitation = @user.invitation
   end
 
   def modal_end_cooperation

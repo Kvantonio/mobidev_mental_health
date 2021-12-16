@@ -22,15 +22,15 @@ Rails.application.routes.draw do
   get '/user/dashboard', to: 'user#dashboard'
   get '/user/dashboard/:technique_id/step/:step_id', to: 'user#technique_detail', as: 'user_technique_detail'
   patch '/user/dashboard/:technique_id/restart', to: 'user#restart_technique', as: 'user_technique_restart'
-
   get '/user/dashboard/:technique_id/rate', to: 'user#modal_finish_technique', as: 'user_technique_rate_modal'
   post '/user/dashboard/:technique_id/rate', to: 'user#rate_technique', as: 'user_technique_rate'
 
   get '/user/edit_profile', to: 'user#edit'
   patch '/user/edit_profile', to: 'user#update'
-
   get '/user/edit_password', to: 'user#edit_password'
   patch '/user/edit_password', to: 'user#update_password'
+
+  get 'user/coaches', to: 'user#coaches_page', as: 'user_coaches_page'
 
   get '/user/dashboard/end_coop', to: 'user#modal_end_cooperation', as: 'user_end_coach_cooperation'
   delete '/user/dashboard/end_coop', to: 'user#end_cooperation', as: 'user_end_coach_cooperation_verify'
