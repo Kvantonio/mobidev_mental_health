@@ -31,6 +31,8 @@ Rails.application.routes.draw do
   patch '/user/edit_password', to: 'user#update_password'
 
   get 'user/coaches', to: 'user#coaches_page', as: 'user_coaches_page'
+  get 'user/coaches/invitation/:coach_id', to: 'user#modal_send_invitation', as: 'user_send_invitation'
+  post 'user/coaches/invitation/:coach_id', to: 'user#send_invitation', as: 'user_send_invitation_verify'
 
   get '/user/dashboard/end_coop', to: 'user#modal_end_cooperation', as: 'user_end_coach_cooperation'
   delete '/user/dashboard/end_coop', to: 'user#end_cooperation', as: 'user_end_coach_cooperation_verify'

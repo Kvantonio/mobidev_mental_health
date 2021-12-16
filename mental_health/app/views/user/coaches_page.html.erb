@@ -17,7 +17,7 @@
                 <div class="col-12 waiting">Waiting for confirmation</div>
                 <div class="col-2 coach-block-cp">
                   <% if @invitation.coach.coach_avatar.attached? %>
-                    <img src="<%= url_for(@invitation.coach.coach_avatar) %>" class= "rounded-circle notification-avatar">
+                    <img src="<%= url_for(@invitation.coach.coach_avatar) %>" class="rounded-circle notification-avatar">
                   <% else %>
                     <img src="<%= asset_path('avatar/no_avatar.png') %>" class="rounded-circle notification-avatar">
                   <% end %>
@@ -34,7 +34,7 @@
                 <div class="col-12 waiting">Current coach</div>
                 <div class="col-2 coach-block-cp">
                   <% if @invitation.coach.coach_avatar.attached? %>
-                    <img src="<%= url_for(@invitation.coach.coach_avatar) %>" class= "rounded-circle notification-avatar">
+                    <img src="<%= url_for(@invitation.coach.coach_avatar) %>" class="rounded-circle notification-avatar">
                   <% else %>
                     <img src="<%= asset_path('avatar/no_avatar.png') %>" class="rounded-circle notification-avatar">
                   <% end %>
@@ -43,10 +43,10 @@
                   <p class="coach-block-cp-text"><%= @invitation.coach.name %></p>
                 </div>
                 <div class="col-1">
-<!--                  <div class="end-cooperation"><%#= link_to raw("<i class=\"bi bi-three-dots-vertical get_down_link\"></i>"),-->
-                                                           asking_form_path,
-                                                           {:remote => true, 'data-bs-toggle' =>  "modal", 'data-bs-target' => '#modal-window'} %>
-              </div>-->
+                  <div class="end-cooperation"><%= link_to raw("<i class=\"bi bi-three-dots-vertical get_down_link\"></i>"),
+                                                           user_send_invitation_path,
+                                                           { :remote => true, 'data-bs-toggle' => "modal", 'data-bs-target' => '#modal-window' } %>
+                  </div>
                 </div>
               </div>
             <% end %>
@@ -78,7 +78,7 @@
               Expertise
             </div>
             <div class="col-12 filter-border">
-              <% @problems&.each_with_index do |problem, index|%>
+              <% @problems&.each_with_index do |problem, index| %>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="<%= problem.title %>" name="filter[problems][]" id="problem<%= index %>" onclick='checkedInput(this);'>
                   <label class="form-check-label" for="problem<%= index %>">
@@ -176,7 +176,7 @@
 
           </div>
         </div>
-        <%= f.submit "submit", class: "hide-button"%>
+        <%= f.submit "submit", class: "hide-button" %>
       <% end %>
 
     </div>
@@ -191,7 +191,7 @@
               <input class="form-control me-2" type="text" name="search" placeholder="Search" aria-label="Search">
             <% end %>
           </div>
-          <div class="col-12 pading-tags"  id="filters">
+          <div class="col-12 pading-tags" id="filters">
             <div id="render-block">
             </div>
             <button class="clear-button-tags" id="remove-tags" onclick='removeAllTags(this);'>Clear all filters</button>
@@ -201,7 +201,7 @@
         <script type="text/javascript">
             function checkedInput(inp) {
                 let render_block = document.getElementById("render-block")
-                if(inp.checked){
+                if (inp.checked) {
                     let span = document.createElement("span")
                     span.classList.add("tags-filter")
                     span.id = inp.id + 'elem'
@@ -214,8 +214,7 @@
                     span.appendChild(text);
                     span.appendChild(inLable);
                     render_block.appendChild(span);
-                }
-                else {
+                } else {
                     document.getElementById(inp.id + 'elem').remove()
                 }
             }
@@ -229,7 +228,7 @@
                 }
                 let inputs = document.getElementsByClassName('form-check-input')
                 let url = document.URL.split('?')
-                for (let i = 0; i<inputs.length; i++) {
+                for (let i = 0; i < inputs.length; i++) {
                     if (inputs[i].checked) {
                         inputs[i].checked = 0
                     }
@@ -237,30 +236,32 @@
                 }
                 window.history.replaceState({}, document.title, url[0]);
             }
+
             function paramsUrl() {
                 let url = document.URL.split('?')[1]
                 let searchParams = new URLSearchParams(url);
 
                 let inputs = document.getElementsByClassName('form-check-input')
-                for (let i = 0; i<inputs.length; i++) {
-                    if (searchParams.getAll(inputs[i].name).includes(inputs[i].value)){
+                for (let i = 0; i < inputs.length; i++) {
+                    if (searchParams.getAll(inputs[i].name).includes(inputs[i].value)) {
                         inputs[i].checked = 1
                         checkedInput(inputs[i])
                     }
                 }
             }
+
             paramsUrl()
         </script>
 
         <div class="row">
-          <% @coaches.each do |coach|%>
+          <% @coaches.each do |coach| %>
             <div class="col-6">
               <div class="card">
                 <div class="body">
                   <div class="small-card">
                     <div class="image-avatar-small">
                       <% if coach.coach_avatar.attached? %>
-                        <img src="<%= url_for(coach.coach_avatar) %>" class= "image-size rounded-circle ">
+                        <img src="<%= url_for(coach.coach_avatar) %>" class="image-size rounded-circle ">
                       <% else %>
                         <img src="<%= asset_path('avatar/no_avatar.png') %>" class="image-size rounded-circle">
                       <% end %>
@@ -268,15 +269,15 @@
                     <div class="name-coach">
                       <span class="coach-name"><%= coach.name %></span><br>
                       <span class="status">Coach</span>
-                      <p class="coach-info-left"><%= coach.age %> years | <%= coach.gender %> | <%= Invitation.where(coach_id: coach.id).count%> users</p>
+                      <p class="coach-info-left"><%= coach.age %> years | <%= coach.gender %>
+                        | <%= coach.invitations.where(status: true).count %> users</p>
                       <p class="tages-info">Areas of Expertise</p>
-                      <% coach.problems.each do |coach_problem|%>
+                      <% coach.problems.each do |coach_problem| %>
                         <span class="tags"><%= coach_problem.title %></span>
                       <% end %>
 
                     </div>
-<!--                    <div class="see-detail-button"><%#= link_to 'SEE DETAILS', invitation_path(coach_id: coach.id),  {:remote => true, 'data-bs-toggle' =>  "modal", 'data-bs-target' => '#modal-window', class: "get_down_link"}  %></div>-->
-
+                    <div class="see-detail-button"><%= link_to 'SEE DETAILS', user_send_invitation_path(coach_id: coach.id), { :remote => true, 'data-bs-toggle' => "modal", 'data-bs-target' => '#modal-window', class: "get_down_link" } %></div>
                   </div>
                 </div>
               </div>

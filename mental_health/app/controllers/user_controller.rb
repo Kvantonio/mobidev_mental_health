@@ -111,6 +111,31 @@ class UserController < ApplicationController
     @invitation = @user.invitation
   end
 
+  def modal_send_invitation
+    user = User.find_by_id(session[:user_id])
+    @coach = Coach.find_by_id(params[:coach_id])
+    @invitation = user.invitation
+    @html_name = __method__.to_s
+    respond_to do |format|
+      format.html
+      format.js {
+        render 'add_modal_window.js.erb'
+      }
+    end
+  end
+
+  def send_invitation
+    @user = User.find_by_id(session[:user_id])
+    @coach = Coach.find_by_id(params[:coach_id]) if params[:coach_id]
+
+    if @coach && @user.invitation.nil?
+      Invitation.create(coach_id: @coach.id,user_id: @user.id, status: false )
+      @user.user_notifications.create(description: "You have sent an invitation to coach #{@coach.name}", coach_id: @coach.id, status: 1)
+      @coach.coach_notifications.create(description: "You have received an invitation to become a coach from a user #{@user.name}", user_id: @user.id, status: 1)
+    end
+    redirect_to user_dashboard_path
+  end
+
   def modal_end_cooperation
     user = User.find_by_id(session[:user_id])
     @coach = user.invitation.coach
