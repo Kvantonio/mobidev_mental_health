@@ -32,9 +32,7 @@
             <br>
             <div class="row">
               <div class="col-4">
-                <% if @recommendation.current_step != @total_steps %>
-                  RESTART
-                <% else %>
+                <% if @recommendation.current_step == @total_steps %>
                   <%= link_to 'RESTART', user_technique_restart_path(technique_id: @recommendation.technique.id), method: :patch, class:"get_down_link"%>
               <% end %>
               </div>
