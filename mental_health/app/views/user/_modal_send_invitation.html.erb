@@ -44,7 +44,7 @@
       <% end %>
     <br>
     <% if @invitation.nil? %>
-      <div class="send-an-inv"><%= button_to 'SEND AN INVITATION', class: "get_down_link" %></div>
+      <div class="block-for-link"><%= link_to 'SEND AN INVITATION',  user_send_invitation_verify_path, method: :post, class: "btn btn-sing-up "%></div>
     <% else %>
       <hr>
       <div class="date-info">You cannot invite a coach.</div>
