@@ -40,7 +40,6 @@ Rails.application.routes.draw do
   get '/user/dashboard/end_coop', to: 'user#modal_end_cooperation', as: 'user_end_coach_cooperation'
   delete '/user/dashboard/end_coop', to: 'user#end_cooperation', as: 'user_end_coach_cooperation_verify'
 
-
   get '/user/techniques', to: 'user#techniques'
 
 
@@ -61,5 +60,7 @@ Rails.application.routes.draw do
   get '/coach/reset_password/verify', to: 'reset_coach_password#edit'
   patch '/coach/reset_password/verify', to: 'reset_coach_password#update'
   get '/coach/resend_reset', to: 'reset_coach_password#resend'
+
+  get '/coach/dashboard', to: 'coach#dashboard'
 
 end
