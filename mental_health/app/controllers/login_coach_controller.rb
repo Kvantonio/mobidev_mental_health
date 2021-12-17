@@ -6,7 +6,7 @@ class LoginCoachController < ApplicationController
     coach = Coach.find_by(email: params[:email]) if params[:email]
 
     if coach.present? && coach.authenticate(params[:password])
-      session[:coach_id] = user.id
+      session[:coach_id] = coach.id
       redirect_to coach_dashboard_path
     end
   end
