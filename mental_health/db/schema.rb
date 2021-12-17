@@ -188,7 +188,7 @@ ActiveRecord::Schema.define(version: 2021_12_09_130337) do
     t.text "description"
     t.string "age_range"
     t.integer "gender"
-    t.string "duration"
+    t.integer "duration"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["title"], name: "index_techniques_on_title", unique: true

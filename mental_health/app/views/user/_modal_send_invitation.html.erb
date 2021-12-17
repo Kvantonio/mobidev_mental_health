@@ -16,7 +16,7 @@
         <i class="bi bi-linkedin"></i>
       </div>
     </div>
-    <br>
+
     <h6 class="coach-name"><%= @coach.name %></h6>
     <p class="status">Current coach</p>
 
@@ -42,7 +42,7 @@
       <% @coach.certificates&.each do |certificate|%>
         <p class="education-data"><%= certificate.title %></p>
       <% end %>
-    <br>
+
     <% if @invitation.nil? %>
       <div class="block-for-link"><%= link_to 'SEND AN INVITATION',  user_send_invitation_verify_path, method: :post, class: "btn btn-sing-up "%></div>
     <% else %>

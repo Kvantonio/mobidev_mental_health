@@ -37,7 +37,7 @@
             <span class="size-total"><i class="bi bi-clock"></i> Total time</span>
             <div class="total-statistic">
               <div class="big-numder">
-                16
+                <%= @user.recommendations.joins(:technique).sum(:duration) %>
               </div>
               <div class="of">
                 hours for techniques
@@ -52,7 +52,10 @@
             <span class="size-total"><i class="bi bi-check-circle"></i> Current time</span>
             <div class="total-statistic">
               <div class="big-numder">
-                2
+                <%= @user.recommendations
+                         .where("finished_at >= ?", Time.now.beginning_of_day)
+                         .joins(:technique).sum(:duration) %>
+
               </div>
               <div class="of">
                 hours for technigues

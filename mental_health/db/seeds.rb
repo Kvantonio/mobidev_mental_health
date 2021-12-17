@@ -13,7 +13,7 @@ technique1 = Technique.create(title: 'Cognitive - Behavioral Therapy',
                               description: 'Elimination of the dependence
                                             of emotions and human behavior on his thoughts.',
                               age_range: 'Age: 25-35 years',
-                              gender: 'male', duration: '6-7 hours')
+                              gender: 'male', duration: 7)
 
 step1 = Step.create(title: 'What is cognitive behavioral therapy?',
                     body: 'Cognitive behavioral therapy (CBT) is a type of psychotherapy.
@@ -37,6 +37,7 @@ step2 = Step.create(title: 'What should you do?',
                     number: 2)
 
 diploma1 = Diploma.create(title: 'New York University, PhD in Psychology')
+diploma2 = Diploma.create(title: 'New York University, PhD in Psychology')
 experience1 = Experience.create(title: 'Psychologist, ABC company, 12 years')
 certificate1 = Certificate.create(title: 'New York/081109, New York University, 2009')
 
@@ -48,7 +49,7 @@ technique1.steps << [step1, step2]
 
 coach1.problems << [problem1, problem3]
 
-coach1.diplomas << diploma1
+coach1.diplomas << [diploma1, diploma2]
 coach1.experiences << experience1
 coach1.certificates << certificate1
 user1.problems << problem1
