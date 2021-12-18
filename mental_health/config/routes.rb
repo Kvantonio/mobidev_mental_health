@@ -62,5 +62,6 @@ Rails.application.routes.draw do
   get '/coach/resend_reset', to: 'reset_coach_password#resend'
 
   get '/coach/dashboard', to: 'coach#dashboard'
+  get '/coach/library', to: 'coach#library'
 
 end
