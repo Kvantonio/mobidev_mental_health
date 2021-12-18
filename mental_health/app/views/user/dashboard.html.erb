@@ -231,7 +231,7 @@
                   <p class="coach-block-cp-text">You don't have a coach yet</p>
                 </div>
                 <div class="col-3 p-in-block">
-                  <%#= link_to '', user_coahes_page_path, class: "bi bi-chevron-compact-right get_down_link" %>
+                  <%= link_to '', user_coaches_page_path, class: "bi bi-chevron-compact-right get_down_link" %>
                 </div>
               </div>
             <% end %>
@@ -253,7 +253,7 @@
           </div>
         </div>
           <div class="layer">
-            <% @notifications.reverse_each do |data| %>
+            <% @notifications.each do |data| %>
                 <div class="row">
                   <div class="col-2 notif-avatar-block">
                     <% if data.coach_id && data.user_id %>
