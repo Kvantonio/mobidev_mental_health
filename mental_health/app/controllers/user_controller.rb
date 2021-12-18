@@ -4,7 +4,7 @@ class UserController < ApplicationController
   def dashboard
     @user = User.find_by_id(session[:user_id])
     @invitation = @user.invitation
-    @notifications = @user.user_notifications
+    @notifications = @user.user_notifications.order('created_at')
     @problems = @user.problems
   end
 

@@ -23,7 +23,7 @@
 
 
 
-<!--            <p class="coach-stats"><%#= @coach.recommendations.users.count %></p>-->
+            <p class="coach-stats"><%= @coach.invitations.where(status: true).count %></p>
           </div>
         </div>
         <div class="col-3">
@@ -31,6 +31,7 @@
             <div class="size-total-coach"><i class="bi bi-card-list"></i></div>
             <p class="tt">Total number of</p>
             <p class="tt">techniques used</p>
+            <%= @techniques_used %>
 <!--            <p class="coach-stats"><%#= @technique_in_used %></p>-->
 <!--            <p class="coach-stats"><%#= @coach.recommendations.technique.count%></p>-->
           </div>
@@ -215,36 +216,29 @@
             </div>
           </div>
         </div>
-        <% if @coach.coach_notifications %>
           <div class="layer">
-            <% @coach.coach_notifications.reverse_each do |data| %>
+            <% @notifications&.each do |notification| %>
               <div class="row">
+<!--               ############################################# G-->
                 <div class="col-2 notif-avatar-block">
-                  <% if data.coach_id && data.user_id%>
-                    <img src="<%= asset_path('generic-user-icon-10.png') %>" class="rounded-circle notification-avatar">
+                  <% if @coach.coach_avatar.attached? %>
+                    <img src="<%= url_for(@coach.coach_avatar) %>" class= "rounded-circle notification-avatar">
                   <% else %>
-                    <% if @coach.avatar.attached? %>
-                      <img src="<%= url_for(@coach.avatar) %>" class= "rounded-circle notification-avatar">
-                    <% else %>
-                      <img src="<%= asset_path('generic-user-icon-10.png') %>" class="rounded-circle notification-avatar">
-                    <% end %>
+                    <img src="<%= asset_path('avatar/no_avatar.png') %>" class="rounded-circle notification-avatar">
                   <% end %>
-
                 </div>
                 <div class="col-7">
-                  <p class="notif-text-block"><%= data.body %></p>
-                  <p class="notif-hours-block"><%= time_lasted_since(data.created_at, data)%></p>
+                  <p class="notif-text-block"><%= notification.description %></p>
+                  <p class="notif-hours-block"><%= time_lasted_since(notification.created_at, notification)%></p>
                 </div>
                 <div class="col-3 notif-tag-block ">
-                  <% if data.status == true %>
+                  <% if notification.status == true %>
                     <span class="badge-tag">NEW</span>
-                  <% else %>
                   <% end %>
                 </div>
               </div>
             <% end %>
           </div>
-        <% end %>
 
       </div>
 
