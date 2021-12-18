@@ -31,8 +31,8 @@
             <div class="size-total-coach"><i class="bi bi-card-list"></i></div>
             <p class="tt">Total number of</p>
             <p class="tt">techniques used</p>
-            <%= @techniques_used %>
-<!--            <p class="coach-stats"><%#= @technique_in_used %></p>-->
+
+            <p class="coach-stats"><%= @techniques_used %></p>
 <!--            <p class="coach-stats"><%#= @coach.recommendations.technique.count%></p>-->
           </div>
         </div>
@@ -41,7 +41,7 @@
             <div class="size-total-coach"><i class="bi bi-hand-thumbs-up"></i></div>
             <p class="tt">Total number of</p>
             <p class="tt">techniques with likes</p>
-<!--            <p class="coach-stats"><%#= @total_likes %></p>-->
+            <p class="coach-stats"><%= @techniques_with_like %></p>
           </div>
         </div>
       </div>
@@ -61,7 +61,6 @@
       <div class="row">
         <% if @invitations %>
           <% @invitations.each do |invitation| %>
-            <% if invitation.status %>
               <div class="col-6">
                 <br>
                 <div class="card">
@@ -104,7 +103,6 @@
                 </div>
                 <br>
               </div>
-            <% end %>
           <% end %>
         <% else %>
           <p>You don't confirm any invitayions!</p>
@@ -124,43 +122,44 @@
       </div>
       <br>
       <div class="row">
-        <% @techniques.each do |recommendation|%>
+        <% @techniques.each do |technique|%>
           <div class="col-6 distance">
             <div class="card h-100">
               <div class="item">
 
-                <% if recommendation.technique.image.attached? %>
-                  <img src="<%= url_for(recommendation.technique.image) %>" class= "card-img-top" alt="...">
+                <% if technique.image.attached? %>
+                  <img src="<%= url_for(technique.image) %>" class= "card-img-top" alt="...">
                 <% else %>
                   <img src="<%= asset_path('no_image.png') %>" class="card-img-top" alt="...">
                 <% end %>
-                <% if recommendation.technique.problems %>
+                <% if technique.problems %>
                   <div class="tags-div-absolute">
-                    <% recommendation.technique.problems.each do |problem|%>
+                    <% technique.problems.each do |problem|%>
                       <span class="tags-in-image "><%= problem.title%></span>
                     <% end %>
                   </div>
                 <% end %>
               </div>
               <div class="card-body">
-                <h6 class="title_card"><%= recommendation.technique.title %></h6>
-                <p class="description"><%= recommendation.technique.description %></p>
-                <div class="age">Age: <strong><%= recommendation.technique.age_range %> years</strong></div>
-                <div class="gender">Gender:<strong> <%= recommendation.technique.gender %></strong></div>
+                <h6 class="title_card"><%= technique.title %></h6>
+                <p class="description"><%= technique.description %></p>
+                <div class="age">Age: <strong><%= technique.age_range %> years</strong></div>
+                <div class="gender">Gender:<strong> <%= technique.gender %></strong></div>
                 <br>
-                <div class="step">Steps: <strong><%= recommendation.technique.steps.count %></strong></div>
-                <div class="duration">Duration: <strong><%= recommendation.technique.duration %> hours</strong></div>
-                <%# if Recommendation.where(technique_id: recommendation.technique.id, coach_id: recommendation.coach_id).count <= 11 %>
-<!--                  <div class="users-count">-->
-<!--                    <%#= Recommendation.where(technique_id: recommendation.technique.id, coach_id: recommendation.coach_id).count %> users-->
-<!--                  </div>-->
-                <%# else %>
-<!--                  <div class="users-count">11+ users</div>-->
-                <%# end %>
+                <div class="step">Steps: <strong><%= technique.steps.count %></strong></div>
+                <div class="duration">Duration: <strong><%= technique.duration %> hours</strong></div>
+                <% count_recs = Recommendation.where(technique_id: technique.id, coach_id: @coach.id).count %>
+                <% if count_recs <= 11 %>
+                  <div class="users-count">
+                    <%= count_recs %> users
+                  </div>
+                <% else %>
+                  <div class="users-count">11+ users</div>
+                <% end %>
                 <ul class="hr">
-                  <li><i class="bi bi-people"></i> <%= Recommendation.where(technique_id: recommendation.technique.id).count%></li>
-                  <li><i class="bi bi-hand-thumbs-up"></i> <%= Rating.where(technique_id: recommendation.technique.id).sum(:like)%></li>
-                  <li><i class="bi bi-hand-thumbs-down"></i> <%= Rating.where(technique_id: recommendation.technique.id).sum(:dislike)%></li>
+                  <li><i class="bi bi-people"></i> <%= Recommendation.where(technique_id: technique.id).count%></li>
+                  <li><i class="bi bi-hand-thumbs-up"></i> <%= Rating.where(technique_id: technique.id).sum(:like)%></li>
+                  <li><i class="bi bi-hand-thumbs-down"></i> <%= Rating.where(technique_id: technique.id).sum(:dislike)%></li>
 <!--                  <li class="start-button"><%#= link_to 'SEE DETAILS', technique_detail_page_path(technique_id: recommendation.technique.id),class: "get_down_link" %></li>-->
                 </ul>
               </div>
