@@ -17,12 +17,6 @@
             <div class="size-total-coach"><i class="bi bi-person"></i></div>
             <p class="tt">Current number</p>
             <p class="tt">of users</p>
-
-
-  <!--alert this-->
-
-
-
             <p class="coach-stats"><%= @coach.invitations.where(status: true).count %></p>
           </div>
         </div>
@@ -31,9 +25,7 @@
             <div class="size-total-coach"><i class="bi bi-card-list"></i></div>
             <p class="tt">Total number of</p>
             <p class="tt">techniques used</p>
-
             <p class="coach-stats"><%= @techniques_used %></p>
-<!--            <p class="coach-stats"><%#= @coach.recommendations.technique.count%></p>-->
           </div>
         </div>
         <div class="col-3">
@@ -88,13 +80,13 @@
                           <span class="tags"><%= problem.title%></span>
                         <% end %>
                         <p class="tages-info">Techniques in process</p>
-                        <%# @user_data[invitation.user.name].each do |value|%>
-                          <%# if value == "All techniques completed" %>
-<!--                            <p class="completed_techniques"><%#= value %></p>-->
-                          <%# else %>
-<!--                            <p class="user-t-info"><%#= value %></p>-->
-                          <%# end %>
-                        <%# end %>
+                        <% if @progress[invitation.user.email] == [] %>
+                          <p class="completed_techniques">All techniques completed</p>
+                        <% else %>
+                          <% @progress[invitation.user.email].each do |technique_name|%>
+                            <p class="user-t-info"><%= technique_name %></p>
+                          <% end %>
+                        <% end %>
 <!--                        <div class="see-detail-button"><%#= link_to 'SEE DETAILS', user_detail_path(user_id: invitation.user.id), class: "get_down_link"%></div>-->
 
                       </div>
@@ -148,7 +140,7 @@
                 <br>
                 <div class="step">Steps: <strong><%= technique.steps.count %></strong></div>
                 <div class="duration">Duration: <strong><%= technique.duration %> hours</strong></div>
-                <% count_recs = Recommendation.where(technique_id: technique.id, coach_id: @coach.id).count %>
+                <% count_recs = @coach.recommendations.where(technique_id: technique.id).count %>
                 <% if count_recs <= 11 %>
                   <div class="users-count">
                     <%= count_recs %> users
@@ -160,7 +152,7 @@
                   <li><i class="bi bi-people"></i> <%= Recommendation.where(technique_id: technique.id).count%></li>
                   <li><i class="bi bi-hand-thumbs-up"></i> <%= Rating.where(technique_id: technique.id).sum(:like)%></li>
                   <li><i class="bi bi-hand-thumbs-down"></i> <%= Rating.where(technique_id: technique.id).sum(:dislike)%></li>
-<!--                  <li class="start-button"><%#= link_to 'SEE DETAILS', technique_detail_page_path(technique_id: recommendation.technique.id),class: "get_down_link" %></li>-->
+                  <li class="start-button"><%= link_to 'SEE DETAILS', coach_technique_detail_path(technique_id: technique.id),class: "get_down_link" %></li>
                 </ul>
               </div>
             </div>
