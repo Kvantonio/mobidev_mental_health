@@ -63,5 +63,6 @@ Rails.application.routes.draw do
 
   get '/coach/dashboard', to: 'coach#dashboard'
   get '/coach/library', to: 'coach#library'
+  get '/coach/library/:technique_id', to: 'coach#technique_detail', as: 'coach_technique_detail'
 
 end
