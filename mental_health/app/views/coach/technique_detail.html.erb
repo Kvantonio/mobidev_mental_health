@@ -1,0 +1,103 @@
+<% content_for :content do %>
+
+  <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content"></div>
+    </div>
+  </div>
+
+  <h6>
+    <%= link_to "Go back", coach_library_path, class: "bi bi-chevron-left link-back" %>
+  </h6>
+  <br>
+
+  <div class="row">
+
+    <div class="col-8">
+      <div class="row-width">
+        <div class="row">
+          <div class="col-12 mt">
+            <%= @technique.title %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4"></div>
+  </div>
+  <br>
+  <br>
+
+  <div class="row">
+    <div class="col-8">
+      <div class="row-width">
+        <div class="layer">
+          <% @technique.steps&.each do |step|%>
+            <div class="row">
+              <div class="col-12">
+                <h6> Step <%= step.number %> </h6>
+              </div>
+              <div class="col-12">
+                <div class="card">
+                  <div class="body_pad">
+                    <p class="step-title-card"><%= step.title %></p>
+                    <span><%= step.body %></span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <br>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-4">
+      <div class="row">
+
+        <div class="col-12 pading-recoomend-card ">
+
+
+          <div class="card h-100">
+            <div class="item">
+              <% if @technique.image.attached? %>
+                <img src="<%= url_for(@technique.image) %>" class= "card-img-top" alt="...">
+              <% else %>
+                <img src="<%= asset_path('no_image.png') %>" class="card-img-top" alt="...">
+              <% end %>
+
+                <div class="tags-div-absolute">
+                  <% @technique.problems&.each do |problem|%>
+                    <span class="tags-in-image "><%= problem.title %></span>
+                  <% end %>
+                </div>
+
+
+            </div>
+            <div class="card-body">
+              <h6 class="title_card"><%= @technique.title %></h6>
+
+              <p class="description"><%= @technique.description %></p>
+              <div class="age">Age: <strong><%= @technique.age_range %> years</strong></div>
+              <div class="gender">Gender: <strong><%= @technique.gender %></strong></div>
+              <br>
+              <div class="step">Steps:<strong> <%= @technique.steps.count %></strong></div>
+              <div class="duration">Duration:<strong> <%= @technique.duration %> </strong> hours</div>
+              <ul class="hr">
+                <li><i class="bi bi-people"></i> <%= Recommendation.where(technique_id: @technique.id).count%></li>
+                <li><i class="bi bi-hand-thumbs-up"></i> <%= Rating.where(technique_id: @technique.id).sum(:like)%></li>
+                <li><i class="bi bi-hand-thumbs-down"></i> <%= Rating.where(technique_id: @technique.id).sum(:dislike)%></li>
+<!--                <li class="start-button"><%#= link_to 'RECOMMEND', recommend_to_users_page_path,  {:remote => true, 'data-bs-toggle' =>  "modal", 'data-bs-target' => '#modal-window', class: "get_down_link"}  %></li>-->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+<% end %>
+<%= render template: "coach/base" %>

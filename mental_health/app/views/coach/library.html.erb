@@ -206,7 +206,7 @@
                     <li><i class="bi bi-people"></i> <%= technique.recommendations.count %></li>
                     <li><i class="bi bi-hand-thumbs-up"></i> <%= technique.ratings.sum(:like) %></li>
                     <li><i class="bi bi-hand-thumbs-down"></i> <%= technique.ratings.sum(:dislike) %></li>
-<!--                    <li class="start-button"><%#= link_to 'SEE DETAILS', technique_detail_page_path(technique_id: technique.id),class: "get_down_link" %></li>-->
+                    <li class="start-button"><%= link_to 'SEE DETAILS', coach_technique_detail_path(technique_id: technique.id),class: "get_down_link" %></li>
                   </ul>
                 </div>
                 <br>
