@@ -53,7 +53,7 @@
                       <div class="gender">Gender:<strong> <%= recommendation.technique.gender %></strong></div>
                       <br>
                       <div class="step">Steps: <strong><%= recommendation.technique.steps.count %></strong></div>
-                      <div class="duration">Duration: <strong><%= recommendation.technique.duration %></strong></div>
+                      <div class="duration">Duration: <strong><%= recommendation.technique.duration %></strong> hours</div>
                       <div class="row">
                         <div class="col-2 image-coach-techinque">
                           <% if recommendation.coach.coach_avatar.attached? %>
@@ -68,14 +68,15 @@
                       </div>
                       <ul class="hr">
                         <li><i class="bi bi-people"></i> <%= Recommendation.where(technique_id: recommendation.technique.id).count%></li>
-                        <li><i class="bi bi-hand-thumbs-up"></i> <%= Rating.where(technique_id: recommendation.technique.id).sum(:like)%></li>
-                        <li><i class="bi bi-hand-thumbs-down"></i> <%= Rating.where(technique_id: recommendation.technique.id).sum(:dislike)%></li>
+                        <li><i class="bi bi-hand-thumbs-up"></i> <%= recommendation.technique.ratings.sum(:like)%></li>
+                        <li><i class="bi bi-hand-thumbs-down"></i> <%= recommendation.technique.ratings.sum(:dislike)%></li>
                         <% if recommendation.current_step == 0 and !recommendation.started_at %>
-<!--                          <li class="start-button"><%#= link_to 'GET STARTED', user_technique_detail_path(technique_id: recommendation.technique.id, step_id: recommendation.step), class:"get_down_link"%></li>-->
+                          <li class="start-button"><%= link_to 'GET STARTED', user_technique_detail_path(technique_id: recommendation.technique.id, step_id: recommendation.current_step), class:"get_down_link"%></li>
                         <% elsif recommendation.finished_at %>
-<!--                          <li class="start-button"><%#= link_to 'RESTART', restart_path(technique_id: recommendation.technique.id, step_id: recommendation.step), method: :patch, class:"get_down_link"%></li>-->
+                          <li class="start-button"><%= link_to 'RESTART', user_technique_restart_path(technique_id: recommendation.technique.id, step_id: recommendation.current_step), method: :patch, class:"get_down_link"%></li>
+                          <li class="start-button"><%= link_to 'RESTART', user_technique_restartdura_path(technique_id: recommendation.technique.id, step_id: recommendation.current_step), method: :patch, class:"get_down_link"%></li>
                         <% else %>
-<!--                          <li class="start-button"><%#= link_to 'CONTINUE', user_technique_detail_path(technique_id: recommendation.technique.id, step_id: recommendation.step), class:"get_down_link"%></li>-->
+                          <li class="start-button"><%= link_to 'CONTINUE', user_technique_detail_path(technique_id: recommendation.technique.id, step_id: recommendation.current_step), class:"get_down_link"%></li>
                         <% end %>
                       </ul>
                     </div>
@@ -92,30 +93,31 @@
     </div>
     <script type="text/javascript">
         $('#all').click(function (){
-            $('.recommended').toggle();
-            $('.in-progress').toggle();
-            $('.completed').toggle();
+            $('.recommended').show();
+            $('.in-progress').show();
+            $('.completed').show();
         });
         $('#recommended').click(function (){
-            $('.recommended').toggle();
+            $('.recommended').show();
             $('.in-progress').hide();
             $('.completed').hide();
         });
         $('#in-progress').click(function (){
             $('.recommended').hide();
-            $('.in-progress').toggle();
+            $('.in-progress').show();
             $('.completed').hide();
         });
         $('#completed').click(function (){
             $('.recommended').hide();
             $('.in-progress').hide();
-            $('.completed').toggle();
+            $('.completed').show();
         });
     </script>
 
     <div class="col-4">
       <div class="row">
         <div class="col-12">
+          <% if @user.invitation&.status %>
           <div class="card">
             <div class="card-body">
               <div class="avatar">
@@ -123,12 +125,13 @@
                   <i class="bi bi-facebook"></i>
                 </div>
                 <div class="image-avatar">
-                  <% if @user.invitation.coach.coach_avatar.attached? %>
-                    <img src="<%= url_for(@user.invitation.coach.coach_avatar) %>" class= "c-u-a rounded-circle">
-                  <% else %>
-                    <img src="<%= asset_path('avatar/no_avatar.png') %>" class="c-u-a rounded-circle">
-                  <% end %>
-                  <div class="check-circle"><i class="bi bi-check-circle-fill"></i></div>
+
+                    <% if @user.invitation.coach.coach_avatar.attached? %>
+                      <img src="<%= url_for(@user.invitation.coach.coach_avatar) %>" class= "c-u-a rounded-circle">
+                    <% else %>
+                      <img src="<%= asset_path('avatar/no_avatar.png') %>" class="c-u-a rounded-circle">
+                    <% end %>
+                    <div class="check-circle"><i class="bi bi-check-circle-fill"></i></div>
                 </div>
                 <div class="icon-link">
                   <i class="bi bi-linkedin"></i>
@@ -162,9 +165,14 @@
                 <p class="education-data"><%= certificate.title %></p>
               <% end %>
               <form>
-<!--                <div class="end-coop"><%#= button_to 'END COOPERATION', end_cooperation_coach_invite_path(@invite.id), method: :delete, class: "get_down_link end-coop" %></div>-->
+                <div class="end-coop">
+                  <%= link_to 'END COOPERATION',
+                              user_end_coach_cooperation_path,
+                              {:remote => true, 'data-bs-toggle' =>  "modal", 'data-bs-target' => '#modal-window', class:"et_down_link end-coop"} %>
+                </div>
               </form>
             </div>
+            <% end %>
 
 
           </div>
