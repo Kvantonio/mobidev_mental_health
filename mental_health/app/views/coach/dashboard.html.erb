@@ -124,13 +124,13 @@
                 <% else %>
                   <img src="<%= asset_path('no_image.png') %>" class="card-img-top" alt="...">
                 <% end %>
-                <% if technique.problems %>
+
                   <div class="tags-div-absolute">
-                    <% technique.problems.each do |problem|%>
+                    <% technique.problems&.each do |problem|%>
                       <span class="tags-in-image "><%= problem.title%></span>
                     <% end %>
                   </div>
-                <% end %>
+
               </div>
               <div class="card-body">
                 <h6 class="title_card"><%= technique.title %></h6>

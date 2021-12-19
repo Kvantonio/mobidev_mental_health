@@ -28,7 +28,7 @@ class CoachController < ApplicationController
 
   def users_page
     @coach = Coach.find_by_id(session[:coach_id])
-    @invitation = Invitation.where(coach_id: @coach.id)
+    @invitations = @coach.invitations
     @notifications = @coach.coach_notifications.where.not(user_id: nil)
   end
 
