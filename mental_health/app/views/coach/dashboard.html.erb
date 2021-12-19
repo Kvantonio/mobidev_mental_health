@@ -210,13 +210,20 @@
           <div class="layer">
             <% @notifications&.each do |notification| %>
               <div class="row">
-<!--               ############################################# G-->
                 <div class="col-2 notif-avatar-block">
+                <% if notification.user_id %>
+                    <% if notification.user.user_avatar.attached? %>
+                      <img src="<%= url_for(notification.user.user_avatar) %>" class= "rounded-circle notification-avatar">
+                    <% else %>
+                      <img src="<%= asset_path('avatar/no_avatar.png') %>" class="rounded-circle notification-avatar">
+                    <% end %>
+                <% else %>
                   <% if @coach.coach_avatar.attached? %>
                     <img src="<%= url_for(@coach.coach_avatar) %>" class= "rounded-circle notification-avatar">
                   <% else %>
                     <img src="<%= asset_path('avatar/no_avatar.png') %>" class="rounded-circle notification-avatar">
                   <% end %>
+                <% end %>
                 </div>
                 <div class="col-7">
                   <p class="notif-text-block"><%= notification.description %></p>
