@@ -65,4 +65,5 @@ Rails.application.routes.draw do
   get '/coach/library', to: 'coach#library'
   get '/coach/library/:technique_id', to: 'coach#technique_detail', as: 'coach_technique_detail'
 
+  get '/coach/users', to: 'coach#users_page', as: 'coach_users_page'
 end
