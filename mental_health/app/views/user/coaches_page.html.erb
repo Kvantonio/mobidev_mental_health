@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-1">
                   <div class="end-cooperation"><%= link_to raw("<i class=\"bi bi-three-dots-vertical get_down_link\"></i>"),
-                                                           user_send_invitation_path,
+                                                           user_send_invitation_path(@invitation.coach.id),
                                                            { :remote => true, 'data-bs-toggle' => "modal", 'data-bs-target' => '#modal-window' } %>
                   </div>
                 </div>
