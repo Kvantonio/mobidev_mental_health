@@ -66,4 +66,8 @@ Rails.application.routes.draw do
   get '/coach/library/:technique_id', to: 'coach#technique_detail', as: 'coach_technique_detail'
 
   get '/coach/users', to: 'coach#users_page', as: 'coach_users_page'
+  patch '/coach/users/confirm/:invitation_id', to: 'coach#confirm_user', as: 'coach_user_confirm'
+  delete '/coach/users/refuse/:invitation_id', to: 'coach#refuse_user', as: 'coach_user_refuse'
+
+
 end

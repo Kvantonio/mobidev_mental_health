@@ -52,8 +52,8 @@
                               <span class="tags"><%= problem.title %></span>
                             <% end %>
                             <div class="buttons-list">
-                              <%#= button_to 'CONFIRM', confirm_user_invite_path(value.id), method: :patch, class:"button-confirm"%>
-                              <%#= button_to 'REFUSE', refuse_user_invite_path(value.id), method: :delete, class:"button-refuse" %>
+                              <%= button_to 'CONFIRM', coach_user_confirm_path(invitation.id), method: :patch, class:"button-confirm"%>
+                              <%= button_to 'REFUSE', coach_user_refuse_path(invitation.id), method: :delete, class:"button-refuse" %>
                             </div>
                           </div>
                         </div>

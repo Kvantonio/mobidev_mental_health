@@ -33,17 +33,48 @@ class CoachController < ApplicationController
     @progress = users_progress @invitations
   end
 
+  def confirm_user
+    invitation = Invitation.find_by_id(params[:invitation_id])
+    if invitation
+      invitation.user.user_notifications.create(
+        description: "Coach #{invitation.coach.name} agreed to become your coach",
+        status: 1
+      )
+      invitation.coach.coach_notifications.create(
+        description: "You agreed to become a coach for a user #{invitation.user.name}",
+        user_id: invitation.user.id, status: 1
+      )
+      invitation.update(status: 1)
+    end
+    redirect_to coach_users_page_path
+  end
+
+  def refuse_user
+    invitation = Invitation.find_by_id(params[:invitation_id])
+    if invitation
+      invitation.user.user_notifications.create(
+        description: "Coach #{invitation.coach.name} refused to become your coach",
+        coach_id: invitation.coach.id, status: 1
+      )
+      invitation.coach.coach_notifications.create(
+        description: "You have rejected #{invitation.user.name} invite",
+        user_id: invitation.user.id, status: 1
+      )
+      invitation.destroy
+    end
+    redirect_to coach_users_page_path
+  end
+
   private
 
   def users_progress(invitations)
-    # [] unless invitations
     users_technique = Hash.new { |hash, key| hash[key] = [] }
     invitations.each do |invitation|
       users_technique[invitation.user.email] = []
       temp = invitation.user.recommendations
                        .where.not(started_at: nil).where(finished_at: nil)
-      temp&.each { |rec| users_technique[invitation.user.email] << rec.technique.title}
-       # << temp if temp != []
+      temp&.each { |rec| users_technique[invitation.user.email] << rec.technique.title }
+      # << temp if temp != []
     end
     puts users_technique
     users_technique
