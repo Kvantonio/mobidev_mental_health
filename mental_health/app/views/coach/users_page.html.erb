@@ -107,7 +107,7 @@
                                 <p class="user-t-info"><%= technique_name %></p>
                               <% end %>
                             <% end %>
-<!--                            <div class="see-detail-button"><%#= link_to 'SEE DETAILS', user_detail_path(user_id: value.user.id), class: "get_down_link"%></div>-->
+                            <div class="see-detail-button"><%= link_to 'SEE DETAILS', coach_user_detail_path(user_id: invitation.user.id), class: "get_down_link"%></div>
                           </div>
                         </div>
                       </div>
