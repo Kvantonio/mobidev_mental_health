@@ -69,5 +69,7 @@ Rails.application.routes.draw do
   patch '/coach/users/confirm/:invitation_id', to: 'coach#confirm_user', as: 'coach_user_confirm'
   delete '/coach/users/refuse/:invitation_id', to: 'coach#refuse_user', as: 'coach_user_refuse'
 
+  get '/coach/users/:user_id', to: 'coach#user_detail', as: 'coach_user_detail'
+
 
 end

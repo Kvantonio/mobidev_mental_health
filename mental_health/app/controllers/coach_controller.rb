@@ -29,7 +29,7 @@ class CoachController < ApplicationController
   def users_page
     @coach = Coach.find_by_id(session[:coach_id])
     @invitations = @coach.invitations
-    @notifications = @coach.coach_notifications.where.not(user_id: nil)
+    @notifications = @coach.coach_notifications.where.not(user_id: nil).order('created_at DESC')
     @progress = users_progress @invitations
   end
 
@@ -65,6 +65,14 @@ class CoachController < ApplicationController
     redirect_to coach_users_page_path
   end
 
+  def user_detail
+    @coach = Coach.find_by_id(session[:coach_id])
+
+    @user = User.find_by_id(params[:user_id])
+    @invitation = @coach.invitations.find_by(user_id: @user.id)
+    redirect_to coach_users_page_path unless @user && @invitation && @invitation.status
+    @notifications = @coach.coach_notifications.where(user_id: @user.id).order('created_at DESC')
+  end
   private
 
   def users_progress(invitations)
@@ -74,9 +82,7 @@ class CoachController < ApplicationController
       temp = invitation.user.recommendations
                        .where.not(started_at: nil).where(finished_at: nil)
       temp&.each { |rec| users_technique[invitation.user.email] << rec.technique.title }
-      # << temp if temp != []
     end
-    puts users_technique
     users_technique
   end
 
