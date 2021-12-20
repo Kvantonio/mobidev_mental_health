@@ -30,6 +30,7 @@ class CoachController < ApplicationController
     @coach = Coach.find_by_id(session[:coach_id])
     @invitations = @coach.invitations
     @notifications = @coach.coach_notifications.where.not(user_id: nil)
+    @progress = users_progress @invitations
   end
 
   private
