@@ -25,7 +25,7 @@
           <img src="<%= asset_path('avatar/no_avatar.png') %>" class="rounded-circle size-image" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
         <% end %>
         <ul class="dropdown-menu">
-<!--          <li><%#= link_to 'Edit Personal Information', update_profile_coach_path, class: "dropdown-item" %></li>-->
+          <li><%= link_to 'Edit Personal Information', coach_edit_profile_path, class: "dropdown-item" %></li>
           <li><hr class="dropdown-divider"></li>
 <!--          <li><%#= link_to 'Change Password', password_change_coach_path, class: "dropdown-item" %></li>-->
         </ul>

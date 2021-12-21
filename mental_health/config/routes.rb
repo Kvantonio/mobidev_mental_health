@@ -71,5 +71,7 @@ Rails.application.routes.draw do
 
   get '/coach/users/:user_id', to: 'coach#user_detail', as: 'coach_user_detail'
 
+  get '/coach/edit_profile', to: 'coach#edit'
+  patch '/coach/edit_profile', to: 'coach#update'
 
 end
