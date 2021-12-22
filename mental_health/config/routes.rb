@@ -79,7 +79,6 @@ Rails.application.routes.draw do
 
   get '/coach/library/:technique_id/recommend', to: 'coach#modal_user_recommend', as: 'coach_user_recommend'
   post '/coach/library/:technique_id/recommend', to: 'coach#user_recommend', as: 'coach_user_recommend_post'
-  # get '/coach/user_recommend', to: 'coach#modal_user_recommend'
 
 
 end

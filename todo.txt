@@ -1,0 +1,17 @@
+# TODO: filtering coach page
+# TODO: filtering user page
+
+# TODO: fix duplicate in user controller and user_login controller
+# TODO: fix duplicate in coach controller and coach_login controller
+
+# TODO: js in coach edit information
+# TODO: js in user edit information
+
+# TODO: coach and user notifications unit to one table
+
+# TODO: refactor users cards in coach library
+
+# TODO: flash alerts in any pages
+
+######################################################
+# TODO: scrolling in any pages
