@@ -12,7 +12,7 @@ class CoachController < ApplicationController
     if @coach.update(coach_update_params)
       params[:coach][:problems]&.each do |problem|
         problem_object = Problem.find_by_title(problem)
-        @user.problems << problem_object unless @user.problems.include?(problem_object)
+        @coach.problems << problem_object unless @coach.problems.include?(problem_object)
       end
 
       params[:coach][:educations]&.each do |education|
@@ -95,7 +95,19 @@ class CoachController < ApplicationController
   end
 
   def user_recommend
+    @coach = Coach.find_by_id(session[:coach_id])
+    @technique = Technique.find_by_id(params[:technique_id])
+    users = User.where(name: params[:users])
 
+    users&.each do |user|
+      if user.recommendations.find_by(technique_id: @technique.id).nil?
+        user.recommendations.create(coach_id: @coach.id, technique_id: @technique.id, current_step: 0)
+        user.user_notifications.create(description: "Coach #{@coach.name} recommended a Technique for you",
+                                       coach_id: @coach.id, status: 1)
+      # TODO: add warning
+      end
+    end
+    redirect_back(fallback_location: root_path)
   end
 
   def users_page
@@ -162,7 +174,7 @@ class CoachController < ApplicationController
   end
 
   def coach_update_params
-    params.require(:coach).permit(:name, :email, :avatar, :about, :age, :gender)
+    params.require(:coach).permit(:name, :email, :coach_avatar, :about, :age, :gender)
   end
 
   def coach_password_permit_params
