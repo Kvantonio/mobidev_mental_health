@@ -88,7 +88,7 @@
                 <li><i class="bi bi-people"></i> <%= Recommendation.where(technique_id: @technique.id).count%></li>
                 <li><i class="bi bi-hand-thumbs-up"></i> <%= Rating.where(technique_id: @technique.id).sum(:like)%></li>
                 <li><i class="bi bi-hand-thumbs-down"></i> <%= Rating.where(technique_id: @technique.id).sum(:dislike)%></li>
-<!--                <li class="start-button"><%#= link_to 'RECOMMEND', recommend_to_users_page_path,  {:remote => true, 'data-bs-toggle' =>  "modal", 'data-bs-target' => '#modal-window', class: "get_down_link"}  %></li>-->
+                <li class="start-button"><%= link_to 'RECOMMEND', coach_user_recommend_path,  {:remote => true, 'data-bs-toggle' =>  "modal", 'data-bs-target' => '#modal-window', class: "get_down_link"}  %></li>
               </ul>
             </div>
           </div>

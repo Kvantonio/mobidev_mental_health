@@ -77,7 +77,9 @@ Rails.application.routes.draw do
   get '/coach/edit_password', to: 'coach#edit_password'
   patch '/coach/edit_password', to: 'coach#update_password'
 
-  get '/coach/user_recommend', to: 'coach#modal_user_recommend'
-  post '/coach/user_recommend', to: 'coach#user_recommend'
+  get '/coach/library/:technique_id/recommend', to: 'coach#modal_user_recommend', as: 'coach_user_recommend'
+  post '/coach/library/:technique_id/recommend', to: 'coach#user_recommend', as: 'coach_user_recommend_post'
+  # get '/coach/user_recommend', to: 'coach#modal_user_recommend'
+
 
 end
