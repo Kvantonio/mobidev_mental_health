@@ -39,6 +39,24 @@ class CoachController < ApplicationController
     end
   end
 
+  def edit_password
+    @coach = Coach.find_by_id(session[:coach_id])
+  end
+
+  def update_password
+    @coach = Coach.find_by_id(session[:coach_id])
+    if BCrypt::Password.new(@coach.password_digest) == params[:coach][:old_password]
+      if @coach.update(coach_password_permit_params)
+        @coach.coach_notifications.create(description: 'You changed your password settings', status: 1)
+        redirect_to coach_dashboard_path
+      else
+        render :password_edit
+      end
+    else
+      render :password_edit
+    end
+  end
+
   def dashboard
     @coach = Coach.find_by_id(session[:coach_id])
     @notifications = @coach.coach_notifications.order('created_at DESC')
@@ -127,9 +145,12 @@ class CoachController < ApplicationController
     users_technique
   end
 
-
   def coach_update_params
     params.require(:coach).permit(:name, :email, :avatar, :about, :age, :gender)
+  end
+
+  def coach_password_permit_params
+    params.require(:coach).permit(:password, :password_confirmation)
   end
 
 end

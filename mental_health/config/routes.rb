@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   get '/user/login', to: 'login_user#new'
   post '/user/login', to: 'login_user#create'
-  get '/user/logout', to: 'login_user#logout'
+  post '/user/logout', to: 'login_user#logout'
 
   get '/user/reset_password', to: 'reset_user_password#new'
   post '/user/reset_password', to: 'reset_user_password#create'
@@ -53,7 +53,7 @@ Rails.application.routes.draw do
 
   get '/coach/login', to: 'login_coach#new'
   post '/coach/login', to: 'login_coach#create'
-  get '/coach/logout', to: 'login_coach#logout'
+  post '/coach/logout', to: 'login_coach#logout'
 
   get '/coach/reset_password', to: 'reset_coach_password#new'
   post '/coach/reset_password', to: 'reset_coach_password#create'
@@ -73,5 +73,9 @@ Rails.application.routes.draw do
 
   get '/coach/edit_profile', to: 'coach#edit'
   patch '/coach/edit_profile', to: 'coach#update'
+
+  get '/coach/edit_password', to: 'coach#edit_password'
+  patch '/coach/edit_password', to: 'coach#update_password'
+
 
 end
