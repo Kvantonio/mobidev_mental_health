@@ -27,7 +27,7 @@
         <ul class="dropdown-menu">
           <li><%= link_to 'Edit Personal Information', coach_edit_profile_path, class: "dropdown-item" %></li>
           <li><hr class="dropdown-divider"></li>
-<!--          <li><%#= link_to 'Change Password', password_change_coach_path, class: "dropdown-item" %></li>-->
+          <li><%= link_to 'Change Password', coach_edit_password_path, class: "dropdown-item" %></li>
         </ul>
       </div>
       <%= button_to 'LOG OUT', coach_logout_path, class: "btn btn-sing-in" %>
