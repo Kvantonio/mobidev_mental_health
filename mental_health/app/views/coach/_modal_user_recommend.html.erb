@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <h5 class="modal-title">Recommend to your users</h5>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<%= form_with url: coach_user_recommend_path do |f| %>
+  <% @invitations.each do |invitation|%>
+    <%= f.label invitation.user.id, invitation.user.name, class: "check-box-rec-block m" do %>
+      <input name="users[]" type="checkbox" value="<%= invitation.user.name %>" class="m" id="<%= invitation.user.id %>">
+
+      <p class="margin-none"><%= invitation.user.name %></p>
+    <% end %>
+  <% end %>
+  <br>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CANCEL</button>
+    <%= f.submit "SEND", class: "btn btn-send"%>
+  </div>
+<% end %>

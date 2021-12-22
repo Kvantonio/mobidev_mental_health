@@ -82,6 +82,22 @@ class CoachController < ApplicationController
     @steps = @technique.steps
   end
 
+  def modal_user_recommend
+    @coach = Coach.find_by_id(session[:coach_id])
+    @invitations = @coach.invitations.where(status: true)
+    @html_name = __method__.to_s
+    respond_to do |format|
+      format.html
+      format.js {
+        render 'add_modal_window.js.erb'
+      }
+    end
+  end
+
+  def user_recommend
+
+  end
+
   def users_page
     @coach = Coach.find_by_id(session[:coach_id])
     @invitations = @coach.invitations
