@@ -75,50 +75,46 @@ class CoachController < ApplicationController
 
     @problems = Problem.all
     if params[:filter]
-      @techniques = filter_status(params[:filter][:status], @coach.id)
-      techniques_problems = filter_problems(params[:filter][:problems])
-      techniques_gender = filter_gender(params[:filter][:gender])
+      techniques = Technique.all
+      techniques_problems = filter_problems(params[:filter][:problems], techniques)
+      techniques_gender = filter_gender(params[:filter][:gender], techniques_problems)
+      @techniques = filter_status(params[:filter][:status], @coach.id, techniques_gender)
     else
       @techniques = Technique.all
     end
 
   end
 
-  def filter_gender(params)
-    Technique.where(params) if params
+  def filter_gender(params, techniques)
+    params ? techniques&.where(gender: params) : techniques
   end
 
-  def filter_problems(params)
-    Problem.find_by(title: params).techniques if params
+  def filter_problems(params, techniques)
+    params ? Problem.find_by(title: params)&.techniques : techniques
   end
 
-  def filter_status(params, coach_id)
-    techniques = Technique.all
-    t_r = []
+  def filter_status(params, coach_id, techniques)
+    return techniques if params.nil?
     t_p = []
-    t_n = []
 
-    params&.each do |param|
+    params.each do |param|
       case param
       when 'recommend'
         ## recommend if coach recommend this technique before
         temp = Recommendation.where(coach_id: coach_id).pluck(:technique_id).uniq
-        Technique.where(id: temp)&.each {|t| t_r << t }
+        techniques = techniques.where(id: temp)
+      when 'new'
+        techniques = techniques.where('created_at >= ?', 1.week.ago)
       when 'popular'
         ## popular if count of users on technique >= 50% users
         users_count = User.all.count / 2
         techniques&.each do |technique|
           t_p << technique if Recommendation.where(technique_id: technique.id).count >= users_count
         end
-      when 'new'
-        techniques.where('created_at >= ?', 1.week.ago)&.each { |t| t_n << t }
+        t_p
       end
     end
-    t_r.concat(t_p, t_n)
-    t_r.uniq!
-    t_r == [] ? techniques : t_r
-
-
+    t_p == [] ? techniques : t_p
   end
 
   def technique_detail
