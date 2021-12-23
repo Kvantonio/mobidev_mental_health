@@ -112,8 +112,8 @@ class UserController < ApplicationController
     coaches = Coach.all
     if params[:filter].present?
       coaches_expertise = filter_by_expertise(params[:filter][:problems], coaches)
-      # filter_by_users_count(params[:filter][:users])
-      coaches_gender = filter_by_gender(params[:filter][:gender], coaches_expertise)
+      coaches_users = filter_by_users_count(params[:filter][:users], coaches_expertise)
+      coaches_gender = filter_by_gender(params[:filter][:gender], coaches_users)
       @coaches = filter_by_age(params[:filter][:age], coaches_gender)
     else
       @coaches = coaches
@@ -130,14 +130,24 @@ class UserController < ApplicationController
   end
 
   def filter_by_age(params, coaches)
-
     params.nil? || params.include?(' ') ? coaches : coaches.where(params)
   end
 
   def filter_by_users_count(params, coaches)
-    params&.each do ||
+    return coaches if params.nil?
 
+    array = []
+    coaches&.each do |coach|
+      count = coach.invitations.where(status: 1).count
+      params.each do |user_total|
+        array << coach.id if (user_total == '5') && (count <= 5)
+        array << coach.id if (user_total == '5-10') && (count > 5) && (count <= 10)
+        array << coach.id if (user_total == '10-20') && (count > 10) && (count <= 20)
+        array << coach.id if (user_total == '20') && (count > 20)
+      end
     end
+    array.uniq!
+    coaches.where(id: array)
   end
 
   def modal_send_invitation
@@ -158,7 +168,7 @@ class UserController < ApplicationController
     @coach = Coach.find_by_id(params[:coach_id]) if params[:coach_id]
 
     if @coach && @user.invitation.nil?
-      Invitation.create(coach_id: @coach.id,user_id: @user.id, status: false )
+      Invitation.create(coach_id: @coach.id, user_id: @user.id, status: false)
       @user.user_notifications.create(description: "You have sent an invitation to coach #{@coach.name}", coach_id: @coach.id, status: 1)
       @coach.coach_notifications.create(description: "You have received an invitation to become a coach from a user #{@user.name}", user_id: @user.id, status: 1)
     end
@@ -204,7 +214,6 @@ class UserController < ApplicationController
     @user.invitation&.destroy
     redirect_to user_dashboard_path
   end
-
 
   private
 
