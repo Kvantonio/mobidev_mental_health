@@ -24,7 +24,7 @@
               var output = document.getElementById('output');
               output.src = URL.createObjectURL(event.target.files[0]);
               output.onload = function() {
-                  URL.revokeObjectURL(output.src) // free memory
+                  URL.revokeObjectURL(output.src)
               }
           };
       </script>
@@ -60,8 +60,8 @@
     <div class="form-group">
       <label class="labels" for="tags">What problem would you like to solve?</label>
       <select class="form-control select2-multi" name="user[problems][]" multiple="multiple">
-        <% @problems.each do |data|%>
-          <option value="<%= data[:title]%>" ><%= data[:title] %></option>
+        <% @problems.each do |problem|%>
+          <option value="<%= problem.title%>" ><%= problem.title %></option>
         <% end %>
       </select>
     </div>

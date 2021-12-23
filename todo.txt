@@ -1,3 +1,21 @@
+# TODO: searching in pages
+
+# TODO: refactor filters in coach controller
+# TODO: add helper function for (new, popular) in library
+
+# TODO: js in coach edit information
+
+# TODO: coach and user notifications unit to one table
+
+# TODO: refactor users cards in coach library
+
+# TODO: flash alerts in any pages
+
+######################################################
+# TODO: scrolling in any pages
+
+# TODO: fix duplicate in user controller and user_login controller   ------- (before action)
+# TODO: fix duplicate in coach controller and coach_login controller ------- (ask to mentor)
 ##### CHAT TO DO #################
 
 TODO: db
@@ -11,22 +29,3 @@ TODO: check message status (sent, delivered, readed)
 TODO: link to technique recommend
 
 #################################################
-# TODO: searching in pages
-
-# TODO: refactor filters in coach controller
-# TODO: add helper function for (new, popular) in library
-
-# TODO: fix duplicate in user controller and user_login controller
-# TODO: fix duplicate in coach controller and coach_login controller
-
-# TODO: js in coach edit information
-# TODO: js in user edit information
-
-# TODO: coach and user notifications unit to one table
-
-# TODO: refactor users cards in coach library
-
-# TODO: flash alerts in any pages
-
-######################################################
-# TODO: scrolling in any pages
