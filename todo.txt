@@ -11,10 +11,9 @@ TODO: check message status (sent, delivered, readed)
 TODO: link to technique recommend
 
 #################################################
-# TODO: filtering user page
 # TODO: searching in pages
 
-# TODO: refactor filters
+# TODO: refactor filters in coach controller
 # TODO: add helper function for (new, popular) in library
 
 # TODO: fix duplicate in user controller and user_login controller

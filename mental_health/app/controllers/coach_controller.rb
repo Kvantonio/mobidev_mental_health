@@ -85,38 +85,6 @@ class CoachController < ApplicationController
 
   end
 
-  def filter_gender(params, techniques)
-    params ? techniques&.where(gender: params) : techniques
-  end
-
-  def filter_problems(params, techniques)
-    params ? Problem.find_by(title: params).techniques : techniques
-  end
-
-  def filter_status(params, coach_id, techniques)
-    return techniques if params.nil?
-    t_p = []
-
-    params.each do |param|
-      case param
-      when 'recommend'
-        ## recommend if coach recommend this technique before
-        temp = Recommendation.where(coach_id: coach_id).pluck(:technique_id).uniq
-        techniques = techniques.where(id: temp)
-      when 'new'
-        techniques = techniques.where('created_at >= ?', 1.week.ago)
-      when 'popular'
-        ## popular if count of users on technique >= 50% users
-        users_count = User.all.count / 2
-        techniques&.each do |technique|
-          t_p << technique if Recommendation.where(technique_id: technique.id).count >= users_count
-        end
-        t_p
-      end
-    end
-    t_p == [] ? techniques : t_p
-  end
-
   def technique_detail
     @coach = Coach.find_by_id(session[:coach_id])
     @technique = Technique.find_by_id(params[:technique_id])
@@ -222,4 +190,35 @@ class CoachController < ApplicationController
     params.require(:coach).permit(:password, :password_confirmation)
   end
 
+  def filter_gender(params, techniques)
+    params ? techniques&.where(gender: params) : techniques
+  end
+
+  def filter_problems(params, techniques)
+    params ? Problem.find_by(title: params).techniques : techniques
+  end
+
+  def filter_status(params, coach_id, techniques)
+    return techniques if params.nil?
+    t_p = []
+
+    params.each do |param|
+      case param
+      when 'recommend'
+        ## recommend if coach recommend this technique before
+        temp = Recommendation.where(coach_id: coach_id).pluck(:technique_id).uniq
+        techniques = techniques.where(id: temp)
+      when 'new'
+        techniques = techniques.where('created_at >= ?', 1.week.ago)
+      when 'popular'
+        ## popular if count of users on technique >= 50% users
+        users_count = User.all.count / 2
+        techniques&.each do |technique|
+          t_p << technique if Recommendation.where(technique_id: technique.id).count >= users_count
+        end
+        t_p
+      end
+    end
+    t_p == [] ? techniques : t_p
+  end
 end

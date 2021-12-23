@@ -121,35 +121,6 @@ class UserController < ApplicationController
 
   end
 
-  def filter_by_expertise(params, coaches)
-    params ? Problem.find_by(title: params).coaches : coaches
-  end
-
-  def filter_by_gender(params, coaches)
-    params.nil? || params.include?(' ') ? coaches : coaches.where(gender: params)
-  end
-
-  def filter_by_age(params, coaches)
-    params.nil? || params.include?(' ') ? coaches : coaches.where(params)
-  end
-
-  def filter_by_users_count(params, coaches)
-    return coaches if params.nil?
-
-    array = []
-    coaches&.each do |coach|
-      count = coach.invitations.where(status: 1).count
-      params.each do |user_total|
-        array << coach.id if (user_total == '5') && (count <= 5)
-        array << coach.id if (user_total == '5-10') && (count > 5) && (count <= 10)
-        array << coach.id if (user_total == '10-20') && (count > 10) && (count <= 20)
-        array << coach.id if (user_total == '20') && (count > 20)
-      end
-    end
-    array.uniq!
-    coaches.where(id: array)
-  end
-
   def modal_send_invitation
     user = User.find_by_id(session[:user_id])
     @coach = Coach.find_by_id(params[:coach_id])
@@ -223,5 +194,34 @@ class UserController < ApplicationController
 
   def user_update_password_params
     params.require(:user).permit(:password, :password_confirmation)
+  end
+
+  def filter_by_expertise(params, coaches)
+    params ? Problem.find_by(title: params).coaches : coaches
+  end
+
+  def filter_by_gender(params, coaches)
+    params.nil? || params.include?(' ') ? coaches : coaches.where(gender: params)
+  end
+
+  def filter_by_age(params, coaches)
+    params.nil? || params.include?(' ') ? coaches : coaches.where(params)
+  end
+
+  def filter_by_users_count(params, coaches)
+    return coaches if params.nil?
+
+    array = []
+    coaches&.each do |coach|
+      count = coach.invitations.where(status: 1).count
+      params.each do |user_total|
+        array << coach.id if (user_total == '5') && (count <= 5)
+        array << coach.id if (user_total == '5-10') && (count > 5) && (count <= 10)
+        array << coach.id if (user_total == '10-20') && (count > 10) && (count <= 20)
+        array << coach.id if (user_total == '20') && (count > 20)
+      end
+    end
+    array.uniq!
+    coaches.where(id: array)
   end
 end
