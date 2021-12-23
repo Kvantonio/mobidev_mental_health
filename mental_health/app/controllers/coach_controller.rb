@@ -90,7 +90,7 @@ class CoachController < ApplicationController
   end
 
   def filter_problems(params, techniques)
-    params ? Problem.find_by(title: params)&.techniques : techniques
+    params ? Problem.find_by(title: params).techniques : techniques
   end
 
   def filter_status(params, coach_id, techniques)
