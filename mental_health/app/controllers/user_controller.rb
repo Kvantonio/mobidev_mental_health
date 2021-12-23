@@ -106,9 +106,38 @@ class UserController < ApplicationController
 
   def coaches_page
     @user = User.find_by_id(session[:user_id])
-    @coaches = Coach.all
-    @problems = Problem.all
+
     @invitation = @user.invitation
+    @problems = Problem.all
+    coaches = Coach.all
+    if params[:filter].present?
+      coaches_expertise = filter_by_expertise(params[:filter][:problems], coaches)
+      # filter_by_users_count(params[:filter][:users])
+      coaches_gender = filter_by_gender(params[:filter][:gender], coaches_expertise)
+      @coaches = filter_by_age(params[:filter][:age], coaches_gender)
+    else
+      @coaches = coaches
+    end
+
+  end
+
+  def filter_by_expertise(params, coaches)
+    params ? Problem.find_by(title: params).coaches : coaches
+  end
+
+  def filter_by_gender(params, coaches)
+    params.nil? || params.include?(' ') ? coaches : coaches.where(gender: params)
+  end
+
+  def filter_by_age(params, coaches)
+
+    params.nil? || params.include?(' ') ? coaches : coaches.where(params)
+  end
+
+  def filter_by_users_count(params, coaches)
+    params&.each do ||
+
+    end
   end
 
   def modal_send_invitation
