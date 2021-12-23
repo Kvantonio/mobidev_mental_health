@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-1">
                   <div class="end-cooperation"><%= link_to raw("<i class=\"bi bi-three-dots-vertical get_down_link\"></i>"),
-                                                           user_send_invitation_path(@invitation.coach.id),
+                                                           user_end_coach_cooperation_path,
                                                            { :remote => true, 'data-bs-toggle' => "modal", 'data-bs-target' => '#modal-window' } %>
                   </div>
                 </div>
@@ -126,19 +126,19 @@
             </div>
             <div class="col-12 filter-border">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gender1" name="filter[gender][]" value="" onclick='checkedInput(this);'>
+                <input class="form-check-input" type="checkbox" id="gender1" name="filter[gender][]" value=" " onclick='checkedInput(this);'>
                 <label class="form-check-label" for="gender1">
                   All
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gender2" name="filter[gender][]" value="gender = 0" onclick='checkedInput(this);'>
+                <input class="form-check-input" type="checkbox" id="gender2" name="filter[gender][]" value="0" onclick='checkedInput(this);'>
                 <label class="form-check-label" for="gender2">
                   Male
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gender3" name="filter[gender][]" value="gender = 1" onclick='checkedInput(this);'>
+                <input class="form-check-input" type="checkbox" id="gender3" name="filter[gender][]" value="1" onclick='checkedInput(this);'>
                 <label class="form-check-label" for="gender3">
                   Female
                 </label>
