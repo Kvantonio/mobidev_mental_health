@@ -1,5 +1,19 @@
+##### CHAT TO DO #################
+
+TODO: db
+        - model
+        - coach has many users chat
+        - user has one chat with coach
+        validate this topics
+
+TODO: check message status (sent, delivered, readed)
+
+TODO: link to technique recommend
+
+#################################################
 # TODO: filtering coach page
 # TODO: filtering user page
+# TODO: searching in pages
 
 # TODO: fix duplicate in user controller and user_login controller
 # TODO: fix duplicate in coach controller and coach_login controller

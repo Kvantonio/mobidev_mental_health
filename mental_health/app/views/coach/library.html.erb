@@ -26,13 +26,13 @@
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input checkbox" type="checkbox" value="status = 1" name="filter[status][]" id="checkbox2" onclick='checkedInput(this);'>
+                <input class="form-check-input checkbox" type="checkbox" value="popular" name="filter[status][]" id="checkbox2" onclick='checkedInput(this);'>
                 <label class="form-check-label" for="checkbox2">
                   Popular
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input checkbox" type="checkbox" value="status = 0" name="filter[status][]" id="checkbox3" onclick='checkedInput(this);'>
+                <input class="form-check-input checkbox" type="checkbox" value="new" name="filter[status][]" id="checkbox3" onclick='checkedInput(this);'>
                 <label class="form-check-label" for="checkbox3">
                   New
                 </label>
@@ -164,15 +164,15 @@
         </div>
 
         <div class="row">
-          <% @techniques.each do |technique| %>
+          <% @techniques&.each do |technique| %>
 
             <div class="col-6 distance">
               <div class="card h-100">
                 <div class="item">
-                  <% if Recommendation.find_by(technique_id: technique.id, coach_id: @coach.id) %>
+                  <%# if Recommendation.find_by(technique_id: technique.id, coach_id: @coach.id) %>
 <!--                    <span class="notify-badge"><%#= technique.status.upcase if technique.status.present?  %></span>-->
-                  <% end %>
-                  <% if technique.image.attached? %>
+                  <%# end %>
+                  <% if technique&.image.attached? %>
                     <img src="<%= url_for(technique.image) %>" class="card-img-top" alt="...">
                   <% else %>
                     <img src="<%= asset_path('no_image.png') %>" class="card-img-top" alt="...">

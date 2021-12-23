@@ -72,8 +72,53 @@ class CoachController < ApplicationController
 
   def library
     @coach = Coach.find_by_id(session[:coach_id])
-    @techniques = Technique.all
+
     @problems = Problem.all
+    if params[:filter]
+      @techniques = filter_status(params[:filter][:status], @coach.id)
+      techniques_problems = filter_problems(params[:filter][:problems])
+      techniques_gender = filter_gender(params[:filter][:gender])
+    else
+      @techniques = Technique.all
+    end
+
+  end
+
+  def filter_gender(params)
+    Technique.where(params) if params
+  end
+
+  def filter_problems(params)
+    Problem.find_by(title: params).techniques if params
+  end
+
+  def filter_status(params, coach_id)
+    techniques = Technique.all
+    t_r = []
+    t_p = []
+    t_n = []
+
+    params&.each do |param|
+      case param
+      when 'recommend'
+        ## recommend if coach recommend this technique before
+        temp = Recommendation.where(coach_id: coach_id).pluck(:technique_id).uniq
+        Technique.where(id: temp)&.each {|t| t_r << t }
+      when 'popular'
+        ## popular if count of users on technique >= 50% users
+        users_count = User.all.count / 2
+        techniques&.each do |technique|
+          t_p << technique if Recommendation.where(technique_id: technique.id).count >= users_count
+        end
+      when 'new'
+        techniques.where('created_at >= ?', 1.week.ago)&.each { |t| t_n << t }
+      end
+    end
+    t_r.concat(t_p, t_n)
+    t_r.uniq!
+    t_r == [] ? techniques : t_r
+
+
   end
 
   def technique_detail

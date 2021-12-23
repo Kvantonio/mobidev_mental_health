@@ -344,7 +344,7 @@
     margin: none;
 }
 
-input[type="checkbox"] {
+input[class="m"] {
     opacity: 0;
     position: absolute;
 }
