@@ -85,7 +85,14 @@ Rails.application.routes.draw do
 
 
   namespace :api do
-    post '/auth/', to: 'auth#login'
+    post '/user/auth', to: 'auth#user_login'
+    post '/coach/auth', to: 'auth#coach_login'
+
+    post '/user/registration', to: 'registration#user_registration'
+    post '/coach/registration', to: 'registration#coach_registration'
+
+    get '/coach/users', to: 'coach#users'
+
   end
 
 end
