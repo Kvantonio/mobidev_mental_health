@@ -12,7 +12,7 @@ coach1 = Coach.create(name: 'TestCoach', email: 'Coach@i.ua', password: 'Ab12345
 technique1 = Technique.create(title: 'Cognitive - Behavioral Therapy',
                               description: 'Elimination of the dependence
                                             of emotions and human behavior on his thoughts.',
-                              age_range: 'Age: 25-35 years',
+                              age_range: '25-35',
                               gender: 'male', duration: 7)
 
 step1 = Step.create(title: 'What is cognitive behavioral therapy?',
