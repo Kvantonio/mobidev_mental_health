@@ -3,8 +3,6 @@
 # TODO: refactor filters in coach controller
 # TODO: add helper function for (new, popular) in library
 
-# TODO: js in coach edit information
-
 # TODO: coach and user notifications unit to one table
 
 # TODO: refactor users cards in coach library
