@@ -61,131 +61,62 @@
     <script>
         $('.select2-multi').select2();
     </script>
+    <label for="edu" class="labels">Education</label>
     <div class="form-group" id="edus">
-      <label for="edu" class="labels">Education</label>
-      <input type="text" class="field form-control" id="edu" name="coach[educations][]">
-      <p class="after-input">Name of educational institution, specialty, degree</p>
+      <div>
+          <input type="text" class="field form-control" id="edu" name="coach[educations][]">
+          <p class="after-input">Name of educational institution, specialty, degree</p>
+      </div>
     </div>
-    <div class="add-block" onclick="addEdu()">
+    <div class="add-block" onclick="repeat_block('edus')">
         <span><i class="bi bi-plus-circle"></i></span>
         <label>Add another</label>
     </div>
     <br>
-
+    <label for="exp" class="labels">Work experience</label>
     <div class="form-group" id="exps">
-        <%#= f.label 'Work experience', class: "labels" %>
-      <label for="exp" class="labels">Work experience</label>
-      <input type="text" class="field form-control" id="exp" name="coach[experiences][]">
-        <%#= f.text_field :experience, class: "field form-control" %>
-
-        <p class="after-input">Position, company, work experience</p>
+      <div>
+          <input type="text" class="field form-control" id="exp" name="coach[experiences][]">
+          <p class="after-input">Position, company, work experience</p>
+      </div>
     </div>
-    <div class="add-block" onclick="addExp()">
+    <div class="add-block" onclick="repeat_block('exps')">
         <span><i class="bi bi-plus-circle"></i></span>
         <label>Add another</label>
     </div>
 
     <br>
 
-
+    <label for="cert" class="labels">Licenses and certificates</label>
     <div class="form-group" id="certs">
-      <label for="cert" class="labels">Licenses and certificates</label>
-      <input type="text" class="field form-control" id="cert" name="coach[certificates][]">
-      <p class="after-input">Name, issuer, date of issue</p>
+      <div>
+          <input type="text" class="field form-control" id="cert" name="coach[certificates][]">
+          <p class="after-input">Name, issuer, date of issue</p>
+      </div>
     </div>
-    <div class="add-block" onclick="addCert()">
+    <div class="add-block" onclick="repeat_block('certs')">
         <span><i class="bi bi-plus-circle"></i></span>
         <label>Add another</label>
     </div>
     <br>
-
+    <label for="net" class="labels">Link on social networks</label>
     <div class="form-group" id="nets">
-      <label for="net" class="labels">Link on social networks</label>
-      <input type="text" class="field form-control" id="net" name="coach[networks][]">
+      <div>
+        <input type="text" class="field form-control" id="net" name="coach[networks][]">
         <p class="after-input">Link on social networks</p>
+      </div>
     </div>
-    <div class="add-block" onclick="addNet()">
+    <div class="add-block" onclick="repeat_block('nets')">
         <span><i class="bi bi-plus-circle"></i></span>
         <label>Add another</label>
     </div>
     <br>
     <script type="text/javascript" charset="utf-8">
-        function addNet(){
-            let nets = document.getElementById('nets')
-            let lable = document.createElement('lable')
-            let input = document.createElement('input')
-            let p = document.createElement('p')
-            p.classList.add('after-input')
-            p.innerHTML = 'Link on social networks'
-
-            input.name = "coach[networks][]"
-            input.type = "text"
-            input.id = 'net'+(nets.children.length+1)
-            input.classList.add("field", "form-control")
-            lable.htmlFor = input.id
-            lable.classList.add("labels")
-
-            nets.appendChild(lable)
-            nets.appendChild(input)
-            nets.appendChild(p)
-        }
-
-        function addEdu(){
-            let edus = document.getElementById('edus')
-            let lable = document.createElement('lable')
-            let input = document.createElement('input')
-            let p = document.createElement('p')
-            p.classList.add('after-input')
-            p.innerHTML = 'Name of educational institution, specialty, degree'
-
-            input.name = "coach[educations][]"
-            input.type = "text"
-            input.id = 'edu'+(edus.children.length+1)
-            input.classList.add("field", "form-control")
-            lable.htmlFor = input.id
-            lable.classList.add("labels")
-
-            edus.appendChild(lable)
-            edus.appendChild(input)
-            edus.appendChild(p)
-        }
-
-        function addExp(){
-            let exps = document.getElementById('exps')
-            let lable = document.createElement('lable')
-            let input = document.createElement('input')
-            let p = document.createElement('p')
-            p.classList.add('after-input')
-            p.innerHTML = 'Position, company, work experience'
-            input.name = "coach[experiences][]"
-            input.type = "text"
-            input.id = 'exp'+(exps.children.length+1)
-            input.classList.add("field", "form-control")
-            lable.htmlFor = input.id
-            lable.classList.add("labels")
-
-            exps.appendChild(lable)
-            exps.appendChild(input)
-            exps.appendChild(p)
-        }
-
-        function addCert(){
-            let certs = document.getElementById('certs')
-            let lable = document.createElement('lable')
-            let input = document.createElement('input')
-            let p = document.createElement('p')
-            p.classList.add('after-input')
-            p.innerHTML = 'Name, issuer, date of issue'
-            input.name = "coach[certificates][]"
-            input.type = "text"
-            input.id = 'cert'+(certs.children.length+1)
-            input.classList.add("field", "form-control")
-            lable.htmlFor = input.id
-            lable.classList.add("labels")
-
-            certs.appendChild(lable)
-            certs.appendChild(input)
-            certs.appendChild(p)
+        function repeat_block(block_id){
+            let block = document.getElementById(block_id)
+            let child = block.children[0]
+            const div = child.cloneNode(true)
+            block.appendChild(div)
         }
     </script>
     <%= f.submit 'GET STARTED', class: "btn btn-sing-up marge-top"%>
