@@ -2,7 +2,7 @@ module Api
   class AuthController < ::ApiController
     # before_action :require_jwt
 
-    def login
+    def user_login
       @user = User.find_by_email(params[:email])
 
       if @user&.authenticate(params[:password])
@@ -14,13 +14,17 @@ module Api
       end
     end
 
-    private
+    def coach_login
+      @coach = Coach.find_by_email(params[:email])
 
-    def login_params
-      params.permit(:email, :password)
+      if @coach&.authenticate(params[:password])
+        token = JsonWebToken.encode(coach_id: @coach.id)
+
+        render json: { token: token, coach: @coach }, status: :ok
+      else
+        render json: { error: 'unauthorized' }, status: :unauthorized
+      end
     end
-
-
 
   end
 end
