@@ -8,7 +8,6 @@ class CoachController < ApplicationController
 
   def update
     @coach = Coach.find_by_id(session[:coach_id])
-    #TODO: check [] params (__ in db)
     if @coach.update(coach_update_params)
       params[:coach][:problems]&.each do |problem|
         problem_object = Problem.find_by_title(problem)
