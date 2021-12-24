@@ -19,22 +19,19 @@
     <div class="link"><%= link_to 'Registration', user_registration_path, class: "custom"%></div>
   </div>
 
-  <%# if alert %>
-<!--    <p class="alert"><%#= alert%></p>-->
-  <%# end %>
+
   <%= form_with class: "form-authorization", url: user_login_path do |f| %>
     <div class="sign_for marge-top">
       <div class="link_for active">USER</div>
-      <!--       <div class="link_for">COACH</div>-->
       <%= link_to 'COACH', coach_login_path, class: 'link_for' %>
     </div>
     <br>
     <div class="form-group">
       <%= f.label 'Email', class: "labels" %>
-      <%= f.text_field :email, class: "field form-control #{'is-invalid' if flash[:email]}" %>
-      <% if flash[:email] %>
+      <%= f.text_field :email, class: "field form-control #{'is-invalid' if flash[:alert]}" %>
+      <% if flash[:alert] %>
         <div class="invalid-feedback d-block">
-          <%= flash[:email] %>.
+          <%= flash[:alert] %>.
         </div>
       <% end %>
     </div>

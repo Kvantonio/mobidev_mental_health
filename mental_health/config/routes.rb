@@ -84,4 +84,8 @@ Rails.application.routes.draw do
   post '/coach/library/:technique_id/recommend', to: 'coach#user_recommend', as: 'coach_user_recommend_post'
 
 
+  namespace :api do
+    post '/auth/', to: 'auth#login'
+  end
+
 end
