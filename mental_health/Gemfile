@@ -26,6 +26,11 @@ gem 'sidekiq'
 gem 'sidekiq-cron'
 
 
+gem 'devise'
+gem 'activeadmin'
+
+
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 gem 'image_processing'
