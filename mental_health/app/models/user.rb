@@ -19,7 +19,7 @@ class User < ApplicationRecord
   has_one :invitation
   has_many :coches, through: :invitations
 
-  has_many :user_notifications
+  has_many :notifications
 
   has_many :ratings
   has_many :recommendations

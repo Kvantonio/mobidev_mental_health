@@ -30,7 +30,7 @@ class CoachController < ApplicationController
         @coach.social_networks << SocialNetwork.create(title: network) if network != ''
       end
 
-      @coach.coach_notifications.create(description: 'You changed your profile settings', status: 1)
+      @coach.notifications.create(description: 'You changed your profile settings', status: 1)
 
       redirect_to coach_dashboard_path
     else
@@ -46,7 +46,7 @@ class CoachController < ApplicationController
     @coach = Coach.find_by_id(session[:coach_id])
     if BCrypt::Password.new(@coach.password_digest) == params[:coach][:old_password]
       if @coach.update(coach_password_permit_params)
-        @coach.coach_notifications.create(description: 'You changed your password settings', status: 1)
+        @coach.notifications.create(description: 'You changed your password settings', status: 1)
         redirect_to coach_dashboard_path
       else
         render :password_edit
@@ -58,7 +58,7 @@ class CoachController < ApplicationController
 
   def dashboard
     @coach = Coach.find_by_id(session[:coach_id])
-    @notifications = @coach.coach_notifications.order('created_at DESC')
+    @notifications = @coach.notifications.order('created_at DESC')
     @invitations = @coach.invitations.where(status: true)
 
     unique_techniques_id = @coach.recommendations.pluck(:technique_id).uniq
@@ -110,7 +110,7 @@ class CoachController < ApplicationController
     users&.each do |user|
       if user.recommendations.find_by(technique_id: @technique.id).nil?
         user.recommendations.create(coach_id: @coach.id, technique_id: @technique.id, current_step: 0)
-        user.user_notifications.create(description: "Coach #{@coach.name} recommended a Technique for you",
+        user.notifications.create(description: "Coach #{@coach.name} recommended a Technique for you",
                                        coach_id: @coach.id, status: 1)
       # TODO: add warning
       end
@@ -121,18 +121,18 @@ class CoachController < ApplicationController
   def users_page
     @coach = Coach.find_by_id(session[:coach_id])
     @invitations = @coach.invitations
-    @notifications = @coach.coach_notifications.where.not(user_id: nil).order('created_at DESC')
+    @notifications = @coach.notifications.where.not(user_id: nil).order('created_at DESC')
     @progress = users_progress @invitations
   end
 
   def confirm_user
     invitation = Invitation.find_by_id(params[:invitation_id])
     if invitation
-      invitation.user.user_notifications.create(
+      invitation.user.notifications.create(
         description: "Coach #{invitation.coach.name} agreed to become your coach",
         status: 1
       )
-      invitation.coach.coach_notifications.create(
+      invitation.coach.notifications.create(
         description: "You agreed to become a coach for a user #{invitation.user.name}",
         user_id: invitation.user.id, status: 1
       )
@@ -144,11 +144,11 @@ class CoachController < ApplicationController
   def refuse_user
     invitation = Invitation.find_by_id(params[:invitation_id])
     if invitation
-      invitation.user.user_notifications.create(
+      invitation.user.notifications.create(
         description: "Coach #{invitation.coach.name} refused to become your coach",
-        coach_id: invitation.coach.id, status: 1
+        status: 1
       )
-      invitation.coach.coach_notifications.create(
+      invitation.coach.notifications.create(
         description: "You have rejected #{invitation.user.name} invite",
         user_id: invitation.user.id, status: 1
       )
@@ -163,7 +163,7 @@ class CoachController < ApplicationController
     @user = User.find_by_id(params[:user_id])
     @invitation = @coach.invitations.find_by(user_id: @user.id)
     redirect_to coach_users_page_path unless @user && @invitation && @invitation.status
-    @notifications = @coach.coach_notifications.where(user_id: @user.id).order('created_at DESC')
+    @notifications = @coach.notifications.where(user_id: @user.id).order('created_at DESC')
   end
 
 

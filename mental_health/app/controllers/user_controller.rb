@@ -4,7 +4,7 @@ class UserController < ApplicationController
   def dashboard
     @user = User.find_by_id(session[:user_id])
     @invitation = @user.invitation
-    @notifications = @user.user_notifications.order('created_at DESC')
+    @notifications = @user.notifications.where(coach_id: nil).order('created_at DESC')
     @problems = @user.problems
   end
 
@@ -20,7 +20,7 @@ class UserController < ApplicationController
         problem_object = Problem.find_by_title(problem)
         @user.problems << problem_object unless @user.problems.include?(problem_object)
       end
-      @user.user_notifications.create(description: 'You changed your profile settings', status: 1)
+      @user.notifications.create(description: 'You changed your profile settings', status: 1)
       # TODO: do flash message
       redirect_to user_dashboard_path
     else
@@ -36,7 +36,7 @@ class UserController < ApplicationController
     @user = User.find_by_id(session[:user_id])
     if BCrypt::Password.new(@user.password_digest) == params[:user][:old_password]
       if @user.update(user_update_password_params)
-        @user.user_notifications.create(description: 'You changed your password settings', status: 1)
+        @user.notifications.create(description: 'You changed your password settings', status: 1)
         redirect_to user_dashboard_path
       else
         render :edit_password
@@ -94,10 +94,10 @@ class UserController < ApplicationController
     rating = @user.ratings.find_or_create_by(technique_id: params[:technique_id])
     if params[:like]
       rating.update(like: 1, dislike: 0)
-      @user.user_notifications.create(description: 'You like your Technique', status: 1)
+      @user.notifications.create(description: 'You like your Technique', status: 1)
     elsif params[:dislike]
       rating.update(like: 0, dislike: 1)
-      @user.user_notifications.create(description: 'You dislike your Technique', status: 1)
+      @user.notifications.create(description: 'You dislike your Technique', status: 1)
     end
     recommendation = @user.recommendations.find_by(technique_id: params[:technique_id])
     recommendation.update(finished_at: Time.zone.now) if recommendation.finished_at.nil?
@@ -140,8 +140,8 @@ class UserController < ApplicationController
 
     if @coach && @user.invitation.nil?
       Invitation.create(coach_id: @coach.id, user_id: @user.id, status: false)
-      @user.user_notifications.create(description: "You have sent an invitation to coach #{@coach.name}", coach_id: @coach.id, status: 1)
-      @coach.coach_notifications.create(description: "You have received an invitation to become a coach from a user #{@user.name}", user_id: @user.id, status: 1)
+      @user.notifications.create(description: "You have sent an invitation to coach #{@coach.name}", status: 1)
+      @coach.notifications.create(description: "You have received an invitation to become a coach from a user #{@user.name}", user_id: @user.id, status: 1)
     end
     redirect_to user_dashboard_path
   end
@@ -160,7 +160,7 @@ class UserController < ApplicationController
 
   def cancel_invitation
     @user = User.find_by_id(session[:user_id])
-    @user.user_notifications.create(description: "You have canceled an invitation to coach #{@user.invitation.coach.name}",
+    @user.notifications.create(description: "You have canceled an invitation to coach #{@user.invitation.coach.name}",
                                     coach_id: @user.invitation.coach.id, status: 1)
     @user.invitation&.destroy
     redirect_to user_dashboard_path
@@ -180,8 +180,8 @@ class UserController < ApplicationController
 
   def end_cooperation
     @user = User.find_by_id(session[:user_id])
-    @user.user_notifications.create(description: "You have ended cooperation with coach #{@user.invitation.coach.name}",
-                                    coach_id: @user.invitation.coach.id, status: 1)
+    @user.notifications.create(description: "You have ended cooperation with coach #{@user.invitation.coach.name}",
+                               status: 1)
     @user.invitation&.destroy
     redirect_to user_dashboard_path
   end
