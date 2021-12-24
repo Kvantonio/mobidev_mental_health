@@ -188,7 +188,7 @@
             <div class="col-2 notif-avatar-block">
 
                 <% if @coach.coach_avatar.attached? %>
-                  <img src="<%= url_for(@coach.user_avatar) %>" class= "rounded-circle notification-avatar">
+                  <img src="<%= url_for(@coach.coach_avatar) %>" class= "rounded-circle notification-avatar">
                 <% else %>
                   <img src="<%= asset_path('avatar/no_avatar.png') %>" class="rounded-circle notification-avatar">
                 <% end %>
