@@ -5,9 +5,13 @@ module Api
     def users
       invitations = @coach.invitations.where(status: true)
       users = []
-      invitations.each { |invitation| users << invitation.user }
 
-      render json: { users: users }, status: :ok
+      if users
+        invitations.each { |invitation| users << invitation.user }
+        render json: { users: users }, status: :ok
+      else
+        render json: { techniques: 'No content' }, status: :no_content
+      end
     end
 
   end
