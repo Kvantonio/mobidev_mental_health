@@ -3,8 +3,11 @@ module Api
     before_action :authorize_coach_request
 
     def users
+      invitations = @coach.invitations.where(status: true)
+      users = []
+      invitations.each { |invitation| users << invitation.user }
 
-      render json: { users: @coach.invitations.joins(:user).pluck(:name, :age, :email) }, status: :ok
+      render json: { users: users }, status: :ok
     end
 
   end
