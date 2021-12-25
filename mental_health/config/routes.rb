@@ -92,6 +92,8 @@ Rails.application.routes.draw do
     post '/coach/registration', to: 'registration#coach_registration'
 
     get '/coach/users', to: 'coach#users'
+    get '/user/techniques', to: 'user#get_techniques'
+
 
   end
 
