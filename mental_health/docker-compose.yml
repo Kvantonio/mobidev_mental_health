@@ -30,6 +30,7 @@ services:
       - .:/mental_health
     depends_on:
      - redis
+     - db
 
   redis:
     image: redis:latest
