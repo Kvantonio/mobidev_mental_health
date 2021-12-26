@@ -16,8 +16,8 @@ module Api
     end
 
     def steps
-      technique = @user.recommendations.find_by(technique_id: params[:technique_id]).technique
-      steps = technique.steps
+      technique = @user.recommendations.find_by(technique_id: params[:technique_id])&.technique
+      steps = technique.steps if technique
       if technique && steps
         render json: steps, status: :ok
       else
