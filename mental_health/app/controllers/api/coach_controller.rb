@@ -8,9 +8,9 @@ module Api
 
       if users
         invitations.each { |invitation| users << invitation.user }
-        render json: { users: users }, status: :ok
+        render json: users, status: :ok
       else
-        render json: { techniques: 'No content' }, status: :no_content
+        render json: 'No confirmed users', status: :no_content
       end
     end
 

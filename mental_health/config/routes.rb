@@ -93,7 +93,7 @@ Rails.application.routes.draw do
 
     get '/coach/users', to: 'coach#users'
     get '/user/techniques', to: 'user#get_techniques'
-
+    get '/user/techniques/:technique_id/steps', to: 'user#steps'
 
   end
 
