@@ -22,7 +22,7 @@
 
           <div class="layer">
             <div class="row">
-              <% @user.recommendations.each do |recommendation|%>
+              <% @recommendations.each do |recommendation|%>
                 <div class="col-6 distance">
                   <div class="card h-100 <%= (recommendation.current_step == 0 and !recommendation.started_at) ? 'recommended': (recommendation.finished_at) ? 'completed' : 'in-progress' %>">
                     <div class="item">
@@ -116,7 +116,7 @@
     <div class="col-4">
       <div class="row">
         <div class="col-12">
-          <% if @user.invitation&.status %>
+          <% if @invitation&.status %>
           <div class="card">
             <div class="card-body">
               <div class="avatar">
@@ -125,8 +125,8 @@
                 </div>
                 <div class="image-avatar">
 
-                    <% if @user.invitation.coach.coach_avatar.attached? %>
-                      <img src="<%= url_for(@user.invitation.coach.coach_avatar) %>" class= "c-u-a rounded-circle">
+                    <% if @invitation.coach.coach_avatar.attached? %>
+                      <img src="<%= url_for(@invitation.coach.coach_avatar) %>" class= "c-u-a rounded-circle">
                     <% else %>
                       <img src="<%= asset_path('avatar/no_avatar.png') %>" class="c-u-a rounded-circle">
                     <% end %>
@@ -137,30 +137,30 @@
                 </div>
               </div>
               <br>
-              <h6 class="coach-name"><%= @user.invitation.coach.name %></h6>
+              <h6 class="coach-name"><%= @invitation.coach.name %></h6>
               <p class="status">Current coach</p>
 
-              <% if @user.invitation.coach.about %>
-                <p class="coach-info"><%= @user.invitation.coach.about %></p>
+              <% if @invitation.coach.about %>
+                <p class="coach-info"><%= @invitation.coach.about %></p>
               <% else %>
                 <p class="coach-info">No information about.</p>
               <% end %>
 
-              <p class="coach-info"><%= @user.invitation.coach.age %> years | <%= @user.invitation.coach.gender %> | <%= Invitation.where(coach_id: @user.invitation.coach.id, status:1).count%> users</p>
+              <p class="coach-info"><%= @invitation.coach.age %> years | <%= @invitation.coach.gender %> | <%= Invitation.where(coach_id: @user.invitation.coach.id, status:1).count%> users</p>
               <p class="tages-info">Areas of Expertise</p>
-              <% @user.invitation.coach.problems.each do |coach_problem|%>
+              <% @invitation.coach.problems.each do |coach_problem|%>
                 <span class="tags"><%= coach_problem.title %></span>
               <% end %>
               <p class="tages-info">Education</p>
-                <% @user.invitation.coach.diplomas.each do |diploma|%>
+                <% @invitation.coach.diplomas.each do |diploma|%>
                   <p class="education-data"><%= diploma.title %></p>
                 <% end %>
               <p class="tages-info">Work experience</p>
-              <% @user.invitation.coach.experiences.each do |experience|%>
+              <% @invitation.coach.experiences.each do |experience|%>
                 <p class="education-data"><%= experience.title %></p>
               <% end %>
               <p class="tages-info">Licenses and Certificates</p>
-              <% @user.invitation.coach.certificates.each do |certificate|%>
+              <% @invitation.coach.certificates.each do |certificate|%>
                 <p class="education-data"><%= certificate.title %></p>
               <% end %>
               <form>
