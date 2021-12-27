@@ -3,12 +3,14 @@ class LoginUserController < ApplicationController
   end
 
   def create
-    user = User.find_by(email: params[:email]) if params[:email]
 
-    if user.present? && user.authenticate(params[:password])
-      session[:user_id] = user.id
-      redirect_to user_dashboard_path
-    end
+    @user = Users::LoginService.call(params)
+    session[:user_id] = @user.id
+    redirect_to user_dashboard_path
+
+  rescue ServiceError => e
+    flash[:error] = e.message
+    render :new
   end
 
   def logout
