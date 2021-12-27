@@ -12,4 +12,9 @@
  *
  *= require_self
  *= require bootstrap
+ *= require coach
+ *= require login_user
+ *= require main
+ *= require user
+ *= require registration_user
  */
