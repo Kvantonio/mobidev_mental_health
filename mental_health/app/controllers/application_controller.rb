@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  add_flash_types :warning, :info, :error, :success
+
   def check_user_login!
     redirect_to user_login_path unless session[:user_id]
   end
