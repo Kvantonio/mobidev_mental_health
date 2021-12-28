@@ -52,8 +52,4 @@ class RegistrationCoachController < ApplicationController
     params.require(:coach).permit(:name, :email, :password, :password_confirmation)
   end
 
-  def coach_update_params
-    params.require(:coach).permit(:coach_avatar, :age, :gender)
-  end
-
 end
