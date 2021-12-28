@@ -18,7 +18,6 @@ class UserController < ApplicationController
         @user.problems << problem_object unless @user.problems.include?(problem_object)
       end
       @user.notifications.create(description: 'You changed your profile settings', status: 1)
-      # TODO: do flash message
       redirect_to user_dashboard_path
     else
       render :edit
