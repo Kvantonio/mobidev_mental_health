@@ -82,16 +82,12 @@ class UserController < ApplicationController
   end
 
   def rate_technique
-    rating = @user.ratings.find_or_create_by(technique_id: params[:technique_id])
-    if params[:like]
-      rating.update(like: 1, dislike: 0)
-      @user.notifications.create(description: 'You like your Technique', status: 1)
-    elsif params[:dislike]
-      rating.update(like: 0, dislike: 1)
-      @user.notifications.create(description: 'You dislike your Technique', status: 1)
-    end
+    Users::RateService.call(@user, params)
     recommendation = @user.recommendations.find_by(technique_id: params[:technique_id])
     recommendation.update(finished_at: Time.zone.now) if recommendation.finished_at.nil?
+    redirect_to user_dashboard_path
+  rescue ServiceError => e
+    flash[:error] = e.message
     redirect_to user_dashboard_path
   end
 

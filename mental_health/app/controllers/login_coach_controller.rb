@@ -3,12 +3,13 @@ class LoginCoachController < ApplicationController
   end
 
   def create
-    coach = Coach.find_by(email: params[:email]) if params[:email]
+    @coach = Coaches::LoginService.call(params)
+    session[:coach_id] = @coach.id
+    redirect_to coach_dashboard_path
 
-    if coach.present? && coach.authenticate(params[:password])
-      session[:coach_id] = coach.id
-      redirect_to coach_dashboard_path
-    end
+  rescue ServiceError => e
+    flash[:error] = e.message
+    render :new
   end
 
   def logout

@@ -8,34 +8,15 @@ class CoachController < ApplicationController
 
   def update
     @coach = Coach.find_by_id(session[:coach_id])
-    if @coach.update(coach_update_params)
-      params[:coach][:problems]&.each do |problem|
-        problem_object = Problem.find_by_title(problem)
-        @coach.problems << problem_object unless @coach.problems.include?(problem_object)
-      end
 
-      params[:coach][:educations]&.each do |education|
-        @coach.diplomas << Diploma.create(title: education) if education != ''
-      end
+    Coaches::EditProfileService.call(@coach, params)
+    @coach.notifications.create(description: 'You changed your profile settings', status: 1)
+    redirect_to coach_dashboard_path
 
-      params[:coach][:experiences]&.each do |experience|
-        @coach.experiences << Experience.create(title: experience) if experience != ''
-      end
+  rescue ServiceError => e
+    flash[:error] = e.message
+    render :edit
 
-      params[:coach][:certificates]&.each do |certificate|
-        @coach.certificates << Certificate.create(title: certificate) if certificate != ''
-      end
-
-      params[:coach][:networks]&.each do |network|
-        @coach.social_networks << SocialNetwork.create(title: network) if network != ''
-      end
-
-      @coach.notifications.create(description: 'You changed your profile settings', status: 1)
-
-      redirect_to coach_dashboard_path
-    else
-      render :edit
-    end
   end
 
   def edit_password
@@ -112,7 +93,6 @@ class CoachController < ApplicationController
         user.recommendations.create(coach_id: @coach.id, technique_id: @technique.id, current_step: 0)
         user.notifications.create(description: "Coach #{@coach.name} recommended a Technique for you",
                                        coach_id: @coach.id, status: 1)
-      # TODO: add warning
       end
     end
     redirect_back(fallback_location: root_path)
@@ -181,9 +161,7 @@ class CoachController < ApplicationController
     users_technique
   end
 
-  def coach_update_params
-    params.require(:coach).permit(:name, :email, :coach_avatar, :about, :age, :gender)
-  end
+
 
   def coach_password_permit_params
     params.require(:coach).permit(:password, :password_confirmation)
