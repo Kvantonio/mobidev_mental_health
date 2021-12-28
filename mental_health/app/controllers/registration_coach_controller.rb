@@ -26,30 +26,12 @@ class RegistrationCoachController < ApplicationController
   def update
     @coach = Coach.find_by(id: session[:coach_id]) if session[:coach_id]
 
-    if @coach.update(coach_update_params)
-      params[:coach][:problems]&.each do |problem|
-        @coach.problems << Problem.find_by(title: problem) if problem != ''
-      end
+    Coaches::EditProfileService.call(@coach, params)
+    redirect_to coach_login_path
 
-      params[:coach][:educations]&.each do |education|
-        @coach.diplomas << Diploma.create(title: education) if education != ''
-      end
-
-      params[:coach][:experiences]&.each do |experience|
-        @coach.experiences << Experience.create(title: experience) if experience != ''
-      end
-
-      params[:coach][:certificates]&.each do |certificate|
-        @coach.certificates << Certificate.create(title: certificate) if certificate != ''
-      end
-
-      params[:coach][:networks]&.each do |network|
-        @coach.social_networks << SocialNetwork.create(title: network)
-      end
-      redirect_to root_path
-    else
-      render :edit
-    end
+  rescue ServiceError => e
+    flash[:error] = e.message
+    render :edit
   end
 
   def resend
