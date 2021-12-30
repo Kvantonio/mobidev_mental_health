@@ -3,7 +3,6 @@ class LoginUserController < ApplicationController
   end
 
   def create
-
     @user = Users::LoginService.call(params)
     session[:user_id] = @user.id
     redirect_to user_dashboard_path
