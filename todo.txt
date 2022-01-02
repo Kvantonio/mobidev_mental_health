@@ -1,17 +1,15 @@
+# TODO: add tests
+# TODO: fix all on the review
+
 # TODO: searching in pages
 
-# TODO: refactor filters in coach controller
+# TODO: refactor filters in coach controller (+review+)
 # TODO: add helper function for (new, popular) in library
 
-# TODO: refactor users cards in coach library
-
-# TODO: flash alerts in any pages
 
 ######################################################
 # TODO: scrolling in any pages
 
-# TODO: fix duplicate in user controller and user_login controller   ------- (before action)
-# TODO: fix duplicate in coach controller and coach_login controller ------- (ask to mentor)
 ##### CHAT TO DO #################
 
 TODO: db
