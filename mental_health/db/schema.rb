@@ -167,8 +167,7 @@ ActiveRecord::Schema.define(version: 2021_12_24_131807) do
   create_table "ratings", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "technique_id"
-    t.integer "like"
-    t.integer "dislike"
+    t.integer "mark"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["technique_id"], name: "index_ratings_on_technique_id"

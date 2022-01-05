@@ -169,9 +169,6 @@
             <div class="col-6 distance">
               <div class="card h-100">
                 <div class="item">
-                  <%# if Recommendation.find_by(technique_id: technique.id, coach_id: @coach.id) %>
-<!--                    <span class="notify-badge"><%#= technique.status.upcase if technique.status.present?  %></span>-->
-                  <%# end %>
                   <% if technique&.image.attached? %>
                     <img src="<%= url_for(technique.image) %>" class="card-img-top" alt="...">
                   <% else %>
@@ -204,8 +201,8 @@
                   <% end %>
                   <ul class="hr">
                     <li><i class="bi bi-people"></i> <%= technique.recommendations.count %></li>
-                    <li><i class="bi bi-hand-thumbs-up"></i> <%= technique.ratings.sum(:like) %></li>
-                    <li><i class="bi bi-hand-thumbs-down"></i> <%= technique.ratings.sum(:dislike) %></li>
+                    <li><i class="bi bi-hand-thumbs-up"></i> <%= technique.ratings.where(mark: 1).count %></li>
+                    <li><i class="bi bi-hand-thumbs-down"></i> <%= technique.ratings.where(mark: -1).count %></li>
                     <li class="start-button"><%= link_to 'SEE DETAILS', coach_technique_detail_path(technique_id: technique.id),class: "get_down_link" %></li>
                   </ul>
                 </div>

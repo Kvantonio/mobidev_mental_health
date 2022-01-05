@@ -68,8 +68,8 @@
                       </div>
                       <ul class="hr">
                         <li><i class="bi bi-people"></i> <%= Recommendation.where(technique_id: recommendation.technique.id).count%></li>
-                        <li><i class="bi bi-hand-thumbs-up"></i> <%= recommendation.technique.ratings.sum(:like)%></li>
-                        <li><i class="bi bi-hand-thumbs-down"></i> <%= recommendation.technique.ratings.sum(:dislike)%></li>
+                        <li><i class="bi bi-hand-thumbs-up"></i> <%= recommendation.technique.ratings.where(mark: 1).count%></li>
+                        <li><i class="bi bi-hand-thumbs-down"></i> <%= recommendation.technique.ratings.where(mark: -1).count%></li>
                         <% if recommendation.current_step == 0 and !recommendation.started_at %>
                           <li class="start-button"><%= link_to 'GET STARTED', user_technique_detail_path(technique_id: recommendation.technique.id, step_id: recommendation.current_step), class:"get_down_link"%></li>
                         <% elsif recommendation.finished_at %>

@@ -46,7 +46,7 @@ class CoachController < ApplicationController
     unique_techniques = Technique.where(id: unique_techniques_id)
     @techniques = unique_techniques
     @techniques_used = unique_techniques_id.count
-    @techniques_with_like = unique_techniques.select { |t| t.ratings.sum(:like).positive? }.count
+    @techniques_with_like = unique_techniques.select { |t| t.ratings.where(mark: 1).count.positive? }.count
     @progress = users_progress @invitations
   end
 

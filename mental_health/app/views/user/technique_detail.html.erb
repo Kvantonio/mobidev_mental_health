@@ -105,8 +105,8 @@
                 </div>
                 <ul class="hr">
                   <li><i class="bi bi-people"></i> <%= Recommendation.where(technique_id: @recommendation.technique.id).count%></li>
-                  <li><i class="bi bi-hand-thumbs-up"></i> <%= Rating.where(technique_id: @recommendation.technique.id).sum(:like)%></li>
-                  <li><i class="bi bi-hand-thumbs-down"></i>  <%= Rating.where(technique_id: @recommendation.technique.id).sum(:dislike)%></li>
+                  <li><i class="bi bi-hand-thumbs-up"></i> <%= @recommendation.technique.ratings.where(mark: 1).count %></li>
+                  <li><i class="bi bi-hand-thumbs-down"></i>  <%= @recommendation.technique.ratings.where(mark: -1).count %></li>
                 </ul>
               </div>
             </div>

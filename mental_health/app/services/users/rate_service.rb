@@ -24,11 +24,11 @@ module Users
     end
 
     def set_like(rating)
-      raise ServiceError, 'Failed to like' unless rating.update(like: 1, dislike: 0)
+      raise ServiceError, 'Failed to like' unless rating.update(mark: 1)
     end
 
     def set_dislike(rating)
-      raise ServiceError, 'Failed to dislike' unless rating.update(like: 0, dislike: 1)
+      raise ServiceError, 'Failed to dislike' unless rating.update(mark: -1)
     end
 
   end
