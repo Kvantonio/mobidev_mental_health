@@ -71,70 +71,12 @@ class CoachController < ApplicationController
     @steps = @technique.steps
   end
 
-  def modal_user_recommend
-    @coach = Coach.find_by_id(session[:coach_id])
-    @invitations = @coach.invitations.where(status: true)
-    @html_name = __method__.to_s
-    respond_to do |format|
-      format.html
-      format.js {
-        render 'add_modal_window.js.erb'
-      }
-    end
-  end
-
-  def user_recommend
-    @coach = Coach.find_by_id(session[:coach_id])
-    @technique = Technique.find_by_id(params[:technique_id])
-    users = User.where(name: params[:users])
-
-    users&.each do |user|
-      if user.recommendations.find_by(technique_id: @technique.id).nil?
-        user.recommendations.create(coach_id: @coach.id, technique_id: @technique.id, current_step: 0)
-        user.notifications.create(description: "Coach #{@coach.name} recommended a Technique for you",
-                                       coach_id: @coach.id, status: 1)
-      end
-    end
-    redirect_back(fallback_location: root_path)
-  end
 
   def users_page
     @coach = Coach.find_by_id(session[:coach_id])
     @invitations = @coach.invitations
     @notifications = @coach.notifications.where.not(user_id: nil).order('created_at DESC')
     @progress = users_progress @invitations
-  end
-
-  def confirm_user
-    invitation = Invitation.find_by_id(params[:invitation_id])
-    if invitation
-      invitation.user.notifications.create(
-        description: "Coach #{invitation.coach.name} agreed to become your coach",
-        status: 1
-      )
-      invitation.coach.notifications.create(
-        description: "You agreed to become a coach for a user #{invitation.user.name}",
-        user_id: invitation.user.id, status: 1
-      )
-      invitation.update(status: 1)
-    end
-    redirect_to coach_users_page_path
-  end
-
-  def refuse_user
-    invitation = Invitation.find_by_id(params[:invitation_id])
-    if invitation
-      invitation.user.notifications.create(
-        description: "Coach #{invitation.coach.name} refused to become your coach",
-        status: 1
-      )
-      invitation.coach.notifications.create(
-        description: "You have rejected #{invitation.user.name} invite",
-        user_id: invitation.user.id, status: 1
-      )
-      invitation.destroy
-    end
-    redirect_to coach_users_page_path
   end
 
   def user_detail

@@ -23,10 +23,10 @@ Rails.application.routes.draw do
   get '/user/resend_reset', to: 'reset_user_password#resend'
 
   get '/user/dashboard', to: 'user#dashboard'
-  get '/user/dashboard/:technique_id/step/:step_id', to: 'user#technique_detail', as: 'user_technique_detail'
-  patch '/user/dashboard/:technique_id/restart', to: 'user#restart_technique', as: 'user_technique_restart'
-  get '/user/dashboard/:technique_id/rate', to: 'user#modal_finish_technique', as: 'user_technique_rate_modal'
-  post '/user/dashboard/:technique_id/rate', to: 'user#rate_technique', as: 'user_technique_rate'
+  get '/user/dashboard/:technique_id/step/:step_id', to: 'technique#technique_detail', as: 'user_technique_detail'
+  patch '/user/dashboard/:technique_id/restart', to: 'technique#restart_technique', as: 'user_technique_restart'
+  get '/user/dashboard/:technique_id/rate', to: 'technique#modal_finish_technique', as: 'user_technique_rate_modal'
+  post '/user/dashboard/:technique_id/rate', to: 'technique#rate_technique', as: 'user_technique_rate'
 
   get '/user/edit_profile', to: 'user#edit'
   patch '/user/edit_profile', to: 'user#update'
@@ -34,14 +34,14 @@ Rails.application.routes.draw do
   patch '/user/edit_password', to: 'user#update_password'
 
   get 'user/coaches', to: 'user#coaches_page', as: 'user_coaches_page'
-  get 'user/coaches/invitation/:coach_id', to: 'user#modal_send_invitation', as: 'user_send_invitation'
-  post 'user/coaches/invitation/:coach_id', to: 'user#send_invitation', as: 'user_send_invitation_verify'
+  get 'user/coaches/invitation/:coach_id', to: 'invitation#modal_send_invitation', as: 'user_send_invitation'
+  post 'user/coaches/invitation/:coach_id', to: 'invitation#send_invitation', as: 'user_send_invitation_verify'
 
-  get 'user/coaches/cancel_invitation', to: 'user#modal_cancel_invitation', as: 'user_cancel_invitation'
-  delete 'user/coaches/cancel_invitation', to: 'user#cancel_invitation', as: 'user_cancel_invitation_verify'
+  get 'user/coaches/cancel_invitation', to: 'invitation#modal_cancel_invitation', as: 'user_cancel_invitation'
+  delete 'user/coaches/cancel_invitation', to: 'invitation#cancel_invitation', as: 'user_cancel_invitation_verify'
 
-  get '/user/dashboard/end_coop', to: 'user#modal_end_cooperation', as: 'user_end_coach_cooperation'
-  delete '/user/dashboard/end_coop', to: 'user#end_cooperation', as: 'user_end_coach_cooperation_verify'
+  get '/user/dashboard/end_coop', to: 'invitation#modal_end_cooperation', as: 'user_end_coach_cooperation'
+  delete '/user/dashboard/end_coop', to: 'invitation#end_cooperation', as: 'user_end_coach_cooperation_verify'
 
   get '/user/techniques', to: 'user#techniques'
 
@@ -69,8 +69,8 @@ Rails.application.routes.draw do
   get '/coach/library/:technique_id', to: 'coach#technique_detail', as: 'coach_technique_detail'
 
   get '/coach/users', to: 'coach#users_page', as: 'coach_users_page'
-  patch '/coach/users/confirm/:invitation_id', to: 'coach#confirm_user', as: 'coach_user_confirm'
-  delete '/coach/users/refuse/:invitation_id', to: 'coach#refuse_user', as: 'coach_user_refuse'
+  patch '/coach/users/confirm/:invitation_id', to: 'invitation#confirm_user', as: 'coach_user_confirm'
+  delete '/coach/users/refuse/:invitation_id', to: 'invitation#refuse_user', as: 'coach_user_refuse'
 
   get '/coach/users/:user_id', to: 'coach#user_detail', as: 'coach_user_detail'
 
@@ -80,8 +80,8 @@ Rails.application.routes.draw do
   get '/coach/edit_password', to: 'coach#edit_password'
   patch '/coach/edit_password', to: 'coach#update_password'
 
-  get '/coach/library/:technique_id/recommend', to: 'coach#modal_user_recommend', as: 'coach_user_recommend'
-  post '/coach/library/:technique_id/recommend', to: 'coach#user_recommend', as: 'coach_user_recommend_post'
+  get '/coach/library/:technique_id/recommend', to: 'recommendation#modal_user_recommend', as: 'coach_user_recommend'
+  post '/coach/library/:technique_id/recommend', to: 'recommendation#user_recommend', as: 'coach_user_recommend_post'
 
 
   namespace :api do
