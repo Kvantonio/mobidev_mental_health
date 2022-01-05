@@ -71,12 +71,9 @@ class UserController < ApplicationController
   end
 
   def modal_finish_technique
-    @html_name = __method__.to_s
     respond_to do |format|
       format.html
-      format.js {
-        render 'add_modal_window.js.erb'
-      }
+      format.js
     end
   end
 
@@ -108,12 +105,9 @@ class UserController < ApplicationController
   def modal_send_invitation
     @coach = Coach.find_by_id(params[:coach_id])
     @invitation = @user.invitation
-    @html_name = __method__.to_s
     respond_to do |format|
       format.html
-      format.js {
-        render 'add_modal_window.js.erb'
-      }
+      format.js
     end
   end
 
@@ -130,12 +124,10 @@ class UserController < ApplicationController
 
   def modal_cancel_invitation
     @coach = @user.invitation.coach
-    @html_name = __method__.to_s
+
     respond_to do |format|
       format.html
-      format.js {
-        render 'add_modal_window.js.erb'
-      }
+      format.js
     end
   end
 
@@ -148,12 +140,9 @@ class UserController < ApplicationController
 
   def modal_end_cooperation
     @coach = @user.invitation.coach
-    @html_name = __method__.to_s
     respond_to do |format|
       format.html
-      format.js {
-        render 'add_modal_window.js.erb'
-      }
+      format.js
     end
   end
 
