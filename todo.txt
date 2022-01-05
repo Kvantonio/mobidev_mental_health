@@ -1,4 +1,3 @@
-# TODO: add tests
 # TODO: fix all on the review
 
 # TODO: searching in pages
@@ -7,7 +6,7 @@
 # TODO: add helper function for (new, popular) in library
 
 
-######################################################
+##################################
 # TODO: scrolling in any pages
 
 ##### CHAT TO DO #################
