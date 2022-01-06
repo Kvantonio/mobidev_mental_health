@@ -1,12 +1,4 @@
-# TODO: fix all on the review
-
 # TODO: searching in pages
-
-# TODO: refactor filters in coach controller (+review+)
-# TODO: add helper function for (new, popular) in library
-
-
-##################################
 # TODO: scrolling in any pages
 
 ##### CHAT TO DO #################
@@ -18,7 +10,5 @@ TODO: db
         validate this topics
 
 TODO: check message status (sent, delivered, readed)
-
-TODO: link to technique recommend
 
 #################################################
