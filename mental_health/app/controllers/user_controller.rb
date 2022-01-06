@@ -33,16 +33,13 @@ class UserController < ApplicationController
   end
 
   def update_password
-    if BCrypt::Password.new(@user.password_digest) == params[:user][:old_password]
-      if @user.update(user_update_password_params)
-        @user.notifications.create(description: 'You changed your password settings', status: 1)
-        redirect_to user_dashboard_path
-      else
-        render :edit_password
-      end
-    else
-      render :edit_password
-    end
+    Users::PasswordUpdateService.call(@user, params)
+    @user.notifications.create(description: 'You changed your password', status: 1)
+    redirect_to user_dashboard_path
+
+  rescue ServiceError => e
+    flash[:error] = e.message
+    render :edit_password
   end
 
   def coaches_page
@@ -70,9 +67,6 @@ class UserController < ApplicationController
     params.require(:user).permit(:name, :email, :user_avatar, :about, :age, :gender)
   end
 
-  def user_update_password_params
-    params.require(:user).permit(:password, :password_confirmation)
-  end
 
   def filter_by_expertise(params, coaches)
     params ? Problem.find_by(title: params).coaches : coaches
