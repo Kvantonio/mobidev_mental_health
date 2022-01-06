@@ -50,14 +50,13 @@ class CoachController < ApplicationController
     else
       @techniques = Technique.all
     end
-
+    @techniques
   end
 
   def technique_detail
     @technique = Technique.find_by_id(params[:technique_id])
     @steps = @technique.steps
   end
-
 
   def users_page
     @invitations = @coach.invitations
@@ -72,9 +71,8 @@ class CoachController < ApplicationController
     @notifications = @coach.notifications.where(user_id: @user.id).order('created_at DESC')
   end
 
-
-
   private
+
   def set_coach
     @coach = Coach.find_by_id(session[:coach_id])
   end
@@ -89,8 +87,6 @@ class CoachController < ApplicationController
     end
     users_technique
   end
-
-
 
   def coach_password_permit_params
     params.require(:coach).permit(:password, :password_confirmation)

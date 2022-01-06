@@ -14,7 +14,6 @@ class ResetCoachPasswordController < ApplicationController
 
   def edit
     @coach = Coach.find_signed!(params[:token], purpose: 'coach_reset_password_verify')
-
   rescue ActiveSupport::MessageVerifier::InvalidSignature
     redirect_to coach_login_path, alert: 'Your token has expired. Please try again.'
   end

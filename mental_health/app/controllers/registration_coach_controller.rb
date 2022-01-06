@@ -51,5 +51,4 @@ class RegistrationCoachController < ApplicationController
   def coach_permitted_params
     params.require(:coach).permit(:name, :email, :password, :password_confirmation)
   end
-
 end
