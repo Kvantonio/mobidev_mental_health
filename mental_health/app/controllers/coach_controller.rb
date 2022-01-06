@@ -1,14 +1,11 @@
 class CoachController < ApplicationController
-  before_action :check_coach_login!
+  before_action :check_coach_login!, :set_coach
 
   def edit
-    @coach = Coach.find_by_id(session[:coach_id])
     @problems = Problem.all
   end
 
   def update
-    @coach = Coach.find_by_id(session[:coach_id])
-
     Coaches::EditProfileService.call(@coach, params)
     @coach.notifications.create(description: 'You changed your profile settings', status: 1)
     redirect_to coach_dashboard_path
@@ -20,25 +17,18 @@ class CoachController < ApplicationController
   end
 
   def edit_password
-    @coach = Coach.find_by_id(session[:coach_id])
   end
 
   def update_password
-    @coach = Coach.find_by_id(session[:coach_id])
-    if BCrypt::Password.new(@coach.password_digest) == params[:coach][:old_password]
-      if @coach.update(coach_password_permit_params)
-        @coach.notifications.create(description: 'You changed your password settings', status: 1)
-        redirect_to coach_dashboard_path
-      else
-        render :password_edit
-      end
-    else
-      render :password_edit
-    end
+    Coaches::PasswordUpdateService.call(@coach, params)
+    @coach.notifications.create(description: 'You changed your password', status: 1)
+    redirect_to coach_dashboard_path
+  rescue ServiceError => e
+    flash[:error] = e.message
+    render :edit_password
   end
 
   def dashboard
-    @coach = Coach.find_by_id(session[:coach_id])
     @notifications = @coach.notifications.order('created_at DESC')
     @invitations = @coach.invitations.where(status: true)
 
@@ -51,8 +41,6 @@ class CoachController < ApplicationController
   end
 
   def library
-    @coach = Coach.find_by_id(session[:coach_id])
-
     @problems = Problem.all
     if params[:filter]
       techniques = Technique.all
@@ -66,22 +54,18 @@ class CoachController < ApplicationController
   end
 
   def technique_detail
-    @coach = Coach.find_by_id(session[:coach_id])
     @technique = Technique.find_by_id(params[:technique_id])
     @steps = @technique.steps
   end
 
 
   def users_page
-    @coach = Coach.find_by_id(session[:coach_id])
     @invitations = @coach.invitations
     @notifications = @coach.notifications.where.not(user_id: nil).order('created_at DESC')
     @progress = users_progress @invitations
   end
 
   def user_detail
-    @coach = Coach.find_by_id(session[:coach_id])
-
     @user = User.find_by_id(params[:user_id])
     @invitation = @coach.invitations.find_by(user_id: @user.id)
     redirect_to coach_users_page_path unless @user && @invitation && @invitation.status
@@ -91,6 +75,9 @@ class CoachController < ApplicationController
 
 
   private
+  def set_coach
+    @coach = Coach.find_by_id(session[:coach_id])
+  end
 
   def users_progress(invitations)
     users_technique = Hash.new { |hash, key| hash[key] = [] }
