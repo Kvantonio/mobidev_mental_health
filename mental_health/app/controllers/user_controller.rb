@@ -85,10 +85,18 @@ class UserController < ApplicationController
 
     array = []
     params.each do |user_total|
-      array +=  Coach.select(:id).joins(:invitations).where("invitations.status IS true").having("COUNT(invitations.id) <= 5").group("coaches.id").ids if (user_total == '5')
-      array += Coach.select(:id).joins(:invitations).where("invitations.status IS true").having("COUNT(invitations.id) between 6 and 10").group("coaches.id").ids if (user_total == '5-10')
-      array += Coach.select(:id).joins(:invitations).where("invitations.status IS true").having("COUNT(invitations.id) between 11 and 20").group("coaches.id").ids if (user_total == '10-20')
-      array += Coach.select(:id).joins(:invitations).where("invitations.status IS true").having("COUNT(invitations.id) > 20").group("coaches.id").ids if (user_total == '20')
+      query = Coach.select(:id).joins(:invitations).where("invitations.status IS true")
+      case user_total
+      when '5'
+        query = query.having("COUNT(invitations.id) <= 5")
+      when '5-10'
+        query = query.having("COUNT(invitations.id) between 6 and 10")
+      when '10-20'
+        query = query.having("COUNT(invitations.id) between 11 and 20")
+      when '20'
+        query = query.having("COUNT(invitations.id) > 20")
+      end
+      array += query.group("coaches.id").ids
     end
     array.uniq!
     coaches.where(id: array)
